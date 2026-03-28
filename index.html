@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>THE BISHOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
+:root{--bg:#080808;--s1:#101010;--s2:#161616;--s3:#1c1c1c;--b1:#1e1e1e;--b2:#2a2a2a;--t0:#eeeeee;--t1:#cccccc;--t2:#888;--t3:#444;--gold:#c8922a;--gold2:#e8b84b;--gold3:#8a6420;--gold4:#2a1a06;--red:#c44;--red2:#6b1515;--green:#4a9a6a;--green2:#1a3a2a;--blue:#3a7aaa;--orange:#e88a3a;--purple:#7a4a9a;--teal:#3a9a8a;--teal2:#1a3a38;}
+.light{--bg:#f2ede4;--s1:#e8e0d0;--s2:#ddd6c4;--b1:#c8bca4;--b2:#b8a888;--t0:#120e06;--t1:#2a1e0e;--t2:#5a4a2e;--t3:#9a8a6a;--gold:#7a4e0e;--gold2:#aa7820;--gold3:#5a3a08;--gold4:#f0e8d8;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--t1);font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;line-height:1.75;min-height:100vh;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--b2);}
+.scr{display:none;}.scr.on{display:block;}
+.title-bg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;background:radial-gradient(ellipse at 45% 25%,#1c1005 0%,var(--bg) 65%);}
+.t-eye{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.5em;color:var(--gold3);margin-bottom:28px;}
+.t-main{font-size:clamp(60px,13vw,130px);font-weight:300;color:var(--t0);line-height:.82;letter-spacing:-.02em;margin-bottom:10px;}
+.t-sub{font-style:italic;font-size:clamp(11px,1.6vw,15px);color:var(--gold);letter-spacing:.1em;margin-bottom:40px;}
+.t-quote{font-style:italic;font-size:13px;color:var(--t3);max-width:340px;margin:0 auto 40px;line-height:1.7;}
+.t-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.theme-btn{position:absolute;top:16px;right:16px;background:transparent;border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:8px;padding:6px 10px;cursor:pointer;}
+.theme-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.setup-bg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:radial-gradient(ellipse at 45% 25%,#1c1005 0%,var(--bg) 65%);}
+.setup-card{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--gold);padding:22px;max-width:460px;width:100%;margin-bottom:14px;}
+.setup-label{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.3em;color:var(--gold3);margin-bottom:8px;}
+.setup-txt{font-size:13px;color:var(--t3);line-height:1.65;margin-bottom:6px;}
+.api-inp{width:100%;background:#060606;border:1px solid var(--b2);color:var(--t1);font-family:'Space Mono',monospace;font-size:11px;padding:10px;outline:none;border-radius:0;-webkit-appearance:none;margin:7px 0;}
+.api-inp:focus{border-color:var(--gold3);}
+.api-inp::placeholder{color:var(--t3);}
+.co-inp{width:100%;background:#060606;border:2px solid var(--gold3);color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;padding:12px;outline:none;border-radius:0;-webkit-appearance:none;margin:7px 0;letter-spacing:.05em;}
+.co-inp::placeholder{color:var(--gold3);opacity:.4;}
+.key-err{display:none;color:var(--red);font-family:'Space Mono',monospace;font-size:9px;padding:6px;border:1px solid var(--red2);margin-bottom:7px;}
+.og{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:2px;margin-bottom:20px;}
+.oc{background:var(--s1);border:1px solid var(--b1);padding:17px 15px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.oc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.3s;}
+.oc:hover::before,.oc.sel::before{transform:scaleX(1);}
+.oc:hover,.oc.sel{border-color:var(--gold3);background:var(--gold4);}
+.oc-num{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.26em;color:var(--gold3);margin-bottom:8px;}
+.oc-icon{font-size:24px;margin-bottom:6px;}
+.oc-name{font-size:17px;color:var(--t0);margin-bottom:3px;}
+.oc-tag{font-style:italic;font-size:11px;color:var(--gold);margin-bottom:7px;}
+.oc-desc{font-size:12px;color:var(--t3);line-height:1.6;}
+.oc-pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid var(--b1);}
+.pill{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);padding:2px 5px;border:1px solid var(--b2);}
+.diff-tag{position:absolute;top:9px;right:9px;font-family:'Space Mono',monospace;font-size:6px;padding:2px 5px;border:1px solid;}
+.dh{color:var(--red);border-color:var(--red2);}.dm{color:var(--gold);border-color:var(--gold3);}
+.game-wrap{display:flex;flex-direction:column;min-height:100vh;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:7px;}
+.brand{font-size:13px;font-weight:300;color:var(--gold);}
+.co-badge{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold3);padding:2px 7px;border:1px solid var(--gold3);background:var(--gold4);}
+.topstats{display:flex;gap:12px;flex-wrap:wrap;}
+.ts-lbl{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.2em;color:var(--t3);display:block;}
+.ts-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold2);font-weight:700;}
+.topacts{display:flex;gap:5px;flex-wrap:wrap;}
+.game-tabs{display:flex;background:var(--s2);border-bottom:1px solid var(--b1);overflow-x:auto;}
+.gtab{flex-shrink:0;padding:9px 10px;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.1em;color:var(--t3);background:transparent;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;}
+.gtab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-pane{display:none;}.tab-pane.on{display:block;}
+.game-layout{display:flex;min-height:0;}
+.status-col{width:185px;min-width:185px;background:var(--s1);border-right:1px solid var(--b1);overflow-y:auto;flex-shrink:0;max-height:calc(100vh - 130px);}
+@media(max-width:660px){.status-col{display:none;}}
+.ps{padding:10px;border-bottom:1px solid var(--b1);}
+.pl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.3em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;}
+.pav{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold3);display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#1a1208,#261a0c);}
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.cap-box{background:var(--s2);border:1px solid var(--b1);padding:5px 7px;}
+.cap-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-bottom:1px;}
+.cap-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold2);font-weight:700;}
+.cap-val.dirty{color:var(--red);}
+.mr{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.mn{font-family:'Space Mono',monospace;font-size:6px;color:var(--t2);width:52px;flex-shrink:0;}
+.mt{flex:1;height:3px;background:var(--b2);border-radius:2px;overflow:hidden;}
+.mf{height:100%;border-radius:2px;transition:width .8s;}
+.mgr{background:var(--green);}.mb{background:var(--blue);}.mo{background:var(--orange);}.mrd{background:var(--red);}.mg{background:var(--gold);}.mt2{background:var(--teal);}
+.mv{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);width:18px;text-align:right;}
+.ci{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px solid var(--s3);cursor:pointer;}
+.ci:hover{padding-left:3px;}
+.ci:last-child{border-bottom:none;}
+.ca{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.cn{font-size:10px;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.cr{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);}
+.cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-left:auto;}
+.dg{background:var(--green);}.dy{background:var(--gold);}.dr{background:var(--red);}
+.narr-col{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.narrative{flex:1;overflow-y:auto;padding:18px 20px;-webkit-overflow-scrolling:touch;max-height:calc(100vh - 230px);}
+@media(max-width:480px){.narrative{padding:10px;max-height:calc(100vh - 220px);}}
+.scene{margin-bottom:20px;}
+.shdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);}
+.sloc{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:var(--gold3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
+.sdiv{flex:1;height:1px;background:var(--b1);}
+.ssess{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);}
+.sbody{font-size:14px;color:var(--t1);line-height:1.85;}
+.sbody p{margin-bottom:8px;}
+.chblk{display:flex;margin:10px 0;background:var(--s1);border:1px solid var(--b1);overflow:hidden;position:relative;}
+.chblk::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold3);}
+.ch-left{display:flex;flex-direction:column;align-items:center;padding:12px 9px;background:var(--s2);border-right:1px solid var(--b1);min-width:62px;flex-shrink:0;}
+.chavat{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid var(--b2);margin-bottom:5px;}
+.chpn{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);text-align:center;line-height:1.3;}
+.ch-right{flex:1;padding:11px 13px;min-width:0;}
+.chhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:4px;flex-wrap:wrap;}
+.chname{font-size:13px;color:var(--t0);}
+.chstat{font-family:'Space Mono',monospace;font-size:6px;color:var(--gold3);padding:1px 4px;border:1px solid var(--gold4);}
+.chspeech{font-style:italic;font-size:13px;color:var(--t0);line-height:1.75;padding-left:10px;border-left:2px solid var(--gold3);margin-bottom:5px;}
+.chsub{font-size:11px;color:var(--t3);font-style:italic;line-height:1.5;margin-bottom:5px;}
+.hear-btn{display:inline-flex;align-items:center;gap:5px;background:var(--s3);border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:7px;padding:3px 7px;cursor:pointer;}
+.hear-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.pact{display:flex;gap:8px;padding:7px 10px;background:var(--s3);border:1px solid var(--b1);border-left:3px solid var(--gold);margin:7px 0;}
+.palbl{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold);flex-shrink:0;margin-top:1px;}
+.patxt{font-style:italic;color:var(--t1);font-size:12px;line-height:1.6;}
+.sflag{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--green2);background:var(--s3);padding:3px 8px;margin:3px 2px;cursor:pointer;font-family:'Space Mono',monospace;font-size:7px;color:var(--green);}
+.ibox{background:var(--s1);border:1px solid var(--b1);border-left:3px solid #1a3a5a;padding:7px 10px;margin:7px 0;cursor:pointer;}
+.ilbl{font-family:'Space Mono',monospace;font-size:7px;color:var(--blue);margin-bottom:2px;}
+.itxt{font-size:11px;color:var(--t3);line-height:1.6;}
+.mctag{display:inline-flex;font-family:'Space Mono',monospace;font-size:7px;padding:2px 5px;border-radius:2px;margin:2px;}
+.mcp{color:var(--green);background:var(--green2);border:1px solid #1a3a1a;}
+.mcn{color:var(--red);background:#150808;border:1px solid #3a1515;}
+.input-area{border-top:1px solid var(--b1);background:var(--s1);padding:9px 12px;flex-shrink:0;}
+.choice-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+.cbtn{background:var(--s2);border:1px solid var(--b2);padding:7px 10px;cursor:pointer;text-align:left;transition:all .2s;font-family:'Cormorant Garamond',serif;display:flex;align-items:flex-start;gap:6px;flex:1;min-width:130px;min-height:44px;}
+.cbtn:hover{border-color:var(--gold3);background:var(--gold4);}
+.cnum{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold3);flex-shrink:0;margin-top:2px;}
+.ctxt{font-size:12px;color:var(--t2);line-height:1.5;flex:1;}
+.ctag{font-family:'Space Mono',monospace;font-size:6px;padding:2px 4px;border:1px solid;flex-shrink:0;margin-top:2px;}
+.tc{color:var(--green);border-color:var(--green2);}.tg{color:var(--gold);border-color:var(--gold3);}.td{color:var(--red);border-color:var(--red2);}
+.free-row{display:flex;gap:5px;}
+.finput{flex:1;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:'Cormorant Garamond',serif;font-size:14px;padding:9px 10px;outline:none;min-height:44px;border-radius:0;-webkit-appearance:none;}
+.finput:focus{border-color:var(--gold3);}
+.finput::placeholder{color:var(--t3);font-style:italic;}
+.movebtn{background:var(--gold);border:none;color:#000;font-family:'Space Mono',monospace;font-size:8px;padding:9px 13px;cursor:pointer;text-transform:uppercase;min-height:44px;}
+.movebtn:hover{background:var(--gold2);}
+.movebtn:disabled{opacity:.4;cursor:not-allowed;}
+.errmsg{color:var(--red);font-family:'Space Mono',monospace;font-size:9px;padding:6px;border:1px solid var(--red2);margin-top:5px;display:none;line-height:1.5;word-break:break-all;}
+.audio-bar{display:flex;align-items:center;gap:7px;padding:6px 12px;background:var(--s2);border-bottom:1px solid var(--b1);flex-wrap:wrap;}
+.audio-lbl{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);}
+.atog{background:transparent;border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:7px;padding:3px 8px;cursor:pointer;}
+.atog.on{border-color:var(--green);color:var(--green);}
+.atog:hover{border-color:var(--gold3);color:var(--gold);}
+.speaking{display:none;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:7px;color:var(--green);}
+.speaking.on{display:flex;}
+.sdot{width:4px;height:4px;border-radius:50%;background:var(--green);}
+.wrap{padding:14px;}
+.sec-title{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.24em;color:var(--gold3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);}
+.sec-title.teal{color:var(--teal);}
+.sec-title.purple{color:var(--purple);}
+.sec-title.orange{color:var(--orange);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;margin-bottom:14px;}
+.card{background:var(--s1);border:1px solid var(--b1);padding:12px;cursor:pointer;transition:border-color .2s;}
+.card:hover{border-color:var(--gold3);}
+.card.owned{border-left:3px solid var(--green);}
+.card.player-biz{border-left:3px solid var(--gold);}
+.card-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;gap:6px;}
+.card-name{font-size:12px;color:var(--t0);}
+.card-sub{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:1px;}
+.badge{font-family:'Space Mono',monospace;font-size:7px;padding:2px 5px;border:1px solid;white-space:nowrap;flex-shrink:0;}
+.b-g{color:var(--green);border-color:var(--green2);}
+.b-y{color:var(--gold);border-color:var(--gold3);}
+.b-r{color:var(--red);border-color:var(--red2);}
+.b-t{color:var(--t3);border-color:var(--b2);}
+.b-teal{color:var(--teal);border-color:var(--teal2);}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px;}
+.stats.s2{grid-template-columns:repeat(2,1fr);}
+.stat{background:var(--s2);padding:4px 6px;}
+.stat-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);}
+.stat-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold2);}
+.card-desc{font-size:10px;color:var(--t3);line-height:1.5;margin-top:5px;}
+.tier-badge{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.08em;}
+.tier-M{color:#cc4444;}.tier-I{color:var(--gold);}.tier-S{color:var(--green);}
+.mbar-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.mbar-lbl{font-size:10px;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mbar-track{flex:1;height:9px;background:var(--b2);border-radius:2px;overflow:hidden;}
+.mbar-fill{height:100%;border-radius:2px;transition:width .8s;}
+.mbar-pct{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);width:30px;text-align:right;flex-shrink:0;}
+.tree-node{padding:9px 12px;margin-bottom:3px;cursor:pointer;transition:border-color .2s;}
+.tree-node:hover{border-color:var(--gold3)!important;}
+.tree-root{background:var(--s1);border:1px solid var(--gold3);border-left:4px solid var(--gold);}
+.tree-sector{background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--green);margin-left:16px;}
+.tree-biz{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--blue);margin-left:32px;}
+.tn-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tn-name{font-size:12px;color:var(--t0);flex:1;}
+.tn-rev{font-family:'Space Mono',monospace;font-size:8px;color:var(--green);}
+.tn-meta{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:2px;}
+.info-bar{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--gold3);padding:10px;margin-bottom:12px;font-size:12px;color:var(--t3);line-height:1.65;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-bottom:12px;}
+.svg-wrap{position:relative;width:100%;padding-bottom:50%;background:var(--s2);}
+.svg-wrap svg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.theater-card{background:var(--s1);border:1px solid var(--b1);}
+.theater-hdr{padding:8px 11px;border-bottom:1px solid var(--b1);}
+.th-name{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;color:var(--gold3);}
+.th-sub{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:2px;}
+.zone-list{padding:3px 0;}
+.zrow{display:flex;align-items:center;justify-content:space-between;padding:4px 11px;border-bottom:1px solid var(--s3);cursor:pointer;transition:all .18s;}
+.zrow:hover{background:var(--s2);padding-left:15px;}
+.zrow:last-child{border-bottom:none;}
+.zname{font-size:11px;color:var(--t1);}
+.lock-card{background:var(--s1);border:1px solid var(--b1);opacity:.55;cursor:pointer;}
+.lock-card:hover{opacity:.8;}
+.charts-wrap{padding:14px;}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:12px;}
+.chart-card{background:var(--s1);border:1px solid var(--b1);padding:13px;}
+.chart-title{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.22em;color:var(--gold3);margin-bottom:9px;}
+.bars{display:flex;align-items:flex-end;gap:3px;height:80px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.bar-fill{width:100%;border-radius:2px 2px 0 0;min-height:3px;transition:height .8s;}
+.bar-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);}
+.bar-num{font-family:'Space Mono',monospace;font-size:6px;color:var(--gold2);}
+.mc-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.mc-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t2);width:68px;flex-shrink:0;}
+.mc-bar{flex:1;height:10px;background:var(--b2);border-radius:2px;overflow:hidden;}
+.mc-fill{height:100%;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;}
+.mc-num{font-family:'Space Mono',monospace;font-size:7px;color:rgba(0,0,0,.7);font-weight:700;}
+.ftable{width:100%;border-collapse:collapse;font-size:11px;}
+.ftable th{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.14em;color:var(--t3);padding:5px 6px;text-align:left;border-bottom:1px solid var(--b1);}
+.ftable td{padding:5px 6px;border-bottom:1px solid var(--s3);color:var(--t1);}
+.ftable tr:hover td{background:var(--s2);}
+.fdot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle;}
+.thr{font-family:'Space Mono',monospace;font-size:7px;}
+.t-lo{color:var(--green);}.t-me{color:var(--gold);}.t-hi{color:var(--red);}
+.inf-bar-track{height:4px;background:var(--b2);border-radius:2px;margin-top:5px;}
+.inf-bar-fill{height:100%;border-radius:2px;background:var(--gold);}
+.comm-bar-fill{height:100%;border-radius:2px;background:var(--teal);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+.modal{background:var(--s1);border:1px solid var(--b2);width:100%;max-width:500px;padding:22px 20px;position:relative;margin:auto;}
+.modal-x{position:absolute;top:9px;right:9px;background:none;border:none;color:var(--t3);font-size:17px;cursor:pointer;min-width:30px;min-height:30px;display:flex;align-items:center;justify-content:center;}
+.modal-x:hover{color:var(--t1);}
+.modal-pre{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.26em;color:var(--gold3);margin-bottom:5px;}
+.modal-title{font-size:clamp(16px,3.5vw,21px);font-weight:300;color:var(--t0);margin-bottom:10px;}
+.modal-body{font-size:13px;color:var(--t3);line-height:1.85;}
+.modal-body p{margin-bottom:8px;}
+.modal-body strong{color:var(--t1);}
+.savedisp{background:#050505;border:1px solid var(--b1);padding:9px;font-family:monospace;font-size:8px;color:var(--t3);line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:150px;overflow-y:auto;margin-bottom:9px;}
+.loybar{margin:8px 0;}.lylbl{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);margin-bottom:3px;}.lytrk{height:3px;background:var(--b2);}.lyfil{height:100%;background:var(--gold);}
+.rtags{display:flex;flex-wrap:wrap;gap:3px;margin:7px 0;}.rtag{font-family:'Space Mono',monospace;font-size:6px;padding:2px 5px;border:1px solid var(--b2);color:var(--t3);}
+.notif{position:fixed;bottom:14px;right:14px;background:var(--s1);border:1px solid var(--b2);border-left:3px solid var(--gold);padding:8px 12px;max-width:240px;z-index:300;pointer-events:none;}
+.nt{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold);margin-bottom:2px;}
+.nb{font-size:11px;color:var(--t3);line-height:1.5;}
+.loading{position:fixed;inset:0;background:rgba(7,7,7,.93);z-index:400;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:11px;}
+.ld-txt{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.26em;color:var(--t3);}
+.ldd{width:5px;height:5px;background:var(--gold);border-radius:50%;}
+.btn-g{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#000;background:var(--gold);border:none;padding:11px 22px;cursor:pointer;min-height:44px;}
+.btn-g:hover{background:var(--gold2);}.btn-g:disabled{opacity:.4;cursor:not-allowed;}
+.btn-o{font-family:'Space Mono',monospace;font-size:8px;color:var(--t3);background:transparent;border:1px solid var(--b2);padding:8px 13px;cursor:pointer;min-height:36px;}
+.btn-o:hover{border-color:var(--gold3);color:var(--gold);}
+.btn-r{font-family:'Space Mono',monospace;font-size:8px;color:var(--red);background:transparent;border:1px solid var(--red2);padding:8px 13px;cursor:pointer;min-height:36px;}
+.btn-r:hover{background:var(--red2);color:#fff;}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1);}}
+.ldd:nth-child(1){animation:pulse 1.2s ease 0s infinite;}
+.ldd:nth-child(2){animation:pulse 1.2s ease .2s infinite;}
+.ldd:nth-child(3){animation:pulse 1.2s ease .4s infinite;}
+@keyframes sdot{0%,100%{opacity:.4;}50%{opacity:1;}}
+.sdot{animation:sdot .8s ease infinite;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+'use strict';
+// ── 20 FACTIONS ──
+const F={
+  player:   {n:'Your Company',short:'PLAYER',tier:'M',color:'#c8922a',threat:'—'},
+  khalil:   {n:'Khalil Group',short:'KHALIL',tier:'M',color:'#c44444',threat:'HIGH',desc:'Lebanese port dynasty. $2.4B/yr. 7yr Salone warehousing exclusivity.'},
+  chen:     {n:'Chen Logistics',short:'CHEN',tier:'M',color:'#3a7aaa',threat:'HIGH',desc:'Chinese state-backed. $800M Salone contracts. Roads, energy, digital.'},
+  cardinal: {n:'Cardinal Holdings',short:'CARD.',tier:'M',color:'#cc4444',threat:'HIGH',desc:'Old European capital. $4B regional assets. Mining, land, finance.'},
+  peninsula:{n:'Peninsula Group',short:'PEN.',tier:'M',color:'#4a9a6a',threat:'MED',desc:'Caribbean trade collective. $340M/yr. Controls Trinidade port.'},
+  zanele:   {n:'Zanele Capital',short:'ZAN.',tier:'M',color:'#aa6633',threat:'LOW',desc:'South African PE. $1.2B AUM. Potential partner.'},
+  koroma:   {n:'Koroma Network',short:'KORM.',tier:'I',color:'#7a4a9a',threat:'MED',desc:'Salone political family. Controls permits. Navigate not fight.'},
+  offshore: {n:'Offshore Consortium',short:'OFF.',tier:'I',color:'#3399aa',threat:'MED',desc:'Anonymous ownership. Shell structures. Moving capital into energy.'},
+  frontier: {n:'Frontier Dynamics',short:'FRNT.',tier:'I',color:'#aa3399',threat:'MED',desc:'$500M Silicon Valley-funded. African digital infrastructure target.'},
+  irongate: {n:'Irongate Security',short:'IRN.',tier:'I',color:'#888888',threat:'LOW',desc:'Private security and intel. Neutral. Available to highest bidder.'},
+  dmv_circle:{n:'DMV Circle',short:'DMV.',tier:'I',color:'#9a7a4a',threat:'LOW',desc:'Salone/Caribbean diaspora professionals. DC-based.'},
+  atlas:    {n:'Atlas Trading Co.',short:'ATLAS',tier:'I',color:'#4a7a5a',threat:'MED',desc:'$120M West Africa generalist. Logistics, agri, distribution.'},
+  meridian: {n:'Meridian Finance',short:'MERD.',tier:'I',color:'#5a4a9a',threat:'MED',desc:'$180M regional bank. Trade finance, investment, SME lending.'},
+  harrow:   {n:'Harrow Partners',short:'HARR.',tier:'I',color:'#7a6a3a',threat:'LOW',desc:'$250M UK PE. Caribbean and West Africa real estate.'},
+  syndicate:{n:'Street Syndicate',short:'SYND.',tier:'S',color:'#e88a3a',threat:'LOW',desc:'Informal economy. Last-mile distribution. Ground presence.'},
+  baobab:   {n:'Baobab Ventures',short:'BAO.',tier:'S',color:'#6a9a4a',threat:'LOW',desc:'$8M Salone startup ecosystem. Local connections.'},
+  coastal:  {n:'Coastal Freight',short:'CST.',tier:'S',color:'#3a7a7a',threat:'LOW',desc:'$12M small port logistics. Acquirable entry point.'},
+  nova_tech:{n:'Nova Tech Ltd',short:'NOVA',tier:'S',color:'#3a6a9a',threat:'LOW',desc:'$6M digital services. High growth potential.'},
+  sunstone: {n:'Sunstone Props',short:'SUN.',tier:'S',color:'#9a7a3a',threat:'LOW',desc:'$20M Freetown residential developer.'},
+  trinco:   {n:'Trinco Distribution',short:'TRIN.',tier:'S',color:'#4a8a6a',threat:'LOW',desc:'$9M Trinidade distribution. Community relationships.'},
+  greenfield:{n:'Greenfield Agri',short:'GRN.',tier:'S',color:'#5a8a3a',threat:'LOW',desc:'$5M cooperative farm. Salone interior land access.'},
+};
+
+// ── 51 BUSINESSES ──
+const BIZ=[
+  {id:'b01',n:'Freetown Port Warehousing',sec:'LOGISTICS',own:'khalil',rev:8500000,cost:28000000,tier:'M',th:'salone',desc:'7yr exclusive warehousing. Most strategic asset in Salone.'},
+  {id:'b02',n:'Khalil Freight Forwarding',sec:'LOGISTICS',own:'khalil',rev:3200000,cost:11000000,tier:'M',th:'salone',desc:'Full-service freight arm of Khalil. Europe and Asia lanes.'},
+  {id:'b03',n:'Chen Northern Roads',sec:'LOGISTICS',own:'chen',rev:2800000,cost:9000000,tier:'M',th:'salone',desc:'Road infrastructure and freight along northern mineral corridor.'},
+  {id:'b04',n:'Atlas West Africa Cargo',sec:'LOGISTICS',own:'atlas',rev:2100000,cost:7000000,tier:'I',th:'salone',desc:'Mid-size regional cargo operator. Growing market share.'},
+  {id:'b05',n:'Peninsula Caribbean Trade',sec:'LOGISTICS',own:'peninsula',rev:4200000,cost:14000000,tier:'M',th:'trinidade',desc:'Dominant operation at Port Charlesville.'},
+  {id:'b06',n:'Coastal Freight Co.',sec:'LOGISTICS',own:'coastal',rev:1200000,cost:3500000,tier:'S',th:'salone',desc:'Small port logistics. Acquirable entry into Salone port.'},
+  {id:'b07',n:'Harbor Staging & Storage',sec:'LOGISTICS',own:'neutral',rev:900000,cost:2800000,tier:'S',th:'salone',desc:'Independent staging outside main port. Acquisition opportunity.'},
+  {id:'b08',n:'Trinco Island Freight',sec:'LOGISTICS',own:'trinco',rev:1400000,cost:4200000,tier:'S',th:'trinidade',desc:'Trinidade distribution. Strong northern township ties.'},
+  {id:'b09',n:'Chen Energy Grid',sec:'ENERGY',own:'chen',rev:4100000,cost:15000000,tier:'M',th:'salone',desc:'Chinese-financed power generation. Multi-decade concession.'},
+  {id:'b10',n:'Offshore Petroleum Blk A',sec:'ENERGY',own:'offshore',rev:5800000,cost:22000000,tier:'I',th:'salone',desc:'Offshore oil exploration. Unknown ultimate ownership.'},
+  {id:'b11',n:'Trinidade Energy Offshore',sec:'ENERGY',own:'offshore',rev:7800000,cost:28000000,tier:'I',th:'trinidade',desc:'Major offshore energy block. Offshore Consortium holds rights.'},
+  {id:'b12',n:'Cardinal Mining Energy',sec:'ENERGY',own:'cardinal',rev:3200000,cost:11000000,tier:'M',th:'salone',desc:'Power supply for Cardinal mineral extraction.'},
+  {id:'b13',n:'Meridian Power Finance',sec:'ENERGY',own:'meridian',rev:1200000,cost:4000000,tier:'I',th:'salone',desc:'Project finance for energy infrastructure.'},
+  {id:'b14',n:'Salone Solar Initiative',sec:'ENERGY',own:'neutral',rev:600000,cost:1800000,tier:'S',th:'salone',desc:'Off-grid solar startup. Grant-funded. Acquisition creates goodwill.'},
+  {id:'b15',n:'Nova Energy Solutions',sec:'ENERGY',own:'nova_tech',rev:400000,cost:1200000,tier:'S',th:'salone',desc:'Small solar installation firm. Growing team.'},
+  {id:'b16',n:'Cardinal Land Holdings',sec:'REAL ESTATE',own:'cardinal',rev:2800000,cost:9500000,tier:'M',th:'salone',desc:'Largest private land bank in Salone. Legacy acquisitions.'},
+  {id:'b17',n:'Zanele Urban Development',sec:'REAL ESTATE',own:'zanele',rev:1900000,cost:6500000,tier:'M',th:'salone',desc:'South African PE-backed. Freetown commercial properties.'},
+  {id:'b18',n:'Harrow Trinidade Props',sec:'REAL ESTATE',own:'harrow',rev:2300000,cost:7800000,tier:'I',th:'trinidade',desc:'UK PE-owned Trinidade hospitality and commercial RE.'},
+  {id:'b19',n:'Sunstone Freetown Dev',sec:'REAL ESTATE',own:'sunstone',rev:1100000,cost:3200000,tier:'S',th:'salone',desc:'Residential developer in Freetown growth corridors.'},
+  {id:'b20',n:'Koroma Land Bank',sec:'REAL ESTATE',own:'koroma',rev:800000,cost:2500000,tier:'I',th:'salone',desc:'Politically connected land portfolio. Needs relationship first.'},
+  {id:'b21',n:'Atlas Commercial Offices',sec:'REAL ESTATE',own:'atlas',rev:700000,cost:2200000,tier:'S',th:'salone',desc:'Commercial office portfolio in Freetown business district.'},
+  {id:'b22',n:'Baobab Local Housing',sec:'REAL ESTATE',own:'baobab',rev:400000,cost:1100000,tier:'S',th:'salone',desc:'Affordable housing developer. Community goodwill.'},
+  {id:'b23',n:'Meridian Regional Bank',sec:'FINANCE',own:'meridian',rev:3400000,cost:12000000,tier:'I',th:'salone',desc:'Primary regional bank for SME lending and trade finance.'},
+  {id:'b24',n:'Khalil Trade Finance',sec:'FINANCE',own:'khalil',rev:2100000,cost:7500000,tier:'M',th:'salone',desc:'Proprietary trade finance serving Khalil supply chain.'},
+  {id:'b25',n:'Zanele PE Fund Salone',sec:'FINANCE',own:'zanele',rev:4500000,cost:18000000,tier:'M',th:'salone',desc:'South African PE fund with Salone portfolio.'},
+  {id:'b26',n:'Harrow Investment Partners',sec:'FINANCE',own:'harrow',rev:3100000,cost:11000000,tier:'I',th:'trinidade',desc:'UK PE-backed investment vehicle. Trinidade focus.'},
+  {id:'b27',n:'Offshore Special Vehicle',sec:'FINANCE',own:'offshore',rev:2800000,cost:9500000,tier:'I',th:'trinidade',desc:'Special purpose vehicle for offshore capital. Anonymous.'},
+  {id:'b28',n:'DMV Circle Credit Union',sec:'FINANCE',own:'dmv_circle',rev:400000,cost:1200000,tier:'S',th:'dmv',desc:'Diaspora community credit union. Cultural asset.'},
+  {id:'b29',n:'Nova Microfinance',sec:'FINANCE',own:'nova_tech',rev:600000,cost:1800000,tier:'S',th:'salone',desc:'Mobile microfinance startup. High growth. Underbanked market.'},
+  {id:'b30',n:'Frontier Subsea Cable',sec:'TECHNOLOGY',own:'frontier',rev:1800000,cost:6500000,tier:'I',th:'salone',desc:'Subsea cable connecting Salone to global internet backbone.'},
+  {id:'b31',n:'Chen Digital Infra',sec:'TECHNOLOGY',own:'chen',rev:2400000,cost:8500000,tier:'M',th:'salone',desc:'Huawei-adjacent telecom and data center. State-backed.'},
+  {id:'b32',n:'Frontier Mobile Money',sec:'TECHNOLOGY',own:'frontier',rev:1200000,cost:4200000,tier:'I',th:'salone',desc:'Digital payment platform. Growing rapidly.'},
+  {id:'b33',n:'Irongate Intel Systems',sec:'TECHNOLOGY',own:'irongate',rev:900000,cost:3000000,tier:'I',th:'dmv',desc:'Private intelligence and surveillance technology.'},
+  {id:'b34',n:'Atlas ERP Platform',sec:'TECHNOLOGY',own:'atlas',rev:700000,cost:2200000,tier:'S',th:'salone',desc:'Enterprise software for West Africa SMEs. Sticky revenue.'},
+  {id:'b35',n:'Nova Tech App Studio',sec:'TECHNOLOGY',own:'nova_tech',rev:350000,cost:900000,tier:'S',th:'salone',desc:'Mobile app development. Talented local team.'},
+  {id:'b36',n:'Cardinal Media Salone',sec:'MEDIA',own:'cardinal',rev:800000,cost:2800000,tier:'M',th:'salone',desc:'Dominant news and entertainment. Controls political narrative.'},
+  {id:'b37',n:'Frontier Digital News',sec:'MEDIA',own:'frontier',rev:600000,cost:2000000,tier:'I',th:'salone',desc:'Online news and social. Growing audience.'},
+  {id:'b38',n:'Trinco Island Broadcasting',sec:'MEDIA',own:'trinco',rev:400000,cost:1200000,tier:'S',th:'trinidade',desc:'Radio and local TV. Election-critical asset.'},
+  {id:'b39',n:'DMV Circle Radio',sec:'MEDIA',own:'dmv_circle',rev:150000,cost:400000,tier:'S',th:'dmv',desc:'Diaspora radio network. Cultural platform.'},
+  {id:'b40',n:'Baobab Print Press',sec:'MEDIA',own:'baobab',rev:120000,cost:300000,tier:'S',th:'salone',desc:'Oldest Salone newspaper. Low revenue. Enormous credibility.'},
+  {id:'b41',n:'Cardinal Agribusiness',sec:'AGRICULTURE',own:'cardinal',rev:1800000,cost:6000000,tier:'M',th:'salone',desc:'Cardinal-owned agribusiness supporting mining operations.'},
+  {id:'b42',n:'Koroma Interior Land',sec:'AGRICULTURE',own:'koroma',rev:900000,cost:3000000,tier:'I',th:'salone',desc:'Politically connected farm network. Rural districts.'},
+  {id:'b43',n:'Atlas Export Agriculture',sec:'AGRICULTURE',own:'atlas',rev:700000,cost:2200000,tier:'I',th:'salone',desc:'Commodity export. Cassava, palm oil, cocoa.'},
+  {id:'b44',n:'Greenfield Salone Farms',sec:'AGRICULTURE',own:'greenfield',rev:500000,cost:1400000,tier:'S',th:'salone',desc:'Cooperative farm collective. Interior land access.'},
+  {id:'b45',n:'Baobab Coastal Fishing',sec:'AGRICULTURE',own:'baobab',rev:280000,cost:750000,tier:'S',th:'salone',desc:'Artisanal fishing cooperative. Coastal intelligence.'},
+  {id:'b46',n:'Trinco Caribbean Produce',sec:'AGRICULTURE',own:'trinco',rev:350000,cost:950000,tier:'S',th:'trinidade',desc:'Produce distribution. Northern township relationships.'},
+  {id:'b47',n:'Irongate Global Security',sec:'SECURITY',own:'irongate',rev:2200000,cost:7500000,tier:'I',th:'dmv',desc:'Full-service private security and intelligence.'},
+  {id:'b48',n:'Khalil Port Security',sec:'SECURITY',own:'khalil',rev:1400000,cost:5000000,tier:'M',th:'salone',desc:'Private security for Khalil port. Strategic chokepoint.'},
+  {id:'b49',n:'Irongate Salone Ops',sec:'SECURITY',own:'irongate',rev:900000,cost:3000000,tier:'I',th:'salone',desc:'Physical security and ground intel in Salone.'},
+  {id:'b50',n:'Cardinal Protection Div',sec:'SECURITY',own:'cardinal',rev:1100000,cost:3800000,tier:'M',th:'salone',desc:'Private protection for Cardinal mining operations.'},
+  {id:'b51',n:'Coastal Security Patrol',sec:'SECURITY',own:'coastal',rev:300000,cost:750000,tier:'S',th:'salone',desc:'Small maritime security patrol. Coastal coverage.'},
+];
+
+// ── 9 THEATERS ──
+const TH={
+  salone:   {n:'SALONE',f:'🇸🇱',sub:'West Africa — Primary Theater',active:true,cost:0,zones:[
+    {id:'z_port',n:'Port Terminal',ctrl:'khalil',rev:8500000,x:5,y:5,w:88,h:55,lbl:'PORT'},
+    {id:'z_eind',n:'E. Industrial',ctrl:'khalil',rev:3200000,x:98,y:5,w:80,h:55,lbl:'E.IND'},
+    {id:'z_ncor',n:'N. Corridor',ctrl:'chen',rev:2800000,x:183,y:5,w:80,h:55,lbl:'N.COR'},
+    {id:'z_gov',n:'Gov. District',ctrl:'koroma',rev:0,x:268,y:5,w:65,h:55,lbl:'GOV'},
+    {id:'z_smkt',n:'S. Markets',ctrl:'syndicate',rev:1200000,x:338,y:5,w:57,h:55,lbl:'S.MKT'},
+    {id:'z_wres',n:'W. Residential',ctrl:'neutral',rev:800000,x:5,y:65,w:75,h:50,lbl:'W.RES'},
+    {id:'z_harb',n:'Harbor',ctrl:'neutral',rev:1500000,x:85,y:65,w:75,h:50,lbl:'HARBOR'},
+    {id:'z_ftz',n:'Free Trade Zone',ctrl:'frontier',rev:2100000,x:165,y:65,w:75,h:50,lbl:'FTZ'},
+    {id:'z_diam',n:'Diamond Corridor',ctrl:'cardinal',rev:6400000,x:245,y:65,w:75,h:50,lbl:'DIAM.'},
+    {id:'z_egrd',n:'Energy Grid',ctrl:'chen',rev:4100000,x:325,y:65,w:70,h:50,lbl:'ENERGY'},
+    {id:'z_offsh',n:'Offshore Blocks',ctrl:'offshore',rev:9200000,x:5,y:120,w:120,h:45,lbl:'OFFSHR'},
+    {id:'z_fin',n:'Fintech District',ctrl:'neutral',rev:1800000,x:130,y:120,w:100,h:45,lbl:'FINTECH'},
+  ]},
+  dmv:{n:'DMV',f:'🇺🇸',sub:'Washington D.C. — Home Base',active:true,cost:0,zones:[
+    {id:'z_fed',n:'Federal Corridor',ctrl:'neutral',rev:0,x:5,y:5,w:90,h:55,lbl:'FED'},
+    {id:'z_tys',n:'Tysons',ctrl:'neutral',rev:0,x:100,y:5,w:90,h:55,lbl:'TYSONS'},
+    {id:'z_ss',n:'Silver Spring',ctrl:'player',rev:0,x:195,y:5,w:85,h:55,lbl:'S.SPR.'},
+    {id:'z_beth',n:'Bethesda',ctrl:'dmv_circle',rev:0,x:285,y:5,w:80,h:55,lbl:'BETH.'},
+    {id:'z_cap',n:'Capitol',ctrl:'neutral',rev:0,x:370,y:5,w:25,h:55,lbl:'CAP'},
+    {id:'z_emb',n:'Embassy Row',ctrl:'neutral',rev:0,x:5,y:65,w:110,h:50,lbl:'EMBASSY'},
+    {id:'z_innov',n:'Innovation',ctrl:'frontier',rev:0,x:120,y:65,w:110,h:50,lbl:'INNOV.'},
+    {id:'z_findist',n:'Financial Dist.',ctrl:'neutral',rev:0,x:235,y:65,w:110,h:50,lbl:'FIN.DIST'},
+  ]},
+  trinidade:{n:'TRINIDADE',f:'🇹🇹',sub:'Caribbean — Election Imminent',active:true,cost:0,zones:[
+    {id:'z_tchrls',n:'Port Charlesville',ctrl:'peninsula',rev:4200000,x:5,y:5,w:95,h:55,lbl:'PORT'},
+    {id:'z_tenrg',n:'Energy Offshore',ctrl:'offshore',rev:7800000,x:105,y:5,w:90,h:55,lbl:'ENERGY'},
+    {id:'z_tfin',n:'Financial Center',ctrl:'neutral',rev:0,x:200,y:5,w:90,h:55,lbl:'FIN.CTR'},
+    {id:'z_tntwnp',n:'N. Townships',ctrl:'neutral',rev:1100000,x:295,y:5,w:100,h:55,lbl:'N.TWN'},
+    {id:'z_tresrt',n:'Resort Corridor',ctrl:'peninsula',rev:2300000,x:5,y:65,w:90,h:50,lbl:'RESORT'},
+    {id:'z_tlog',n:'Logistics Hub',ctrl:'neutral',rev:3400000,x:100,y:65,w:90,h:50,lbl:'LOGIST.'},
+    {id:'z_tmedia',n:'Media',ctrl:'neutral',rev:800000,x:195,y:65,w:90,h:50,lbl:'MEDIA'},
+    {id:'z_tsouth',n:'Southern Coast',ctrl:'neutral',rev:1600000,x:290,y:65,w:90,h:50,lbl:'S.CST'},
+    {id:'z_ttech',n:'Tech Corridor',ctrl:'frontier',rev:0,x:5,y:120,w:115,h:40,lbl:'TECH'},
+    {id:'z_tpol',n:'Political Capital',ctrl:'neutral',rev:0,x:125,y:120,w:100,h:40,lbl:'POL.CAP'},
+  ]},
+  lagos:   {n:'LAGOS',f:'🇳🇬',sub:'Nigeria — West Africa Commercial Capital',active:false,cost:500000,zones:[
+    {id:'z_lgi',n:'Lagos Island CBD',ctrl:'neutral',rev:0,x:5,y:5,w:120,h:60,lbl:'LAGOS IS.'},
+    {id:'z_lk',n:'Lekki Corridor',ctrl:'atlas',rev:0,x:130,y:5,w:120,h:60,lbl:'LEKKI'},
+    {id:'z_lap',n:'Apapa Port',ctrl:'khalil',rev:0,x:255,y:5,w:100,h:60,lbl:'APAPA'},
+    {id:'z_lvi',n:'Victoria Island',ctrl:'meridian',rev:0,x:5,y:70,w:160,h:50,lbl:'VICTORIA IS.'},
+    {id:'z_lyaba',n:'Yaba Tech Hub',ctrl:'frontier',rev:0,x:170,y:70,w:160,h:50,lbl:'YABA TECH'},
+  ]},
+  accra:   {n:'ACCRA',f:'🇬🇭',sub:'Ghana — Stable Democracy, Growing Economy',active:false,cost:400000,zones:[
+    {id:'z_acc',n:'Accra Central',ctrl:'neutral',rev:0,x:5,y:5,w:120,h:60,lbl:'ACCRA CBD'},
+    {id:'z_tema',n:'Tema Port',ctrl:'cardinal',rev:0,x:130,y:5,w:100,h:60,lbl:'TEMA PORT'},
+    {id:'z_atech',n:'Tech Hub',ctrl:'neutral',rev:0,x:235,y:5,w:80,h:60,lbl:'TECH'},
+    {id:'z_alegon',n:'East Legon',ctrl:'zanele',rev:0,x:5,y:70,w:155,h:50,lbl:'EAST LEGON'},
+    {id:'z_aenrg',n:'Energy Sector',ctrl:'chen',rev:0,x:165,y:70,w:150,h:50,lbl:'ENERGY'},
+  ]},
+  london:  {n:'LONDON',f:'🇬🇧',sub:'United Kingdom — Capital Access & Diaspora',active:false,cost:800000,zones:[
+    {id:'z_lcity',n:'City of London',ctrl:'cardinal',rev:0,x:5,y:5,w:120,h:60,lbl:'CITY'},
+    {id:'z_lcw',n:'Canary Wharf',ctrl:'harrow',rev:0,x:130,y:5,w:100,h:60,lbl:'C.WHARF'},
+    {id:'z_lafr',n:'Africa Business',ctrl:'zanele',rev:0,x:235,y:5,w:80,h:60,lbl:'AFRICA BIZ'},
+    {id:'z_ldias',n:'Diaspora Net',ctrl:'dmv_circle',rev:0,x:5,y:70,w:155,h:50,lbl:'DIASPORA'},
+    {id:'z_llegal',n:'Legal & Compliance',ctrl:'neutral',rev:0,x:165,y:70,w:150,h:50,lbl:'LEGAL'},
+  ]},
+  dubai:   {n:'DUBAI',f:'🇦🇪',sub:'UAE — Trade Hub & Capital Movement',active:false,cost:600000,zones:[
+    {id:'z_ddifc',n:'DIFC',ctrl:'offshore',rev:0,x:5,y:5,w:115,h:60,lbl:'DIFC'},
+    {id:'z_dja',n:'Jebel Ali Port',ctrl:'khalil',rev:0,x:125,y:5,w:100,h:60,lbl:'JEBEL ALI'},
+    {id:'z_dtech',n:'Dubai Tech',ctrl:'frontier',rev:0,x:230,y:5,w:90,h:60,lbl:'TECH ZONE'},
+    {id:'z_dprop',n:'Real Estate',ctrl:'neutral',rev:0,x:5,y:70,w:155,h:50,lbl:'RE CORRIDOR'},
+    {id:'z_dtrade',n:'Trade',ctrl:'neutral',rev:0,x:165,y:70,w:150,h:50,lbl:'TRADE'},
+  ]},
+  new_york:{n:'NEW YORK',f:'🇺🇸',sub:'USA — Institutional Capital',active:false,cost:1000000,zones:[
+    {id:'z_nyw',n:'Wall Street',ctrl:'neutral',rev:0,x:5,y:5,w:115,h:60,lbl:'WALL ST.'},
+    {id:'z_nymid',n:'Midtown',ctrl:'harrow',rev:0,x:125,y:5,w:100,h:60,lbl:'MIDTOWN'},
+    {id:'z_nybk',n:'Brooklyn Tech',ctrl:'frontier',rev:0,x:230,y:5,w:90,h:60,lbl:'BK TECH'},
+    {id:'z_nydias',n:'Caribbean Diaspora',ctrl:'peninsula',rev:0,x:5,y:70,w:155,h:50,lbl:'CARIB.DIAS.'},
+    {id:'z_nyafr',n:'Africa Business',ctrl:'dmv_circle',rev:0,x:165,y:70,w:150,h:50,lbl:'AFR.BIZ.NET'},
+  ]},
+  atlanta: {n:'ATLANTA',f:'🇺🇸',sub:'Georgia — African-American Capital Base',active:false,cost:350000,zones:[
+    {id:'z_abh',n:'Buckhead',ctrl:'neutral',rev:0,x:5,y:5,w:115,h:60,lbl:'BUCKHEAD'},
+    {id:'z_amid',n:'Midtown ATL',ctrl:'neutral',rev:0,x:125,y:5,w:100,h:60,lbl:'MIDTOWN'},
+    {id:'z_asth',n:'South Atlanta',ctrl:'syndicate',rev:0,x:230,y:5,w:90,h:60,lbl:'SOUTH ATL'},
+    {id:'z_alog',n:'Hartsfield Logistics',ctrl:'atlas',rev:0,x:5,y:70,w:155,h:50,lbl:'HARTSFIELD'},
+    {id:'z_are',n:'Westside Dev.',ctrl:'neutral',rev:0,x:165,y:70,w:150,h:50,lbl:'WESTSIDE'},
+  ]},
+};
+
+// ── GOV OFFICIALS ──
+const GOV=[
+  {id:'g1',n:'Minister Bangura',e:'👔',role:'Minister of Trade, Salone',th:'salone',tier:'MINISTER',cost:45000,maint:8000,inf:25,benefit:'Port permits, trade licenses, competitor interference',risk:'HIGH',loy:0},
+  {id:'g2',n:'Isaac Koroma',e:'🧔🏿',role:'Deputy Minister — Interior',th:'salone',tier:'DEPUTY',cost:28000,maint:5000,inf:18,benefit:'Land titles, permits, competitor audits',risk:'MEDIUM',loy:0},
+  {id:'g3',n:'Chief Justice Sesay',e:'⚖️',role:'Supreme Court, Salone',th:'salone',tier:'JUDICIARY',cost:60000,maint:10000,inf:30,benefit:'Legal protection, case dismissals, enforcement',risk:'HIGH',loy:0},
+  {id:'g4',n:'Inspector General',e:'🎖️',role:'National Police, Salone',th:'salone',tier:'POLICE',cost:35000,maint:6000,inf:20,benefit:'Protection, competitor disruption, evidence management',risk:'HIGH',loy:0},
+  {id:'g5',n:'Director Kamara',e:'📋',role:'Customs & Revenue Authority',th:'salone',tier:'REGULATORY',cost:20000,maint:3500,inf:15,benefit:'Import clearances, competitor delays, tax treatment',risk:'MEDIUM',loy:0},
+  {id:'g6',n:'Harbour Master',e:'⚓',role:'Freetown Port Authority',th:'salone',tier:'REGULATORY',cost:18000,maint:3000,inf:12,benefit:'Berth allocation, warehousing access, inspection control',risk:'MEDIUM',loy:0},
+  {id:'g7',n:'Dir. Whitmore',e:'🏛️',role:'Federal Contracts, DoD',th:'dmv',tier:'FEDERAL',cost:80000,maint:15000,inf:35,benefit:'Contract steering, competitor exclusion, clearance',risk:'EXTREME',loy:0},
+  {id:'g8',n:'Councilman Reid',e:'🗳️',role:'DC Metro City Council',th:'dmv',tier:'LOCAL',cost:12000,maint:2000,inf:10,benefit:'Zoning, permits, local contract preference',risk:'LOW',loy:0},
+  {id:'g9',n:'Chief Harrison',e:'🎖️',role:'Metro Police Chief, DMV',th:'dmv',tier:'POLICE',cost:25000,maint:4500,inf:15,benefit:'Protection, competitor scrutiny, community relations',risk:'MEDIUM',loy:0},
+  {id:'g10',n:'PM Celestine',e:'🏛️',role:'Prime Minister, Trinidade',th:'trinidade',tier:'HEAD',cost:120000,maint:25000,inf:50,benefit:'National contracts, investment steering, immunity',risk:'EXTREME',loy:0},
+  {id:'g11',n:'Commissioner Lal',e:'🎖️',role:'National Police, Trinidade',th:'trinidade',tier:'POLICE',cost:30000,maint:5500,inf:18,benefit:'Port security, competitor exposure, community control',risk:'HIGH',loy:0},
+  {id:'g12',n:'Dir. Marcelin',e:'⚡',role:'Energy Regulatory, Trinidade',th:'trinidade',tier:'REGULATORY',cost:22000,maint:4000,inf:14,benefit:'Energy licenses, offshore approvals, grid access',risk:'MEDIUM',loy:0},
+];
+
+// ── COMMUNITIES ──
+const COMM=[
+  {id:'c1',n:'East Freetown',th:'salone',e:'🏘️',pop:45000,cost:50000,mrev:0,loy:25,benefit:'Protection network. Street intel. Nobody talks to investigators.'},
+  {id:'c2',n:'Portside Quarter',th:'salone',e:'⚓',pop:12000,cost:30000,mrev:0,loy:30,benefit:'Port workers. Cargo intelligence. Dock disruption capability.'},
+  {id:'c3',n:'Northern Interior',th:'salone',e:'🌾',pop:88000,cost:75000,mrev:8000,loy:20,benefit:'Agricultural network. Land access. Mineral region relationships.'},
+  {id:'c4',n:'Youth Enterprise Fund',th:'salone',e:'🎓',pop:0,cost:25000,mrev:0,loy:15,benefit:'Talent pipeline. Media goodwill. Political goodwill.'},
+  {id:'c5',n:'Coastal Fishing Guild',th:'salone',e:'🐟',pop:18000,cost:20000,mrev:4000,loy:20,benefit:'Coastal intelligence. Informal transport. Political base.'},
+  {id:'c6',n:'Salone Diaspora Network',th:'dmv',e:'🤝',pop:8000,cost:15000,mrev:0,loy:20,benefit:'Community trust. Political connections. Salone legitimacy.'},
+  {id:'c7',n:'DMV Community Fund',th:'dmv',e:'🏫',pop:25000,cost:20000,mrev:0,loy:15,benefit:'Political support. Media goodwill. Regulatory goodwill.'},
+  {id:'c8',n:'Northern Townships',th:'trinidade',e:'🏘️',pop:55000,cost:60000,mrev:5000,loy:28,benefit:'Election base. Political protection. Ground intelligence.'},
+  {id:'c9',n:'Southern Coast Guilds',th:'trinidade',e:'🐟',pop:14000,cost:18000,mrev:3000,loy:22,benefit:'Coastal network. Shipping intelligence. Community protection.'},
+];
+
+// ── HIRE ROSTER ──
+const HIRE=[
+  {id:'h1',e:'👨🏿‍💼',n:'Chief Operating Officer',role:'OPERATIONS',sal:12000,skill:'Runs day-to-day across all holdings. Frees Kutor from operations.',minI:30,minA:2},
+  {id:'h2',e:'👩🏾‍⚖️',n:'General Counsel',role:'LEGAL',sal:9500,skill:'Structures deals, manages exposure, handles government relations.',minI:20,minA:1},
+  {id:'h3',e:'🧔🏿',n:'Salone Country Director',role:'SALONE OPS',sal:7500,skill:'Runs all Salone operations on the ground. Community, contractors, security.',minI:25,minA:1},
+  {id:'h4',e:'👩🏿',n:'Trinidade Country Director',role:'TRIN. OPS',sal:7000,skill:'Runs Trinidade. Political intelligence, port relationships, community.',minI:20,minA:1},
+  {id:'h5',e:'🕵🏿‍♂️',n:'Intelligence Director',role:'INTEL',sal:8000,skill:'Monitors rival faction moves, government policy, and threat intel.',minI:35,minA:0},
+  {id:'h6',e:'📊',n:'Chief Financial Officer',role:'FINANCE',sal:10000,skill:'Manages clean/dirty capital, investments, compliance.',minI:25,minA:2},
+  {id:'h7',e:'🎙️',n:'Communications Director',role:'COMMS/PR',sal:5500,skill:'Narrative control, media relations, community engagement.',minI:15,minA:0},
+  {id:'h8',e:'🛡️',n:'Head of Security',role:'SECURITY',sal:6500,skill:'Personal protection, asset security, threat intelligence.',minI:30,minA:1},
+  {id:'h9',e:'🤝',n:'Salone Political Fixer',role:'FIXER',sal:6000,skill:'Gets things done in Salone through unofficial channels.',minI:20,minA:0},
+  {id:'h10',e:'🚢',n:'Logistics Director',role:'LOGISTICS',sal:8500,skill:'Oversees freight, warehouse, supply chain across all territories.',minI:20,minA:1},
+];
+
+// ── ORIGINS ──
+const ORIGINS=[
+  {id:'genuine',num:'01',icon:'♟',name:'The Genuine Start',tag:'Built from nothing. Real.',desc:'Early career. Tight capital. TS clearance. Brotherhood forming.',pills:['CAPITAL: LOW','NETWORK: FORMING'],diff:'HIGH',clean:12000,dirty:0,M:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70,community:0},contacts:['raymond','brotherhood']},
+  {id:'inheritance',num:'02',icon:'⚖️',name:'The Inheritance',tag:'Given a table. Now build the room.',desc:'$340K trust. Properties. Logistics stake. Two debts.',pills:['CAPITAL: MEDIUM','NETWORK: INHERITED'],diff:'MEDIUM',clean:340000,dirty:0,M:{integrity:75,street:15,inst:50,influence:25,exposure:15,loyalty:65,community:0},contacts:['raymond','brotherhood','lawyer']},
+  {id:'employee',num:'03',icon:'🕴️',name:'Inside the House',tag:'Learn the game from inside.',desc:'EY Federal auditor. Watching people who have what you want.',pills:['CAPITAL: SALARY','NETWORK: ACCESS'],diff:'MEDIUM',clean:8000,dirty:0,M:{integrity:85,street:10,inst:45,influence:15,exposure:8,loyalty:75,community:0},contacts:['raymond','brotherhood']},
+  {id:'return',num:'04',icon:'✈️',name:'The Return',tag:'You went back. Now you can\'t unsee it.',desc:'Just back from Salone. Gaps mapped. Aminata\'s number in your phone.',pills:['CAPITAL: LOW-MED','NETWORK: GROUND'],diff:'MEDIUM',clean:18000,dirty:0,M:{integrity:82,street:45,inst:28,influence:18,exposure:10,loyalty:72,community:0},contacts:['raymond','brotherhood','aminata']},
+  {id:'operators_son',num:'05',icon:'👑',name:"The Operator's Son",tag:'Visible before you\'ve earned it.',desc:'Father built something. Stepping back. Making introductions.',pills:['CAPITAL: MED-HIGH','NETWORK: INHERITED+'],diff:'MEDIUM',clean:85000,dirty:0,M:{integrity:70,street:30,inst:55,influence:35,exposure:28,loyalty:60,community:0},contacts:['raymond','brotherhood','father']},
+  {id:'from_bottom',num:'06',icon:'🃏',name:'From The Bottom',tag:'The past does not disappear.',desc:'Three years in transition. $34K legitimate. $22K dirty.',pills:['CAPITAL: STREET','NETWORK: DUAL WORLD'],diff:'HIGH',clean:34000,dirty:22000,M:{integrity:45,street:75,inst:10,influence:20,exposure:55,loyalty:80,community:0},past:'A decision made three years ago. One person knows.',contacts:['raymond','brotherhood','D']},
+];
+
+const CTACTS={
+  raymond:{name:'Raymond Kofi',emoji:'🧔🏿',bg:'#1a1208',role:'Business mentor. Diaspora, DMV.',loyalty:85,basis:'GENUINE',disposition:'CAUTIOUSLY WARM',tags:['MENTOR','DIASPORA','TRUSTED'],notes:'Will not be rushed.',age:54,memory:[]},
+  brotherhood:{name:'The Brotherhood',emoji:'🤝',bg:'#0a1218',role:'12-person collective. $47K pooled.',loyalty:90,basis:'BUILT',disposition:'ALIGNED',tags:['ALLIANCE','$47K','CONFIDENTIAL'],notes:'First deployment approaching.',age:0,memory:[]},
+  lawyer:{name:'Elaine Osei',emoji:'👩🏾‍⚖️',bg:'#0a0a1a',role:'Estate attorney.',loyalty:50,basis:'PROFESSIONAL',disposition:'NEUTRAL',tags:['ATTORNEY','STRUCTURES'],notes:'Professional loyalty only.',age:41,memory:[]},
+  aminata:{name:'Aminata Jalloh',emoji:'👩🏿',bg:'#1a1008',role:'Port logistics, Freetown.',loyalty:60,basis:'RECENT',disposition:'CAUTIOUS BUT OPEN',tags:['SALONE','PORT INSIDER'],notes:'Knows what Khalil would not want known.',age:33,memory:[]},
+  father:{name:'The Patriarch',emoji:'👴🏿',bg:'#1a1510',role:'Built a quiet operation 35 years.',loyalty:95,basis:'BLOOD',disposition:'TESTING',tags:['FATHER','BUILT SOMETHING REAL'],notes:'His blessing opens every door.',age:62,memory:[]},
+  D:{name:'D',emoji:'🎴',bg:'#120808',role:'Oldest connection from the old world.',loyalty:88,basis:'OLD BOND',disposition:'PATIENT',tags:['OLD WORLD','KNOWS EVERYTHING'],notes:'The call is coming.',age:31,memory:[]},
+};
+
+const OPENINGS={
+  genuine:{loc:'SILVER SPRING, MD',title:'Tuesday. 6:47 AM.',body:'<p>Alarm didn\'t go off. Already awake.</p><p>$12,000. $47K in the Brotherhood. TS clearance. Raymond Kofi\'s name on the screen.</p>',char:'raymond',speech:'You still sleeping? I have something. Not for the phone. Ethiopian spot on Georgia Ave. Seven-thirty. Come alone.',sub:'Already there. Restaurant sounds behind his voice.',choices:[{type:'CLEAN',text:'Go. Raymond doesn\'t call early unless it\'s real.'},{type:'GRAY',text:'Go — pull Freetown port data first.'},{type:'DARK',text:'Have someone watch Raymond before showing up.'}],intel:'Lebanese merchants have dominated West African port logistics since the 1800s. The Khalil Group represents this at its most sophisticated — $2-4B annual throughput, politically embedded, multi-generational.'},
+  inheritance:{loc:"ATTORNEY'S OFFICE",title:'The Reading of the Will.',body:'<p>$340,000 in a trust nobody mentioned. Three Salone properties. A 15% stake in Freetown logistics. Seven names — one in the Ministry of Trade.</p><p>Two debts. One financial. One something else.</p>',char:'raymond',speech:'The properties are his. The relationships are not. He earns those himself.',sub:'Named voluntary advisor. Twenty years with the uncle.',choices:[{type:'CLEAN',text:'Meet Raymond first.'},{type:'GRAY',text:'Contact the Ministry name directly.'},{type:'DARK',text:'Find the second debt before anyone knows.'}],intel:'Inherited frontier market assets carry undisclosed liabilities — land disputes, political obligations, informal debts that surface when you move.'},
+  employee:{loc:'TYSONS CORNER, VA',title:'Thursday. The Walkthrough.',body:'<p>Taking notes means invisible. Client CIO mentions a West Africa logistics play off-books. Needs someone who understands cleared environments and ground reality.</p><p>Kutor writes nothing down.</p>',char:'raymond',speech:'Heard about an auditor at EY. Sierra Leonean name. Active clearance. That combination doesn\'t come around. Breakfast?',sub:'Unknown how Raymond heard. First thing to find out.',choices:[{type:'CLEAN',text:'Go. Find out how he knows before saying anything.'},{type:'GRAY',text:'Research Raymond first.'},{type:'DARK',text:'Look into the CIO\'s mention before meeting anyone.'}],intel:'TS clearance plus GRC certifications commands $90K-$130K+ in the DMV federal market at Booz Allen, Leidos, Deloitte Federal.'},
+  return:{loc:'DULLES INTERNATIONAL',title:'Back On American Ground.',body:'<p>Three weeks in Salone. Khalil mapped. The Ministry official who met the Chinese twice with no announcement. Aminata Jalloh\'s number in his phone.</p><p>Raymond\'s missed call waiting.</p>',char:'raymond',speech:'You just landed. I know. Come before you unpack. Something moved while you were gone.',sub:'Knew his flight. Been tracking something.',choices:[{type:'CLEAN',text:'Straight to Raymond.'},{type:'GRAY',text:'Call Aminata first.'},{type:'DARK',text:'Find out who told Raymond his flight details.'}],intel:'AfCFTA creates the world\'s largest free trade area by country count. Internal African trade projected +50% this decade.'},
+  operators_son:{loc:'PRIVATE DINING — D.C.',title:'The Introduction.',body:'<p>Nine words: "This is my son. He\'s ready to listen." Father says nothing else for forty minutes.</p><p>Four men. A logistics deal. A Ministry name. Kutor is being evaluated in real time.</p>',char:'father',speech:'Don\'t speak unless you have something worth saying. Don\'t ask questions that show you haven\'t been listening.',sub:'Almost kind. The men at the table are listening.',choices:[{type:'CLEAN',text:'Stay silent. Map every person and subtext.'},{type:'GRAY',text:'Ask one precise question that shows understanding.'},{type:'DARK',text:'After dinner, have one of the three men looked into.'}],intel:'In West African business culture, the introduction — who brings you in and how — carries disproportionate weight. Borrowed credibility must convert quickly.'},
+  from_bottom:{loc:'SOUTHEAST D.C.',title:'The Space Between.',body:'<p>Three years out. $34K legitimate. $22K unexplainable. IT certificate that led to a clearance Kutor sat through with a specific kind of patience.</p><p>D called last week. Said he heard Kutor was doing well. Kutor knows what that means.</p>',char:'D',speech:'I\'m not calling to pull you back. Somebody\'s asking about you. In the right places.',sub:'D has never lied. Never called without a reason that revealed itself later.',choices:[{type:'CLEAN',text:'Go meet Raymond through the legitimate channel.'},{type:'GRAY',text:'Find out who\'s asking through D\'s network first.'},{type:'DARK',text:'Contact D directly. Old world knowing his movements is a threat.'}],intel:'The transition from informal to formal economic participation is navigated by far more people than official statistics reflect.'},
+};
+
+// ── FACTION COLORS ──
+const FC={player:'#c8922a',khalil:'#c44444',chen:'#3a7aaa',cardinal:'#cc4444',peninsula:'#4a9a6a',zanele:'#aa6633',koroma:'#7a4a9a',offshore:'#3399aa',frontier:'#aa3399',irongate:'#888888',dmv_circle:'#9a7a4a',atlas:'#4a7a5a',meridian:'#5a4a9a',harrow:'#7a6a3a',syndicate:'#e88a3a',baobab:'#6a9a4a',coastal:'#3a7a7a',nova_tech:'#3a6a9a',sunstone:'#9a7a3a',trinco:'#4a8a6a',greenfield:'#5a8a3a',neutral:'#2a2a2a'};
+const FILLS={player:'#2a1a06',khalil:'#2a0808',chen:'#081828',cardinal:'#200808',peninsula:'#082018',zanele:'#1a1008',koroma:'#140a1a',offshore:'#081a1a',frontier:'#1a0818',irongate:'#141414',dmv_circle:'#141008',atlas:'#0a1408',meridian:'#100a1a',harrow:'#141008',syndicate:'#1a1208',baobab:'#0a1408',coastal:'#081a1a',nova_tech:'#080c1a',sunstone:'#1a1208',trinco:'#0a1410',greenfield:'#0a1408',neutral:'#141414'};
+
+// ── STATE ──
+let G={
+  screen:'title',apiKey:'',el_key:'',
+  coName:'',origin:null,session:1,phase:'FOUNDATION',loc:'DMV',age:29,
+  clean:12000,dirty:0,
+  M:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70,community:0},
+  contacts:{},zones:{},
+  bizOwned:[],bizMerged:[],
+  brothFund:47000,
+  team:[],txns:[],
+  govOwned:[],commInvested:[],commData:{},
+  family:{partner:null,children:[],heirId:null,landOwned:false,trust:false},
+  thUnlocked:['salone','dmv','trinidade'],
+  msgs:[],narrativeHTML:'',choices:[],error:null,
+  tab:'narrative',lightMode:false,rate:1.0,
+  past:null,loading:false,modal:null,notif:null,selOrigin:null,
+  revH:[0,0,0,0,0,0,0,0],infH:[10,10,10,10,10,10,10,10]
+};
+
+function save(){try{localStorage.setItem('bishop_v12',JSON.stringify({...G,loading:false,modal:null,notif:null,apiKey:'',el_key:''}));}catch(e){}}
+function loadSaved(){try{const s=localStorage.getItem('bishop_v12');return s?JSON.parse(s):null;}catch(e){return null;}}
+
+// ── AUDIO ──
+const A={
+  on:false,elKey:'',speaking:false,sy:window.speechSynthesis,
+  async speak(text,cn){
+    if(!this.on)return;this.stop();this.speaking=true;this.upd();
+    if(this.elKey){try{await this.el(text);return;}catch(e){}}
+    if(!this.sy){this.speaking=false;this.upd();return;}
+    const u=new SpeechSynthesisUtterance(text);
+    const vs=this.sy.getVoices();
+    u.voice=vs.find(v=>v.name.includes('Samantha')||v.name.includes('Karen')||(v.lang.includes('en-GB')&&v.name.toLowerCase().includes('female')))||vs.find(v=>v.lang.includes('en-GB'))||vs.find(v=>v.lang.includes('en'))||vs[0];
+    u.rate=G.rate||1.0;u.pitch=cn==='The Patriarch'?0.75:cn==='D'?0.85:1.0;u.volume=0.92;
+    u.onend=()=>{this.speaking=false;this.upd();};u.onerror=()=>{this.speaking=false;this.upd();};
+    this.sy.speak(u);
+  },
+  async el(text){
+    const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',{method:'POST',headers:{'xi-api-key':this.elKey,'Content-Type':'application/json'},body:JSON.stringify({text,model_id:'eleven_monolingual_v1',voice_settings:{stability:.5,similarity_boost:.8}})});
+    if(!r.ok)throw new Error('EL failed');
+    const blob=await r.blob();const url=URL.createObjectURL(blob);
+    const audio=new Audio(url);audio.onended=()=>{this.speaking=false;this.upd();URL.revokeObjectURL(url);};audio.onerror=()=>{this.speaking=false;this.upd();};
+    await audio.play();
+  },
+  stop(){this.sy&&this.sy.cancel();this.speaking=false;this.upd();},
+  tog(){this.on=!this.on;if(!this.on)this.stop();render();},
+  upd(){document.querySelectorAll('.speaking').forEach(el=>el.classList.toggle('on',this.speaking));}
+};
+if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
+
+// ── HELPERS ──
+function totalMonthly(){
+  return G.bizOwned.reduce((s,id)=>{const b=BIZ.find(x=>x.id===id);return s+(b?b.rev:0);},0)
+    +Object.entries(G.commData).reduce((s,[id,d])=>{const c=COMM.find(x=>x.id===id);return s+(c&&d.invested?c.mrev:0);},0);
+}
+function govInfTotal(){return G.govOwned.reduce((s,id)=>{const o=GOV.find(x=>x.id===id);return s+(o?o.inf:0);},0);}
+function commLoyTotal(){return Object.values(G.commData).reduce((s,d)=>s+(d.loyalty||0),0);}
+
+// ── RENDER ──
+function render(){
+  document.body.classList.toggle('light',G.lightMode);
+  const root=document.getElementById('root');
+  if(G.screen==='title')root.innerHTML=rTitle();
+  else if(G.screen==='setup')root.innerHTML=rSetup();
+  else if(G.screen==='company')root.innerHTML=rCompany();
+  else if(G.screen==='origin')root.innerHTML=rOrigin();
+  else if(G.screen==='game')root.innerHTML=rGame();
+  if(G.loading)root.innerHTML+=`<div class="loading"><div class="ld-txt">The board is moving</div><div style="display:flex;gap:6px;"><div class="ldd"></div><div class="ldd"></div><div class="ldd"></div></div></div>`;
+  if(G.modal)root.innerHTML+=rModal(G.modal);
+  if(G.notif)root.innerHTML+=`<div class="notif"><div class="nt">${G.notif.t}</div><div class="nb">${G.notif.b}</div></div>`;
+  attach();
+  if(G.screen==='game')scrollN();
+}
+
+function rTitle(){
+  const sv=loadSaved();
+  return `<div class="scr on"><div class="title-bg" style="position:relative;">
+    <button class="theme-btn" onclick="G.lightMode=!G.lightMode;render()">${G.lightMode?'DARK':'LIGHT'}</button>
+    <div class="t-eye">A Life Strategy Simulation</div>
+    <div class="t-main">THE<br>BISHOP</div>
+    <div class="t-sub">Move diagonally. See everything. Own the board.</div>
+    <div class="t-quote">"The quiet ones are the dangerous ones — not because they hide what they are, but because they already know what you are."</div>
+    <div class="t-btns">
+      <button class="btn-g" onclick="G.screen='setup';render()">BEGIN</button>
+      ${sv&&sv.session>1?`<button class="btn-o" onclick="resumeAuto()">RESUME — SESSION ${String(sv.session).padStart(2,'0')}</button>`:''}
+      <button class="btn-o" onclick="showLoad()">LOAD</button>
+    </div>
+  </div></div>`;
+}
+
+function rSetup(){
+  return `<div class="scr on"><div class="setup-bg">
+    <div style="text-align:center;margin-bottom:22px;">
+      <div class="t-eye" style="margin-bottom:9px;">Before You Begin</div>
+      <div style="font-size:clamp(26px,7vw,52px);font-weight:300;color:var(--t0);line-height:.9;margin-bottom:8px;">API KEY<br>REQUIRED</div>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">ANTHROPIC KEY — REQUIRED</div>
+      <div class="setup-txt">Powers the AI. Free at <span style="color:var(--gold);">console.anthropic.com</span></div>
+      <input id="ak" type="password" class="api-inp" placeholder="sk-ant-api03-..." onkeypress="if(event.key==='Enter')doKey()">
+      <div id="ak-err" class="key-err"></div>
+    </div>
+    <div class="setup-card" style="border-left-color:var(--b1);">
+      <div class="setup-label">ELEVENLABS KEY — OPTIONAL</div>
+      <input id="el" type="password" class="api-inp" placeholder="Leave blank to skip...">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn-g" onclick="doKey()">CONTINUE</button>
+      <button class="btn-o" onclick="G.screen='title';render()">← BACK</button>
+    </div>
+  </div></div>`;
+}
+
+function doKey(){
+  const ak=document.getElementById('ak'),el=document.getElementById('el'),err=document.getElementById('ak-err');
+  if(!ak)return;const v=ak.value.trim();
+  if(!v){err.textContent='Please paste your Anthropic API key.';err.style.display='block';return;}
+  if(!v.startsWith('sk-ant-')){err.textContent='Invalid format. Should start with sk-ant-';err.style.display='block';return;}
+  G.apiKey=v;
+  if(el&&el.value.trim()){G.el_key=el.value.trim();A.elKey=G.el_key;}
+  G.screen='company';render();
+}
+
+function rCompany(){
+  return `<div class="scr on"><div class="setup-bg">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div class="t-eye" style="margin-bottom:10px;">Name Your Empire</div>
+      <div style="font-size:clamp(22px,6vw,44px);font-weight:300;color:var(--t0);line-height:.92;margin-bottom:8px;">YOUR<br>HOLDING<br>COMPANY</div>
+      <div style="font-style:italic;font-size:13px;color:var(--t3);margin-top:10px;max-width:380px;">The umbrella under which everything you build will sit. Named after your family, a concept, a place — whatever reflects what you're building.</div>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">HOLDING COMPANY NAME</div>
+      <input id="co" class="co-inp" type="text" placeholder="e.g. Kutor Holdings LLC" maxlength="50" onkeypress="if(event.key==='Enter')doCompany()">
+      <div style="font-size:11px;color:var(--t3);margin-top:4px;">This will appear throughout the game. Everything you acquire goes under this name.</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn-g" onclick="doCompany()">FOUND THE COMPANY</button>
+      <button class="btn-o" onclick="G.screen='setup';render()">← BACK</button>
+    </div>
+  </div></div>`;
+}
+
+function doCompany(){
+  const inp=document.getElementById('co');
+  G.coName=inp&&inp.value.trim()?inp.value.trim():'Kutor Holdings LLC';
+  G.screen='origin';render();
+}
+
+function rOrigin(){
+  const cards=ORIGINS.map(o=>`
+    <div class="oc ${G.selOrigin===o.id?'sel':''}" onclick="G.selOrigin='${o.id}';render()">
+      <div class="diff-tag ${o.diff==='HIGH'?'dh':'dm'}">${o.diff}</div>
+      <div class="oc-num">ORIGIN / ${o.num}</div>
+      <div class="oc-icon">${o.icon}</div>
+      <div class="oc-name">${o.name}</div>
+      <div class="oc-tag">${o.tag}</div>
+      <div class="oc-desc">${o.desc}</div>
+      <div class="oc-pills">${o.pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>
+    </div>`).join('');
+  return `<div class="scr on"><div style="max-width:1080px;margin:0 auto;padding:36px 18px 60px;">
+    <div style="margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--b1);"><div style="font-size:clamp(22px,4.5vw,34px);font-weight:300;color:var(--t0);margin-bottom:5px;">Who are you when<br>no one is watching?</div><div style="font-style:italic;color:var(--t3);font-size:13px;">Your origin sets your starting position. Not your ceiling.</div></div>
+    <div class="og">${cards}</div>
+    <div style="display:flex;gap:10px;padding:8px 0 40px;">
+      <button class="btn-g" onclick="startGame()" ${!G.selOrigin?'disabled style="opacity:.4;"':''}>ENTER THE BOARD</button>
+      <button class="btn-o" onclick="G.screen='company';render()">← BACK</button>
+    </div>
+  </div></div>`;
+}
+
+function rGame(){
+  const orig=ORIGINS.find(o=>o.id===G.origin);
+  const ctcs=Object.entries(G.contacts).map(([id,c])=>{
+    const dot=c.loyalty>=75?'dg':c.loyalty>=50?'dy':'dr';
+    return `<div class="ci" onclick="viewCtc('${id}')"><div class="ca" style="background:${c.bg};">${c.emoji}</div><div style="flex:1;min-width:0;"><div class="cn">${c.name}</div><div class="cr">${c.basis}</div></div><div class="cdot ${dot}"></div></div>`;
+  }).join('');
+  const choices=G.choices.map((c,i)=>{
+    const tc=c.type==='CLEAN'?'tc':c.type==='GRAY'?'tg':'td';
+    const st=c.text.replace(/'/g,"\\'");
+    return `<button class="cbtn" onclick="move('[${c.type}] ${st}')"><div class="cnum">0${i+1}</div><div class="ctxt">${c.text}</div><div class="ctag ${tc}">${c.type}</div></button>`;
+  }).join('');
+  const mon=totalMonthly();
+  const co=G.coName||'Kutor Holdings';
+  return `<div class="scr on"><div class="game-wrap">
+    <div class="topbar">
+      <div style="display:flex;flex-direction:column;gap:2px;"><div class="brand">THE BISHOP — MR. KUTOR</div><div class="co-badge">${co.toUpperCase().substring(0,22)}</div></div>
+      <div class="topstats">
+        <div><span class="ts-lbl">LIQUID</span><span class="ts-val">$${(G.clean+G.dirty).toLocaleString()}</span></div>
+        <div><span class="ts-lbl">MONTHLY</span><span class="ts-val">$${mon.toLocaleString()}</span></div>
+        <div><span class="ts-lbl">AGE</span><span class="ts-val">${G.age}</span></div>
+        <div><span class="ts-lbl">SESSION</span><span class="ts-val">${String(G.session).padStart(2,'0')}</span></div>
+        <div><span class="ts-lbl">PHASE</span><span class="ts-val">${G.phase}</span></div>
+      </div>
+      <div class="topacts">
+        <button class="btn-o" onclick="showSave()">SAVE</button>
+        <button class="btn-o" onclick="G.lightMode=!G.lightMode;render()">${G.lightMode?'🌙':'☀️'}</button>
+        <button class="btn-o" onclick="doRestart()">RESTART</button>
+        <button class="btn-o" onclick="G.screen='title';render()">EXIT</button>
+      </div>
+    </div>
+    <div class="audio-bar">
+      <div class="audio-lbl">AUDIO</div>
+      <button class="atog ${A.on?'on':''}" onclick="A.tog()">${A.on?'🔊 ON':'🔇 OFF'}</button>
+      ${A.on?`<div class="speaking"><div class="sdot"></div><span style="font-family:Space Mono,monospace;font-size:7px;margin-left:4px;">SPEAKING</span></div>
+        <button class="atog" onclick="A.stop()" style="margin-left:5px;">STOP</button>
+        <div style="display:flex;align-items:center;gap:4px;margin-left:8px;"><span style="font-family:Space Mono,monospace;font-size:7px;color:var(--t3);">SPEED</span>
+          <button class="atog ${G.rate<=0.7?'on':''}" onclick="G.rate=0.65;render()" style="padding:2px 6px;">0.6x</button>
+          <button class="atog ${G.rate>0.7&&G.rate<=0.95?'on':''}" onclick="G.rate=0.85;render()" style="padding:2px 6px;">0.85x</button>
+          <button class="atog ${G.rate>0.95&&G.rate<=1.15?'on':''}" onclick="G.rate=1.0;render()" style="padding:2px 6px;">1x</button>
+          <button class="atog ${G.rate>1.15?'on':''}" onclick="G.rate=1.35;render()" style="padding:2px 6px;">1.35x</button>
+        </div>`:''}
+    </div>
+    <div class="game-tabs">
+      <button class="gtab ${G.tab==='narrative'?'on':''}" onclick="G.tab='narrative';render()">NARRATIVE</button>
+      <button class="gtab ${G.tab==='map'?'on':''}" onclick="G.tab='map';render()">MAP</button>
+      <button class="gtab ${G.tab==='market'?'on':''}" onclick="G.tab='market';render()">MARKET</button>
+      <button class="gtab ${G.tab==='acquire'?'on':''}" onclick="G.tab='acquire';render()">ACQUIRE${G.bizOwned.length?` <span style="color:var(--green);">${G.bizOwned.length}</span>`:''}</button>
+      <button class="gtab ${G.tab==='influence'?'on':''}" onclick="G.tab='influence';render()">INFLUENCE${G.govOwned.length?` <span style="color:var(--green);">${G.govOwned.length}</span>`:''}</button>
+      <button class="gtab ${G.tab==='community'?'on':''}" onclick="G.tab='community';render()">COMMUNITY</button>
+      <button class="gtab ${G.tab==='team'?'on':''}" onclick="G.tab='team';render()">TEAM</button>
+      <button class="gtab ${G.tab==='legacy'?'on':''}" onclick="G.tab='legacy';render()">LEGACY</button>
+      <button class="gtab ${G.tab==='intel'?'on':''}" onclick="G.tab='intel';render()">INTEL</button>
+    </div>
+    <div class="tab-pane ${G.tab==='narrative'?'on':''}">
+      <div class="game-layout">
+        <div class="status-col">
+          <div class="ps"><div class="pl">Mr. Kutor</div>
+            <div style="display:flex;align-items:center;gap:8px;"><div class="pav">${orig?orig.icon:'♟'}</div>
+              <div><div style="font-size:11px;color:var(--t0);">Mr. Kutor</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--gold3);margin-top:1px;">${G.phase}</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--t3);">AGE ${G.age}</div></div>
+            </div>
+          </div>
+          <div class="ps"><div class="pl">Capital</div>
+            <div class="cap-grid">
+              <div class="cap-box"><div class="cap-lbl">CLEAN</div><div class="cap-val">$${G.clean.toLocaleString()}</div></div>
+              <div class="cap-box"><div class="cap-lbl">DIRTY</div><div class="cap-val dirty">$${G.dirty.toLocaleString()}</div></div>
+            </div>
+            <div style="margin-top:4px;padding:4px 7px;background:var(--s2);border:1px solid var(--b1);">
+              <div class="cap-lbl">MONTHLY PASSIVE</div>
+              <div style="font-family:Space Mono,monospace;font-size:10px;color:var(--green);font-weight:700;">$${mon.toLocaleString()}</div>
+            </div>
+          </div>
+          <div class="ps"><div class="pl">Status</div>
+            ${mR('integrity','INTEG.','mgr')}${mR('street','STREET','mo')}${mR('inst','INST.','mb')}${mR('influence','INFLNC','mg')}${mR('exposure','EXPOS.','mrd')}${mR('loyalty','LOYALT','mgr')}${mR('community','COMMTY','mt2')}
+          </div>
+          <div class="ps"><div class="pl">Contacts</div>${ctcs}</div>
+          ${G.bizOwned.length?`<div class="ps"><div class="pl" style="color:var(--gold3);">BUSINESSES (${G.bizOwned.length})</div>${G.bizOwned.slice(0,4).map(id=>{const b=BIZ.find(x=>x.id===id);return b?`<div style="font-size:9px;color:var(--t2);padding:2px 0;border-bottom:1px solid var(--s3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.n}</div>`:''}).join('')}${G.bizOwned.length>4?`<div style="font-family:Space Mono,monospace;font-size:6px;color:var(--t3);padding-top:3px;">+${G.bizOwned.length-4} more</div>`:''}</div>`:''}
+          ${G.govOwned.length?`<div class="ps"><div class="pl" style="color:var(--gold3);">OFFICIALS (${G.govOwned.length})</div>${G.govOwned.slice(0,3).map(id=>{const o=GOV.find(x=>x.id===id);return o?`<div style="font-size:9px;color:var(--t2);padding:2px 0;">${o.e} ${o.n.split(' ').slice(-1)[0]}</div>`:''}).join('')}</div>`:''}
+        </div>
+        <div class="narr-col">
+          <div class="narrative" id="narrative">${G.narrativeHTML}</div>
+          <div class="input-area">
+            <div class="choice-row">${choices}</div>
+            <div class="free-row">
+              <input class="finput" id="finput" placeholder="Mr. Kutor's next move...">
+              <button class="movebtn" id="movebtn" onclick="sendFree()" ${G.loading?'disabled':''}>MOVE</button>
+            </div>
+            <div class="errmsg" id="errmsg" style="${G.error?'display:block':'display:none'}">${G.error||''}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane ${G.tab==='map'?'on':''}">${rMap()}</div>
+    <div class="tab-pane ${G.tab==='market'?'on':''}">${rMarket()}</div>
+    <div class="tab-pane ${G.tab==='acquire'?'on':''}">${rAcquire()}</div>
+    <div class="tab-pane ${G.tab==='influence'?'on':''}">${rInfluence()}</div>
+    <div class="tab-pane ${G.tab==='community'?'on':''}">${rCommunity()}</div>
+    <div class="tab-pane ${G.tab==='team'?'on':''}">${rTeam()}</div>
+    <div class="tab-pane ${G.tab==='legacy'?'on':''}">${rLegacy()}</div>
+    <div class="tab-pane ${G.tab==='intel'?'on':''}">${rIntel()}</div>
+  </div></div>`;
+}
+function mR(k,l,c){const v=G.M[k]||0;return `<div class="mr"><div class="mn">${l}</div><div class="mt"><div class="mf ${c}" style="width:${v}%"></div></div><div class="mv">${v}</div></div>`;}
+// ── MAP ──
+function rMap(){
+  const active=Object.entries(TH).filter(([tid])=>G.thUnlocked.includes(tid));
+  const locked=Object.entries(TH).filter(([tid])=>!G.thUnlocked.includes(tid));
+  const maps=active.map(([tid,th])=>{
+    const svg=buildSVG(th,tid);
+    const zones=th.zones.map(z=>{
+      const ctrl=G.zones[z.id]||z.ctrl;
+      const fac=F[ctrl]||F.player;
+      return `<div class="zrow" onclick="openZone('${z.id}','${tid}')">
+        <div class="zname">${z.n}</div>
+        <div style="font-family:Space Mono,monospace;font-size:7px;color:${FC[ctrl]||'#aaa'};">${ctrl==='player'?'KUTOR':fac.short}</div>
+        <div style="font-family:Space Mono,monospace;font-size:7px;color:var(--t3);">${z.rev>0?'$'+(z.rev/1000000).toFixed(1)+'M':'—'}</div>
+      </div>`;
+    }).join('');
+    return `<div class="theater-card"><div class="theater-hdr"><div class="th-name">${th.f} ${th.n}</div><div class="th-sub">${th.sub}</div></div><div class="svg-wrap">${svg}</div><div class="zone-list">${zones}</div></div>`;
+  }).join('');
+  const lockCards=locked.map(([tid,th])=>`
+    <div class="lock-card" onclick="doUnlock('${tid}')">
+      <div class="theater-hdr"><div class="th-name">${th.f} ${th.n}</div><div class="th-sub">${th.sub}</div></div>
+      <div style="padding:16px;text-align:center;background:var(--s2);">
+        <div style="font-family:Space Mono,monospace;font-size:9px;color:var(--t3);">EXPAND HERE — $${(th.cost/1000).toFixed(0)}K</div>
+        <button class="btn-o" style="margin-top:8px;font-size:8px;">UNLOCK THEATER</button>
+      </div>
+    </div>`).join('');
+  const leg=[{c:'#c8922a',l:'YOU'},{c:'#c44444',l:'KHALIL'},{c:'#3a7aaa',l:'CHEN'},{c:'#cc4444',l:'CARDINAL'},{c:'#4a9a6a',l:'PENINSULA'},{c:'#333',l:'NEUTRAL'}];
+  return `<div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+      <div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.26em;color:var(--gold3);">WORLD MAP — ${Object.keys(TH).length} THEATERS (${G.thUnlocked.length} ACTIVE)</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">${leg.map(l=>`<div style="display:flex;align-items:center;gap:4px;font-family:Space Mono,monospace;font-size:6px;color:var(--t2);"><div style="width:7px;height:7px;border-radius:50%;background:${l.c};"></div>${l.l}</div>`).join('')}</div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">${maps}</div>
+    ${locked.length?`<div style="margin-top:14px;"><div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.24em;color:var(--t3);margin-bottom:10px;">LOCKED THEATERS</div><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));">${lockCards}</div></div>`:''}
+  </div>`;
+}
+function buildSVG(th,tid){
+  const rects=th.zones.map(z=>{
+    const ctrl=G.zones[z.id]||z.ctrl;
+    return `<g onclick="openZone('${z.id}','${tid}')" style="cursor:pointer;">
+      <rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="${FILLS[ctrl]||'#141414'}" stroke="${FC[ctrl]||'#2a2a2a'}" stroke-width="1.2" rx="3"/>
+      <text x="${z.x+z.w/2}" y="${z.y+z.h/2-3}" fill="${FC[ctrl]||'#888'}" font-size="7.5" text-anchor="middle" dominant-baseline="middle" font-weight="bold" font-family="monospace">${z.lbl}</text>
+      ${z.rev>0?`<text x="${z.x+z.w/2}" y="${z.y+z.h/2+8}" fill="${FC[ctrl]||'#888'}" font-size="5.5" text-anchor="middle" font-family="monospace" opacity=".8">$${(z.rev/1000000).toFixed(1)}M</text>`:''}
+    </g>`;
+  }).join('');
+  return `<svg viewBox="0 0 400 175" style="position:absolute;top:0;left:0;width:100%;height:100%;background:var(--s2);">${rects}</svg>`;
+}
+function openZone(zid,tid){
+  const th=TH[tid];if(!th)return;const z=th.zones.find(v=>v.id===zid);if(!z)return;
+  const ctrl=G.zones[zid]||z.ctrl;const fac=F[ctrl]||{n:'Unknown',color:'#666'};const isP=ctrl==='player';
+  const bizHere=BIZ.filter(b=>b.th===tid&&G.bizOwned.includes(b.id));
+  G.modal={pre:tid.toUpperCase()+' — ZONE',title:z.n,body:`
+    <p><strong>Controller:</strong> <span style="color:${FC[ctrl]||'#aaa'};">${fac.n||ctrl}</span></p>
+    <p><strong>Monthly:</strong> $${z.rev.toLocaleString()} | <strong>Annual:</strong> $${(z.rev*12).toLocaleString()}</p>
+    ${fac.desc?`<p style="font-style:italic;color:var(--t3);margin-top:6px;">${fac.desc}</p>`:''}
+    ${bizHere.length?`<p style="color:var(--gold);margin-top:6px;">✓ ${bizHere.length} business(es) owned here</p>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      ${isP?`<p style="color:var(--green);">✓ Kutor controls this zone.</p>`:`
+        <button class="btn-g" style="font-size:8px;padding:8px 14px;" onclick="G.modal=null;G.tab='narrative';move('[CLEAN] I want to establish presence in ${z.n.replace(/'/g,"\\'")} — what is the legitimate path in?')">MOVE ON ZONE</button>
+        <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('[DARK] Disrupt ${(fac.n||'').replace(/'/g,"\\'")} control of ${z.n.replace(/'/g,"\\'")}.')">DISRUPT</button>`}
+    </div>`};render();
+}
+function doUnlock(tid){
+  const th=TH[tid];if(!th)return;
+  if(G.clean<th.cost){notif('Insufficient','Need $'+(th.cost/1000).toFixed(0)+'K clean capital.');return;}
+  G.clean-=th.cost;G.thUnlocked.push(tid);
+  G.txns.push({desc:'Theater: '+th.n,amt:-th.cost,sess:G.session});
+  G.modal=null;notif('Expanded',th.f+' '+th.n+' unlocked');save();render();
+  setTimeout(()=>{G.tab='narrative';move('[CLEAN] I just expanded into '+th.n+'. Who is already there and what do I need to know immediately?');},500);
+}
+
+// ── MARKET ──
+function rMarket(){
+  const secs=[...new Set(BIZ.map(b=>b.sec))];
+  const co=G.coName||'Your Holding Company';
+  const secCards=secs.map(sec=>{
+    const bizIn=BIZ.filter(b=>b.sec===sec);
+    const total=bizIn.reduce((s,b)=>s+b.rev,0);
+    if(!total)return'';
+    const shares={};
+    bizIn.forEach(b=>{const ow=G.bizOwned.includes(b.id)?'player':b.own;shares[ow]=(shares[ow]||0)+b.rev;});
+    const sorted=Object.entries(shares).sort((a,b)=>b[1]-a[1]);
+    const myShare=shares['player']||0;
+    const myPct=total>0?Math.round((myShare/total)*100):0;
+    const bars=sorted.slice(0,7).map(([fid,rev])=>{
+      const fac=F[fid]||{n:fid,short:fid,color:'#aaa'};
+      const pct=Math.round((rev/total)*100);
+      return `<div class="mbar-row">
+        <div class="mbar-lbl" style="color:${FC[fid]||'#aaa'};">${fid==='player'?co.split(' ')[0].substring(0,8).toUpperCase():fac.short}</div>
+        <div class="mbar-track"><div class="mbar-fill" style="width:${pct}%;background:${FC[fid]||'#aaa'};"></div></div>
+        <div class="mbar-pct">${pct}%</div>
+        <div style="font-family:Space Mono,monospace;font-size:6px;color:var(--t3);width:36px;text-align:right;flex-shrink:0;">$${(rev/1000000).toFixed(1)}M</div>
+      </div>`;
+    }).join('');
+    return `<div class="chart-card">
+      <div class="chart-title">${sec}</div>
+      ${myPct>0?`<div style="font-family:Space Mono,monospace;font-size:8px;color:var(--green);margin-bottom:6px;">YOUR SHARE: ${myPct}% — $${(myShare/1000000).toFixed(1)}M/yr</div>`:''}
+      ${bars}
+    </div>`;
+  }).join('');
+
+  // Corporate tree
+  const bizOwnedData=G.bizOwned.map(id=>BIZ.find(b=>b.id===id)).filter(Boolean);
+  const bySec={};bizOwnedData.forEach(b=>{if(!bySec[b.sec])bySec[b.sec]=[];bySec[b.sec].push(b);});
+  const totalM=G.bizOwned.reduce((s,id)=>{const b=BIZ.find(x=>x.id===id);return s+(b?b.rev:0);},0);
+  const treeHTML=G.bizOwned.length
+    ?`<div class="tree-node tree-root">
+        <div class="tn-hdr"><div style="font-size:20px;">🏛️</div><div class="tn-name">${co}</div><div class="tn-rev">$${totalM.toLocaleString()}/mo</div></div>
+        <div class="tn-meta">HOLDING COMPANY — ${G.bizOwned.length} SUBSIDIARIES — ${Object.keys(bySec).length} SECTORS</div>
+      </div>`
+      +Object.entries(bySec).map(([sec,bs])=>`
+      <div class="tree-node tree-sector">
+        <div class="tn-hdr"><div style="font-size:14px;">📁</div><div class="tn-name">${sec} DIVISION</div><div class="tn-rev">$${bs.reduce((s,b)=>s+b.rev,0).toLocaleString()}/mo</div></div>
+        <div class="tn-meta">${bs.length} SUBSIDIARY${bs.length!==1?'S':''}</div>
+      </div>`+bs.map(b=>`
+      <div class="tree-node tree-biz" onclick="openBizModal('${b.id}')">
+        <div class="tn-hdr"><div style="font-size:12px;">🏢</div><div class="tn-name">${b.n}</div><div class="tn-rev">$${b.rev.toLocaleString()}/mo</div></div>
+        <div class="tn-meta">${b.th.toUpperCase()} — <span class="tier-badge tier-${b.tier}">${b.tier==='M'?'MAJOR':b.tier==='I'?'MID':'SMALL'}</span></div>
+      </div>`).join('')).join('')
+    :`<div style="font-style:italic;color:var(--t3);font-size:13px;padding:10px 0;">No businesses acquired yet. Visit the ACQUIRE tab.</div>`;
+
+  return `<div class="wrap">
+    <div style="margin-bottom:18px;">
+      <div class="sec-title">MARKET SHARE BY SECTOR</div>
+      <div class="charts-grid">${secCards}</div>
+    </div>
+    <div>
+      <div class="sec-title">CORPORATE TREE — ${co.toUpperCase()}</div>
+      ${treeHTML}
+    </div>
+  </div>`;
+}
+
+// ── ACQUIRE ──
+function rAcquire(){
+  const secs=[...new Set(BIZ.map(b=>b.sec))];
+  const totalM=G.bizOwned.reduce((s,id)=>{const b=BIZ.find(x=>x.id===id);return s+(b?b.rev:0);},0);
+  const sections=secs.map(sec=>{
+    const bizIn=BIZ.filter(b=>b.sec===sec);
+    const cards=bizIn.filter(b=>!G.bizMerged.some(m=>m.from===b.id)).map(b=>{
+      const owned=G.bizOwned.includes(b.id);
+      const fac=F[b.own]||{n:b.own,color:'#aaa',short:b.own};
+      const owColor=owned?'var(--gold)':FC[b.own]||'#aaa';
+      const tcls=b.tier==='M'?'tier-M':b.tier==='I'?'tier-I':'tier-S';
+      return `<div class="card ${owned?'player-biz':''}" onclick="openAcq('${b.id}')">
+        <div class="card-hdr">
+          <div><div class="card-name">${b.n}</div><div class="card-sub">${b.th.toUpperCase()} — ${sec}</div></div>
+          <div class="badge" style="color:${owColor};border-color:${owColor};">${owned?'OWNED':fac.short}</div>
+        </div>
+        <div class="tier-badge ${tcls}" style="margin-bottom:5px;">${b.tier==='M'?'MAJOR':b.tier==='I'?'MID':'SMALL'}</div>
+        <div class="stats">
+          <div class="stat"><div class="stat-lbl">REV/MO</div><div class="stat-val">$${(b.rev/1000).toFixed(0)}K</div></div>
+          <div class="stat"><div class="stat-lbl">ACQ.COST</div><div class="stat-val">$${(b.cost/1000000).toFixed(1)}M</div></div>
+          <div class="stat"><div class="stat-lbl">ROI/YR</div><div class="stat-val">${((b.rev*12/b.cost)*100).toFixed(0)}%</div></div>
+        </div>
+        <div class="card-desc">${b.desc.substring(0,75)}${b.desc.length>75?'...':''}</div>
+      </div>`;
+    }).join('');
+    return `<div style="margin-bottom:16px;"><div class="sec-title">${sec}</div><div class="grid">${cards}</div></div>`;
+  }).join('');
+  return `<div class="wrap">
+    <div class="info-bar"><strong style="color:var(--t1);">How acquisitions work:</strong> Buy outright with clean or dirty capital. Negotiate a silent partner stake (less capital, less control). Stage a hostile takeover (force out owners below market price). Merge two businesses you own to consolidate market share. SMALL businesses are entry points. MAJOR businesses require capital and relationships.</div>
+    <div class="stat-row">
+      <div class="cap-box"><div class="cap-lbl">OWNED</div><div class="cap-val">${G.bizOwned.length}</div></div>
+      <div class="cap-box"><div class="cap-lbl">MONTHLY</div><div class="cap-val" style="color:var(--green);">$${(totalM/1000).toFixed(0)}K</div></div>
+      <div class="cap-box"><div class="cap-lbl">ANNUAL</div><div class="cap-val" style="color:var(--green);">$${(totalM*12/1000000).toFixed(1)}M</div></div>
+      <div class="cap-box"><div class="cap-lbl">MERGERS</div><div class="cap-val">${G.bizMerged.length}</div></div>
+    </div>
+    ${sections}
+  </div>`;
+}
+function openAcq(id){
+  const b=BIZ.find(x=>x.id===id);if(!b)return;
+  const owned=G.bizOwned.includes(id);
+  const fac=F[b.own]||{n:b.own,color:'#aaa'};
+  const canC=G.clean>=b.cost,canD=G.dirty>=b.cost;
+  const secPeers=G.bizOwned.filter(oid=>{const ob=BIZ.find(x=>x.id===oid);return ob&&ob.sec===b.sec&&oid!==id;});
+  let acts='';
+  if(owned){
+    acts=`<p style="color:var(--green);margin-top:10px;">✓ Part of your empire. Monthly: $${b.rev.toLocaleString()}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Expand ${b.n.replace(/'/g,"\\'")} — grow capacity and market share.')">EXPAND</button>
+      ${secPeers.length?`<button class="btn-o" style="font-size:8px;" onclick="openMerge('${id}')">MERGE WITH ANOTHER</button>`:''}
+      <button class="btn-r" style="font-size:8px;" onclick="sellBiz('${id}')">SELL / EXIT</button>
+    </div>`;
+  }else{
+    acts=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      ${canC?`<button class="btn-g" style="font-size:8px;padding:9px 14px;" onclick="doBuy('${id}','clean')">BUY CLEAN ($${(b.cost/1000000).toFixed(1)}M)</button>`:''}
+      ${canD?`<button class="btn-o" style="font-size:8px;" onclick="doBuy('${id}','dirty')">BUY DIRTY</button>`:''}
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('[GRAY] I want a silent partner stake in ${b.n.replace(/'/g,"\\'")} — minimal capital, equity position.')">SILENT PARTNER</button>
+      <button class="btn-o" style="font-size:8px;color:var(--red);border-color:var(--red2);" onclick="G.modal=null;G.tab='narrative';move('[DARK] Hostile takeover of ${b.n.replace(/'/g,"\\'")} — force out ${(fac.n||'').replace(/'/g,"\\'")} below market.')">HOSTILE TAKEOVER</button>
+    </div>
+    ${!canC&&!canD?`<p style="color:var(--red);margin-top:8px;">Need $${((b.cost-(G.clean+G.dirty))/1000000).toFixed(1)}M more capital for outright acquisition.</p>`:''}`;
+  }
+  G.modal={pre:'ACQUIRE — '+b.sec,title:b.n,body:`
+    <p><strong>Owner:</strong> <span style="color:${FC[b.own]||'#aaa'};">${fac.n||b.own}</span> (${b.tier==='M'?'MAJOR':b.tier==='I'?'MID':'SMALL'})</p>
+    <p><strong>Theater:</strong> ${b.th.toUpperCase()} | <strong>Monthly:</strong> $${b.rev.toLocaleString()} | <strong>Cost:</strong> $${b.cost.toLocaleString()}</p>
+    <p><strong>ROI/yr:</strong> ${((b.rev*12/b.cost)*100).toFixed(0)}%</p>
+    <p style="margin-top:8px;">${b.desc}</p>${acts}`};render();
+}
+function doBuy(id,capType){
+  const b=BIZ.find(x=>x.id===id);if(!b)return;
+  if(capType==='clean'){if(G.clean<b.cost){notif('Insufficient','Need more clean capital.');return;}G.clean-=b.cost;}
+  else{if(G.dirty<b.cost){notif('Insufficient','Need more dirty capital.');return;}G.dirty-=b.cost;}
+  G.bizOwned.push(id);b.own='player';
+  G.txns.push({desc:'Acquired: '+b.n,amt:-b.cost,sess:G.session});
+  G.M.influence=Math.min(100,G.M.influence+2);
+  G.modal=null;notif('Acquired',b.n+' — $'+b.rev.toLocaleString()+'/mo');save();render();
+  setTimeout(()=>{G.tab='narrative';move('[CLEAN] I just acquired '+b.n+' for $'+b.cost.toLocaleString()+'. Walk through what this means and what moves next.');},500);
+}
+function openMerge(fromId){
+  const fb=BIZ.find(b=>b.id===fromId);if(!fb)return;
+  const eligible=G.bizOwned.filter(oid=>{const ob=BIZ.find(x=>x.id===oid);return ob&&ob.sec===fb.sec&&oid!==fromId;});
+  if(!eligible.length){G.modal=null;notif('No eligible businesses','Need another owned business in the same sector.');return;}
+  const opts=eligible.map(oid=>{const ob=BIZ.find(x=>x.id===oid);return ob?`<button class="btn-o" style="margin:4px;font-size:8px;" onclick="doMerge('${fromId}','${oid}')">Merge into ${ob.n.replace(/'/g,"\\'")} (+$${(fb.rev/1000).toFixed(0)}K/mo)</button>`:''}).join('');
+  G.modal={pre:'MERGER',title:'Merge '+fb.n,body:`<p>Consolidates operations, increases market share. The merged business disappears as separate entity — revenue folds into the surviving company at 85% retention.</p><div style="margin-top:12px;">${opts}</div>`};render();
+}
+function doMerge(fromId,intoId){
+  const fb=BIZ.find(b=>b.id===fromId),ib=BIZ.find(b=>b.id===intoId);if(!fb||!ib)return;
+  G.bizOwned=G.bizOwned.filter(id=>id!==fromId);
+  G.bizMerged.push({from:fromId,into:intoId,sess:G.session});
+  ib.rev+=Math.round(fb.rev*0.85);
+  G.modal=null;notif('Merged',fb.n+' → '+ib.n);save();render();
+  setTimeout(()=>{G.tab='narrative';move('[CLEAN] I just merged '+fb.n+' into '+ib.n+'. How does the market react and what does the combined operation look like?');},500);
+}
+function sellBiz(id){
+  const b=BIZ.find(x=>x.id===id);if(!b)return;
+  const sale=Math.round(b.cost*1.12);
+  G.bizOwned=G.bizOwned.filter(x=>x!==id);b.own='neutral';
+  G.clean+=sale;G.txns.push({desc:'Sold: '+b.n,amt:sale,sess:G.session});
+  G.modal=null;notif('Sold',b.n+' — $'+sale.toLocaleString());save();render();
+}
+function openBizModal(id){
+  const b=BIZ.find(x=>x.id===id);if(!b)return;
+  G.modal={pre:'SUBSIDIARY',title:b.n,body:`<p>${b.sec} — ${b.th.toUpperCase()}</p><p>Monthly: $${b.rev.toLocaleString()}</p><p>${b.desc}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Expand ${b.n.replace(/'/g,"\\'")} — grow capacity and market share.')">EXPAND</button>
+      <button class="btn-r" style="font-size:8px;" onclick="sellBiz('${id}')">SELL</button>
+    </div>`};render();
+}
+
+// ── INFLUENCE ──
+function rInfluence(){
+  const ths=['salone','dmv','trinidade'];
+  const totCost=G.govOwned.reduce((s,id)=>{const o=GOV.find(x=>x.id===id);return s+(o?o.maint:0);},0);
+  const secs=ths.map(t=>{
+    const offs=GOV.filter(o=>o.th===t);
+    const th=TH[t];
+    const cards=offs.map(o=>{
+      const owned=G.govOwned.includes(o.id);
+      const rC=o.risk==='EXTREME'?'var(--red)':o.risk==='HIGH'?'var(--orange)':o.risk==='MEDIUM'?'var(--gold)':'var(--green)';
+      return `<div class="card ${owned?'owned':''}" onclick="openGov('${o.id}')">
+        <div class="card-hdr">
+          <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:18px;">${o.e}</span><div><div class="card-name">${o.n}</div><div class="card-sub">${o.role}</div></div></div>
+          <div class="badge ${owned?'b-g':o.risk==='EXTREME'?'b-r':'b-y'}">${owned?'OWNED':o.tier}</div>
+        </div>
+        ${owned?`<div class="inf-bar-track"><div class="inf-bar-fill" style="width:${o.loy}%;"></div></div>`:''}
+        <div class="stats" style="margin-top:6px;">
+          <div class="stat"><div class="stat-lbl">COST</div><div class="stat-val">$${(o.cost/1000).toFixed(0)}K</div></div>
+          <div class="stat"><div class="stat-lbl">MAINT.</div><div class="stat-val">$${(o.maint/1000).toFixed(1)}K</div></div>
+          <div class="stat"><div class="stat-lbl">+INF.</div><div class="stat-val">${o.inf}</div></div>
+        </div>
+        <div class="card-desc">${o.benefit} | Risk: <span style="color:${rC};">${o.risk}</span></div>
+      </div>`;
+    }).join('');
+    return `<div style="margin-bottom:16px;"><div class="sec-title">${th?th.f+' '+th.n:t.toUpperCase()}</div><div class="grid">${cards}</div></div>`;
+  }).join('');
+  return `<div class="wrap">
+    <div class="info-bar"><strong style="color:var(--t1);">How this works:</strong> Establishing financial relationships with government officials gives you leverage — permits that move, competitors that get scrutinized, cases that disappear. Community loyalty provides cover when investigations approach.</div>
+    <div class="stat-row">
+      <div class="cap-box"><div class="cap-lbl">OFFICIALS</div><div class="cap-val">${G.govOwned.length}</div></div>
+      <div class="cap-box"><div class="cap-lbl">MONTHLY COST</div><div class="cap-val dirty">$${totCost.toLocaleString()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">GOV. INFLUENCE</div><div class="cap-val">${govInfTotal()}</div></div>
+    </div>
+    ${secs}
+  </div>`;
+}
+function openGov(id){
+  const o=GOV.find(x=>x.id===id);if(!o)return;
+  const owned=G.govOwned.includes(id);const canA=G.clean>=o.cost;
+  let acts='';
+  if(owned){
+    acts=`<p style="color:var(--green);margin-top:10px;">✓ In your network. Monthly: $${o.maint.toLocaleString()}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Use my relationship with ${o.n.replace(/'/g,"\\'")} — activate the specific mechanism for the current situation.')">USE RELATIONSHIP</button>
+      <button class="btn-r" style="font-size:8px;" onclick="cutGov('${id}')">CUT TIES</button>
+    </div>`;
+  }else{
+    acts=canA?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button class="btn-g" style="font-size:8px;padding:9px 14px;" onclick="buyGov('${id}')">ESTABLISH ($${(o.cost/1000).toFixed(0)}K)</button>
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('I want to approach ${o.n.replace(/'/g,"\\'")} carefully — build a relationship before any financial arrangement.')">APPROACH FIRST</button>
+    </div>`:`<p style="color:var(--red);margin-top:10px;">Need $${(o.cost-G.clean).toLocaleString()} more clean capital.</p>`;
+  }
+  G.modal={pre:'GOVERNMENT INFLUENCE',title:o.e+' '+o.n,body:`
+    <p><strong>Position:</strong> ${o.role}</p>
+    <p><strong>Cost:</strong> $${o.cost.toLocaleString()} | <strong>Monthly:</strong> $${o.maint.toLocaleString()} | <strong>+Influence:</strong> ${o.inf}</p>
+    <p><strong>Risk:</strong> <span style="color:${o.risk==='EXTREME'?'var(--red)':o.risk==='HIGH'?'var(--orange)':'var(--gold)'}">${o.risk}</span></p>
+    <p style="margin-top:8px;"><strong>What you get:</strong> ${o.benefit}</p>${acts}`};render();
+}
+function buyGov(id){
+  const o=GOV.find(x=>x.id===id);if(!o)return;
+  if(G.clean<o.cost)return;G.clean-=o.cost;G.govOwned.push(id);o.loy=40;
+  G.M.influence=Math.min(100,G.M.influence+Math.floor(o.inf/3));
+  G.txns.push({desc:'Gov: '+o.n,amt:-o.cost,sess:G.session});
+  G.modal=null;notif('Relationship Established',o.e+' '+o.n);save();render();
+  setTimeout(()=>{G.tab='narrative';move('[GRAY] I just established a financial relationship with '+o.n+'. Play out the first contact and what doors this opens immediately.');},500);
+}
+function cutGov(id){
+  G.govOwned=G.govOwned.filter(x=>x!==id);G.modal=null;notif('Ties Cut','Handle the separation carefully.');render();
+}
+
+// ── COMMUNITY ──
+function rCommunity(){
+  const ths=['salone','dmv','trinidade'];
+  const totInv=Object.values(G.commData).reduce((s,d)=>s+(d.investedAmt||0),0);
+  const totRev=Object.entries(G.commData).reduce((s,[id,d])=>{const c=COMM.find(x=>x.id===id);return s+(d.invested&&c?c.mrev:0);},0);
+  const secs=ths.map(t=>{
+    const comms=COMM.filter(c=>c.th===t);if(!comms.length)return'';
+    const th=TH[t];
+    const cards=comms.map(c=>{
+      const d=G.commData[c.id]||{};const inv=d.invested;
+      return `<div class="card" style="border-color:${inv?'var(--teal)':'var(--b1)'};" onclick="openComm('${c.id}')">
+        <div class="card-hdr">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:18px;">${c.e}</span><div class="card-name">${c.n}</div></div>
+          ${inv?`<div class="badge b-teal">INVESTED</div>`:''}
+        </div>
+        ${inv?`<div class="inf-bar-track"><div class="comm-bar-fill" style="width:${d.loyalty||0}%;"></div></div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--teal);margin-top:3px;">LOYALTY ${d.loyalty||0}/100</div>`:''}
+        ${c.pop>0?`<div style="font-family:Space Mono,monospace;font-size:7px;color:var(--t3);margin-top:3px;">POP. ${c.pop.toLocaleString()}</div>`:''}
+        <div class="card-desc">${c.benefit}</div>
+        <div style="font-family:Space Mono,monospace;font-size:8px;color:${inv?'var(--teal)':'var(--t3)'};margin-top:5px;">${inv?(c.mrev>0?'+$'+c.mrev.toLocaleString()+'/mo':'Loyalty returns'):'INVEST: $'+(c.cost/1000).toFixed(0)+'K'}</div>
+      </div>`;
+    }).join('');
+    return `<div style="margin-bottom:16px;"><div class="sec-title teal">${th?th.f+' '+th.n:t.toUpperCase()}</div><div class="grid">${cards}</div></div>`;
+  }).join('');
+  return `<div class="wrap">
+    <div class="info-bar" style="border-left-color:var(--teal);"><strong style="color:var(--t1);">The Community Principle:</strong> Take care of the people and the people take care of you. Community loyalty is your deepest protection — it cannot be bought by rivals, subpoenaed, or dissolved. When investigators come, the community sees nothing. When something moves, you hear first.</div>
+    <div class="stat-row">
+      <div class="cap-box"><div class="cap-lbl">COMMUNITIES</div><div class="cap-val">${Object.values(G.commData).filter(d=>d.invested).length}</div></div>
+      <div class="cap-box"><div class="cap-lbl">INVESTED</div><div class="cap-val dirty">$${(totInv/1000).toFixed(0)}K</div></div>
+      <div class="cap-box"><div class="cap-lbl">LOYALTY TOTAL</div><div class="cap-val" style="color:var(--teal);">${commLoyTotal()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">COMM. REV</div><div class="cap-val" style="color:var(--green);">$${totRev.toLocaleString()}</div></div>
+    </div>
+    ${secs}
+  </div>`;
+}
+function openComm(id){
+  const c=COMM.find(x=>x.id===id);if(!c)return;
+  const d=G.commData[id]||{};const inv=d.invested;const canA=(G.clean+G.dirty)>=c.cost;
+  let acts='';
+  if(inv){
+    acts=`<p style="color:var(--teal);margin-top:10px;">✓ Invested. Loyalty: ${d.loyalty||0}/100</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn-o" style="font-size:8px;" onclick="deepenComm('${id}')">DEEPEN (+$${(c.cost/2/1000).toFixed(0)}K)</button>
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Activate my community network in ${c.n.replace(/'/g,"\\'")} — I need their help with something specific.')">ACTIVATE</button>
+    </div>`;
+  }else{
+    acts=canA?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button class="btn-g" style="font-size:8px;padding:9px 14px;" onclick="doComm('${id}','clean')">INVEST CLEAN ($${(c.cost/1000).toFixed(0)}K)</button>
+      ${G.dirty>=c.cost?`<button class="btn-o" style="font-size:8px;" onclick="doComm('${id}','dirty')">INVEST DIRTY</button>`:''}
+    </div>`:`<p style="color:var(--red);margin-top:10px;">Need $${(c.cost-(G.clean+G.dirty)).toLocaleString()} more.</p>`;
+  }
+  G.modal={pre:'COMMUNITY INVESTMENT',title:c.e+' '+c.n,body:`
+    <p><strong>Theater:</strong> ${c.th.toUpperCase()}${c.pop>0?' | Pop: '+c.pop.toLocaleString():''}</p>
+    <p><strong>Investment:</strong> $${c.cost.toLocaleString()} | <strong>Loyalty Gain:</strong> +${c.loy}${c.mrev>0?' | Monthly Return: $'+c.mrev.toLocaleString():''}</p>
+    <p style="margin-top:8px;">${c.benefit}</p>${acts}`};render();
+}
+function doComm(id,capType){
+  const c=COMM.find(x=>x.id===id);if(!c)return;
+  if(capType==='clean'){if(G.clean<c.cost)return;G.clean-=c.cost;}else{if(G.dirty<c.cost)return;G.dirty-=c.cost;}
+  G.commData[id]={invested:true,loyalty:c.loy,investedAmt:c.cost};
+  G.M.community=Math.min(100,G.M.community+Math.floor(c.loy/2));G.M.loyalty=Math.min(100,G.M.loyalty+5);
+  G.txns.push({desc:'Community: '+c.n,amt:-c.cost,sess:G.session});
+  G.modal=null;notif('Community Invested',c.e+' '+c.n);save();render();
+  setTimeout(()=>{G.tab='narrative';move('[CLEAN] I just invested $'+c.cost.toLocaleString()+' in '+c.n+'. Play out how the community receives this and what it means on the ground.');},500);
+}
+function deepenComm(id){
+  const c=COMM.find(x=>x.id===id);if(!c)return;const cost=Math.round(c.cost/2);
+  if(G.clean<cost){notif('Insufficient','Need more clean capital.');return;}
+  G.clean-=cost;const d=G.commData[id]||{};
+  G.commData[id]={...d,loyalty:Math.min(100,(d.loyalty||0)+15),investedAmt:(d.investedAmt||0)+cost};
+  G.M.community=Math.min(100,G.M.community+8);
+  G.modal=null;notif('Deepened',c.n+' loyalty '+(G.commData[id].loyalty));save();render();
+}
+
+// ── TEAM ──
+function rTeam(){
+  const totSal=G.team.reduce((s,id)=>{const h=HIRE.find(x=>x.id===id);return s+(h?h.sal:0);},0);
+  const cards=HIRE.map(h=>{
+    const hired=G.team.includes(h.id);
+    const canA=G.clean>=h.sal*3,meetsI=G.M.influence>=h.minI,meetsA=(G.bizOwned.length)>=h.minA,avail=canA&&meetsI&&meetsA;
+    return `<div class="card" onclick="openHire('${h.id}')">
+      <div class="card-hdr">
+        <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:18px;">${h.e}</span><div><div class="card-name">${h.n}</div><div class="card-sub">${h.role}</div></div></div>
+        <div class="badge ${hired?'b-g':avail?'b-y':'b-t'}">${hired?'ON TEAM':avail?'HIRE':'LOCKED'}</div>
+      </div>
+      <div class="card-desc">${h.skill}</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-lbl">SALARY</div><div class="stat-val">$${(h.sal/1000).toFixed(1)}K</div></div>
+        <div class="stat"><div class="stat-lbl">MIN INF.</div><div class="stat-val">${h.minI}</div></div>
+        <div class="stat"><div class="stat-lbl">RETAINER</div><div class="stat-val">$${(h.sal*3/1000).toFixed(0)}K</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="wrap">
+    <div class="info-bar" style="border-left-color:var(--orange);"><strong style="color:var(--t1);">The Architect Principle:</strong> You design the system. Others execute it. Each hire is a delegation of function, not authority. They free you to focus at the strategic level.</div>
+    <div class="stat-row">
+      <div class="cap-box"><div class="cap-lbl">TEAM SIZE</div><div class="cap-val">${G.team.length}</div></div>
+      <div class="cap-box"><div class="cap-lbl">PAYROLL/MO</div><div class="cap-val dirty">$${totSal.toLocaleString()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">INFLUENCE</div><div class="cap-val">${G.M.influence}</div></div>
+    </div>
+    <div class="sec-title orange">AVAILABLE ROLES</div>
+    <div class="grid">${cards}</div>
+  </div>`;
+}
+function openHire(id){
+  const h=HIRE.find(x=>x.id===id);if(!h)return;
+  const hired=G.team.includes(id);const ret=h.sal*3;
+  const canA=G.clean>=ret,meetsI=G.M.influence>=h.minI,meetsA=G.bizOwned.length>=h.minA;
+  let acts='';
+  if(hired){
+    acts=`<p style="color:var(--green);margin-top:10px;">✓ On your team. Monthly: $${h.sal.toLocaleString()}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Brief my ${h.n.replace(/'/g,"\\'")} and get their assessment of current situation.')">GET INPUT</button>
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.tab='narrative';move('Delegate current challenge to my ${h.n.replace(/'/g,"\\'")}.')">DELEGATE</button>
+      <button class="btn-r" style="font-size:8px;" onclick="fireHire('${id}')">LET GO</button>
+    </div>`;
+  }else if(!canA){acts=`<p style="color:var(--red);margin-top:10px;">Need $${(ret-G.clean).toLocaleString()} more clean capital (3-month retainer).</p>`;}
+  else if(!meetsI){acts=`<p style="color:var(--orange);margin-top:10px;">Need ${h.minI} influence to attract this operator.</p>`;}
+  else if(!meetsA){acts=`<p style="color:var(--orange);margin-top:10px;">Need ${h.minA} acquired business(es) to justify this role.</p>`;}
+  else{acts=`<button class="btn-g" style="font-size:8px;padding:9px 14px;margin-top:10px;" onclick="doHire('${id}')">HIRE ($${(ret/1000).toFixed(0)}K retainer)</button>`;}
+  G.modal={pre:'TEAM — HIRING',title:h.e+' '+h.n,body:`<p><strong>Role:</strong> ${h.role} | <strong>Monthly:</strong> $${h.sal.toLocaleString()} | <strong>Retainer:</strong> $${ret.toLocaleString()}</p><p style="margin-top:8px;">${h.skill}</p>${acts}`};render();
+}
+function doHire(id){
+  const h=HIRE.find(x=>x.id===id);if(!h)return;const ret=h.sal*3;
+  if(G.clean<ret)return;G.clean-=ret;G.team.push(id);
+  G.txns.push({desc:'Hired: '+h.n,amt:-ret,sess:G.session});
+  G.modal=null;notif('Hired',h.e+' '+h.n);save();render();
+  setTimeout(()=>{G.tab='narrative';move('[CLEAN] I just brought on my '+h.n+'. Play out the first day and what they immediately bring to the operation.');},500);
+}
+function fireHire(id){G.team=G.team.filter(x=>x!==id);G.modal=null;notif('Separated','Handle the transition carefully.');render();}
+
+// ── LEGACY ──
+function rLegacy(){
+  const fam=G.family;
+  const acts=[
+    {t:'Establish Partner Relationship',d:'Begin cultivating a serious personal relationship. They become active in the simulation.',c:'Time + intentionality'},
+    {t:'Create Estate Structure',d:'Work with Elaine Osei to build holding structures — trusts, wills, beneficiaries.',c:'$25,000 legal fees'},
+    {t:'Buy Family Land',d:'Acquire land in Salone for a family compound. Physical anchor for the legacy.',c:'$80,000 minimum'},
+    {t:'Identify and Mentor an Heir',d:'Groom someone for leadership. 10-session investment that changes how the world sees you.',c:'Time + capital'},
+    {t:'Establish Family Trust',d:'Permanent capital vehicle for the next generation. Wealth outlives the man.',c:'$150,000 minimum'},
+    {t:'Build Community Institution',d:'A school, clinic, or cultural center. Generational legacy. Political protection.',c:'$200,000+'},
+  ];
+  const famCards=[];
+  if(fam.partner)famCards.push(`<div class="card"><div class="card-hdr"><span style="font-size:20px;margin-right:8px;">👩🏿</span><div><div class="card-name">${fam.partner.name}</div><div class="card-sub">PARTNER — ${fam.partner.status||'DEVELOPING'}</div></div><div class="badge b-y" style="margin-left:auto;">AGE ${fam.partner.age||'—'}</div></div></div>`);
+  fam.children.forEach(c=>famCards.push(`<div class="card"><div class="card-hdr"><span style="font-size:20px;margin-right:8px;">${c.emoji||'👶🏿'}</span><div><div class="card-name">${c.name}</div><div class="card-sub">${c.role||'CHILD'}</div></div><div class="badge b-y" style="margin-left:auto;">AGE ${c.age||0}</div></div>${fam.heirId===c.id?'<div style="background:var(--purple);color:#fff;font-family:Space Mono,monospace;font-size:6px;padding:2px 6px;display:inline-block;margin-top:4px;">DESIGNATED HEIR</div>':''}</div>`));
+  const actCards=acts.map(a=>`<div class="card" onclick="G.modal=null;G.tab='narrative';move('[CLEAN] LEGACY: ${a.t.replace(/'/g,"\\'")} — ${a.d.replace(/'/g,"\\'")}')">
+    <div class="card-name">${a.t}</div>
+    <div class="card-desc">${a.d}</div>
+    <div style="font-family:Space Mono,monospace;font-size:8px;color:var(--purple);margin-top:5px;">${a.c}</div>
+  </div>`).join('');
+  return `<div class="wrap">
+    <div class="info-bar" style="border-left-color:var(--purple);">Everything you are building is ultimately for something — family, community, the next generation. Succession planning turns a career into an institution.</div>
+    <div class="stat-row">
+      <div class="cap-box"><div class="cap-lbl">YOUR AGE</div><div class="cap-val">${G.age}</div></div>
+      <div class="cap-box"><div class="cap-lbl">PARTNER</div><div class="cap-val">${fam.partner?fam.partner.name.split(' ')[0]:'—'}</div></div>
+      <div class="cap-box"><div class="cap-lbl">CHILDREN</div><div class="cap-val">${fam.children.length}</div></div>
+      <div class="cap-box"><div class="cap-lbl">HEIR</div><div class="cap-val">${fam.heirId?'NAMED':'—'}</div></div>
+      <div class="cap-box"><div class="cap-lbl">LAND</div><div class="cap-val">${fam.landOwned?'YES':'—'}</div></div>
+      <div class="cap-box"><div class="cap-lbl">TRUST</div><div class="cap-val">${fam.trust?'ACTIVE':'—'}</div></div>
+    </div>
+    ${famCards.length?`<div class="sec-title purple">FAMILY</div><div class="grid" style="margin-bottom:14px;">${famCards.join('')}</div>`:''}
+    <div class="sec-title purple">LEGACY ACTIONS</div>
+    <div class="grid">${actCards}</div>
+  </div>`;
+}
+
+// ── INTEL ──
+function rIntel(){
+  const allZ=Object.values(TH).flatMap(t=>t.zones);
+  const pZ=allZ.filter(z=>(G.zones[z.id]||z.ctrl)==='player');
+  const zRev=pZ.reduce((s,z)=>s+z.rev,0);
+  const bRev=G.bizOwned.reduce((s,id)=>{const b=BIZ.find(x=>x.id===id);return s+(b?b.rev:0);},0);
+  const cRev=Object.entries(G.commData).reduce((s,[id,d])=>{const c=COMM.find(x=>x.id===id);return s+(d.invested&&c?c.mrev:0);},0);
+  const tot=zRev+bRev+cRev;
+  const maxR=Math.max(...G.revH,1),maxI=Math.max(...G.infH,1);
+  const rBars=G.revH.map((v,i)=>{const h=Math.max(3,(v/maxR)*75);return `<div class="bar-col"><div class="bar-num">${v>0?'$'+Math.round(v/1000)+'K':'-'}</div><div class="bar-fill" style="height:${h}px;background:var(--gold3);"></div><div class="bar-lbl">S${i+1}</div></div>`;}).join('');
+  const iBars=G.infH.map((v,i)=>{const h=Math.max(3,(v/maxI)*75);return `<div class="bar-col"><div class="bar-num">${v}</div><div class="bar-fill" style="height:${h}px;background:var(--blue);border:1px solid var(--blue);"></div><div class="bar-lbl">S${i+1}</div></div>`;}).join('');
+  const meters=[{k:'integrity',l:'INTEGRITY',c:'#4a9a6a'},{k:'street',l:'STREET',c:'#e88a3a'},{k:'inst',l:'INST. REP',c:'#3a7aaa'},{k:'influence',l:'INFLUENCE',c:'#c8922a'},{k:'exposure',l:'EXPOSURE',c:'#c44444'},{k:'loyalty',l:'LOYALTY',c:'#4a9a6a'},{k:'community',l:'COMMUNITY',c:'#3a9a8a'}];
+  const mBars=meters.map(m=>{const v=G.M[m.k]||0;return `<div class="mc-row"><div class="mc-lbl">${m.l}</div><div class="mc-bar"><div class="mc-fill" style="width:${v}%;background:${m.c};"><span class="mc-num">${v}</span></div></div></div>`;}).join('');
+  const fRows=Object.entries(F).filter(([k])=>k!=='player').map(([id,f])=>{
+    const bizOwned=BIZ.filter(b=>b.own===id&&!G.bizOwned.includes(b.id)).length;
+    const rev=BIZ.filter(b=>b.own===id&&!G.bizOwned.includes(b.id)).reduce((s,b)=>s+b.rev,0);
+    const tc=f.threat==='HIGH'?'t-hi':f.threat==='MED'?'t-me':'t-lo';
+    const tierLabel=f.tier==='M'?'MAJOR':f.tier==='I'?'MID':'SMALL';
+    return `<tr><td><div class="fdot" style="background:${f.color};"></div>${f.n}</td><td style="font-family:Space Mono,monospace;font-size:7px;">${tierLabel}</td><td style="font-family:Space Mono,monospace;font-size:7px;">${bizOwned} biz</td><td style="font-family:Space Mono,monospace;font-size:7px;">$${(rev/1000000).toFixed(1)}M</td><td class="thr ${tc}">${f.threat}</td></tr>`;
+  }).join('');
+  return `<div class="charts-wrap">
+    <div class="charts-grid">
+      <div class="chart-card"><div class="chart-title">CAPITAL TREND</div><div class="bars">${rBars}</div></div>
+      <div class="chart-card"><div class="chart-title">INFLUENCE GROWTH</div><div class="bars">${iBars}</div></div>
+      <div class="chart-card"><div class="chart-title">STATUS OVERVIEW</div>${mBars}</div>
+      <div class="chart-card"><div class="chart-title">REVENUE SOURCES</div>
+        <div style="font-family:Space Mono,monospace;font-size:20px;color:var(--green);margin-bottom:6px;">$${tot.toLocaleString()}<span style="font-size:9px;color:var(--t3);">/mo</span></div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px;">Zones: $${zRev.toLocaleString()} | Businesses: $${bRev.toLocaleString()} | Community: $${cRev.toLocaleString()}</div>
+        <div class="cap-grid">
+          <div class="cap-box"><div class="cap-lbl">CLEAN</div><div class="cap-val">$${G.clean.toLocaleString()}</div></div>
+          <div class="cap-box"><div class="cap-lbl">DIRTY</div><div class="cap-val dirty">$${G.dirty.toLocaleString()}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card"><div class="chart-title">FACTION LANDSCAPE — 20 PLAYERS</div>
+      <table class="ftable"><thead><tr><th>FACTION</th><th>TIER</th><th>ACTIVE BIZ</th><th>REVENUE</th><th>THREAT</th></tr></thead><tbody>${fRows}</tbody></table>
+    </div>
+  </div>`;
+}
+// ── API CALL — EXACT PROVEN PATTERN ──
+async function callAPI(playerAction){
+  G.loading=true;G.error=null;render();
+  const ctx=buildCtx();
+  const msgs=G.msgs.length===0
+    ?[{role:"user",content:ctx+"\n\nFirst move: "+playerAction}]
+    :[{role:"user",content:ctx+"\n\nSession "+G.session+". Mr. Kutor: "+playerAction},...G.msgs.slice(-6)];
+  try{
+    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":G.apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,messages:msgs})
+    });
+    const data=await resp.json();
+    let text='';
+    if(data.content&&Array.isArray(data.content)){for(const b of data.content){if(b.type==='text'&&b.text){text=b.text;break;}}}
+    if(!text){
+      // content:[] means max_tokens too low or context too large — retry with trimmed history
+      if(data.content&&Array.isArray(data.content)&&data.content.length===0){
+        if(G.msgs.length>2){G.msgs=G.msgs.slice(-2);return callAPI(playerAction);}
+        throw new Error('Model returned empty response. Try a shorter message.');
+      }
+      throw new Error(data.error?data.error.message:'API error — check your key and try again.');
+    }
+    G.msgs.push({role:'user',content:playerAction});
+    G.msgs.push({role:'assistant',content:text});
+    G.session++;
+    G.revH=[...G.revH.slice(1),G.clean+G.dirty];
+    G.infH=[...G.infH.slice(1),G.M.influence];
+    if(G.session%10===0){G.age++;notif('Time Passes','Mr. Kutor is now '+G.age+'.');}
+    save();processResp(text);
+  }catch(err){
+    G.loading=false;G.error=err.message||'Connection error. Check your API key and try again.';render();
+  }
+}
+
+function buildCtx(){
+  const m=G.M;const co=G.coName||'Kutor Holdings';
+  const bizNames=G.bizOwned.map(id=>BIZ.find(b=>b.id===id)?.n).filter(Boolean).join(', ')||'None';
+  const bizM=G.bizOwned.reduce((s,id)=>{const b=BIZ.find(x=>x.id===id);return s+(b?b.rev:0);},0);
+  const govNames=G.govOwned.map(id=>GOV.find(x=>x.id===id)?.n).filter(Boolean).join(', ')||'None';
+  const commNames=Object.entries(G.commData).filter(([,d])=>d.invested).map(([id])=>COMM.find(x=>x.id===id)?.n).filter(Boolean).join(', ')||'None';
+  const teamNames=G.team.map(id=>HIRE.find(x=>x.id===id)?.n).filter(Boolean).join(', ')||'None';
+  const fam=G.family;
+  return [
+    "=== THE BISHOP — NARRATIVE ENGINE ===",
+    "STYLE: Film. Max 3 sentences narration. Dialogue 1-2 lines — real, not speeches. Sensory detail. Stakes clear. End on tension. Exact dollars when money moves.",
+    "",
+    "PLAYER: Mr. Kutor. Male. Age "+G.age+". Sierra Leonean-American. EY Federal IT Auditor, DMV. $68K salary. TS clearance. Silent operator. Builds systems others run inside. Origin: "+G.origin+".",
+    "HOLDING COMPANY: "+co+" — Kutor's umbrella entity. All acquisitions sit under this name.",
+    G.past?"DARK SECRET: "+G.past+" — surfaces at dramatic moments.":"",
+    "",
+    "WORLD: 9 theaters. 20 factions. 51 businesses. Dynamic competitive market.",
+    "FACTIONS (20): Khalil/Chen/Cardinal/Peninsula/Zanele=MAJOR. Koroma/Offshore/Frontier/Irongate/Atlas/Meridian/Harrow/DMV=MID. Syndicate/Baobab/Coastal/Nova/Sunstone/Trinco/Greenfield=SMALL.",
+    "SMALL factions: acquirable/mergeable/swallowable. MID: disruptable. MAJOR: navigate around. Market is DYNAMIC.",
+    "",
+    "SESSION "+G.session+" STATE:",
+    "Integrity:"+m.integrity+" Street:"+m.street+" Inst:"+m.inst+" Influence:"+m.influence+" Exposure:"+m.exposure+" Loyalty:"+m.loyalty+" Community:"+m.community,
+    "Clean: $"+G.clean.toLocaleString()+" | Dirty: $"+G.dirty.toLocaleString()+" | Biz Monthly: $"+bizM.toLocaleString(),
+    "Businesses ("+G.bizOwned.length+"): "+bizNames,
+    "Gov Officials: "+govNames,
+    "Communities: "+commNames,
+    "Team: "+teamNames,
+    "Theaters Active: "+G.thUnlocked.join(', '),
+    "Family: Age "+G.age+(fam.partner?" | Partner: "+fam.partner.name:"")+(fam.children.length?" | Children: "+fam.children.map(c=>c.name).join(', '):""),
+    "Brotherhood Fund: $"+G.brothFund.toLocaleString()+" (CONFIDENTIAL — only the 12 know this exists)",
+    "Contacts: "+Object.values(G.contacts).map(c=>c.name).join(', '),
+    "",
+    "BUSINESSES CHANGE: Market reacts. Small factions get absorbed. Acknowledge dynamically.",
+    "COMMUNITY ACTIVATES: Specific — routes protected, investigators stonewalled, Kutor hears first.",
+    "GOV OFFICIALS USED: Show exact mechanism — the call, the permit, the dropped case.",
+    "ZONE CONTROL: ZONE_CONTROL: zone_id -> controller",
+    "FAMILY UPDATES: FAMILY_UPDATE: {type:'partner'|'child'|'heir'|'land'|'trust',data:{...}}",
+    "",
+    "CHARACTER SPEECH:",
+    "[CHARACTER:Full Name|emoji|#hexcolor]",
+    "One or two sentences. Real. Subtext.",
+    "[/CHARACTER]",
+    "",
+    "END EVERY RESPONSE WITH:",
+    "---METERS---",
+    "INTEGRITY:+0, STREET:+0, INST:+0, INFLUENCE:+0, EXPOSURE:+0, LOYALTY:+0, COMMUNITY:+0, CLEAN_CAP:+0, DIRTY_CAP:+0",
+    "---CHOICES---",
+    "[CLEAN] Specific concrete choice",
+    "[GRAY] Specific concrete choice",
+    "[DARK] Specific concrete choice",
+    "---STRATEGY---",
+    "PRINCIPLE: Name | BOOK: Source | NOTE: One line",
+    "---INTEL---",
+    "FACT: One real-world business or geopolitical fact | SOURCE: Name",
+    "=== END ==="
+  ].filter(Boolean).join('\n');
+}
+
+// ── PROCESS RESPONSE ──
+function processResp(text){
+  const mM=text.match(/---METERS---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const cM=text.match(/---CHOICES---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const sM=text.match(/---STRATEGY---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const iM=text.match(/---INTEL---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+
+  for(const m of text.matchAll(/ZONE_CONTROL:\s*(\w+)\s*->\s*(\w+)/g)){
+    G.zones[m[1]]=m[2];
+    const zn=Object.values(TH).flatMap(t=>t.zones).find(z=>z.id===m[1])?.n||m[1];
+    notif('Territory',zn+' → '+(m[2]==='player'?'KUTOR':m[2]));
+  }
+  for(const m of text.matchAll(/FAMILY_UPDATE:\s*(\{[\s\S]*?\})/g)){
+    try{
+      const u=JSON.parse(m[1]);
+      if(u.type==='partner'&&!G.family.partner){G.family.partner={...u.data,loyalty:60,relationship:'DEVELOPING'};notif('Family','Partner relationship established.');}
+      else if(u.type==='child'){G.family.children.push({id:'c'+G.family.children.length,...u.data});notif('Family','New family member.');}
+      else if(u.type==='heir'&&u.data.id){G.family.heirId=u.data.id;notif('Legacy','Heir designated.');}
+      else if(u.type==='land'){G.family.landOwned=true;notif('Legacy','Family land acquired.');}
+      else if(u.type==='trust'){G.family.trust=true;notif('Legacy','Family trust established.');}
+    }catch(e){}
+  }
+
+  let narr=text
+    .replace(/---METERS---[\s\S]*?(?=---[A-Z]|$)/g,'').replace(/---CHOICES---[\s\S]*?(?=---[A-Z]|$)/g,'')
+    .replace(/---STRATEGY---[\s\S]*?(?=---[A-Z]|$)/g,'').replace(/---INTEL---[\s\S]*/g,'')
+    .replace(/ZONE_CONTROL:.*\n?/g,'').replace(/FAMILY_UPDATE:[\s\S]*?\}/g,'').replace(/---[A-Z]+---/g,'').trim();
+
+  let html=`<div class="scene"><div class="shdr"><div class="sloc">${G.loc.split(' ')[0].toUpperCase()}</div><div class="sdiv"></div><div class="ssess">SESSION ${String(G.session).padStart(2,'0')} — AGE ${G.age}</div></div><div class="sbody">${parseChar(narr)}</div></div>`;
+
+  if(sM){const pm=sM[1].match(/PRINCIPLE:(.*?)(?:\||$)/);if(pm){const bm=sM[1].match(/BOOK:(.*?)(?:\||$)/);const nm=sM[1].match(/NOTE:(.*?)(?:\||$)/);const note=(nm?nm[1].trim():'')+(bm?' — '+bm[1].trim():'');html+=`<span class="sflag" onclick="G.modal={pre:'Strategy',title:'${pm[1].trim().replace(/'/g,"\\'").replace(/"/g,"&quot;")}',body:'<p>${note.replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()">♟ ${pm[1].trim()}</span>`;}}
+  if(iM){const fm=iM[1].match(/FACT:(.*?)(?:\||$)/);if(fm){html+=`<div class="ibox" onclick="G.modal={pre:'Intel',title:'Context',body:'<p>${fm[1].trim().replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()"><div class="ilbl">◉ INTEL</div><div class="itxt">${fm[1].trim().substring(0,90)}...</div></div>`;}}
+
+  G.narrativeHTML+=html;
+  if(mM)applyM(mM[1]);
+  if(cM){const lines=cM[1].trim().split(/\r?\n/).filter(l=>l.trim());const choices=lines.map(l=>{const m=l.match(/\[(CLEAN|GRAY|DARK)\]\s*(.*)/);return m?{type:m[1],text:m[2].trim()}:null;}).filter(Boolean);G.choices=choices.length?choices:defChoices();}
+  else G.choices=defChoices();
+  G.loading=false;G.error=null;render();scrollN();
+}
+
+function parseChar(text){
+  return text.replace(/\[CHARACTER:(.*?)\]([\s\S]*?)\[\/CHARACTER\]/g,(m,hdr,body)=>{
+    const p=hdr.split('|');const name=p[0]||'Unknown',emoji=p[1]||'👤',bg=p[2]||'#111';
+    const speech=body.replace(/^[\s"]+|[\s"]+$/g,'');
+    const pts=name.split(' ');const ss=speech.replace(/'/g,"\\'").replace(/"/g,'&quot;');const sn=name.replace(/'/g,"\\'");
+    return `<div class="chblk"><div class="ch-left"><div class="chavat" style="background:${bg};">${emoji}</div><div class="chpn">${pts[0]}<br>${pts.slice(1).join(' ')}</div></div><div class="ch-right"><div class="chhdr"><div class="chname">${name}</div><div class="chstat">SPEAKING</div></div><div class="chspeech">"${speech}"</div><button class="hear-btn" onclick="A.speak('${ss}','${sn}');event.stopPropagation();">🔊 HEAR</button></div></div>`;
+  }).split(/\n\n+/).filter(p=>p.trim()).map(p=>p.includes('chblk')?p:`<p>${p.trim()}</p>`).join('');
+}
+
+function applyM(text){
+  const keys=[{k:'integrity',ls:['INTEGRITY']},{k:'street',ls:['STREET']},{k:'inst',ls:['INST']},{k:'influence',ls:['INFLUENCE']},{k:'exposure',ls:['EXPOSURE']},{k:'loyalty',ls:['LOYALTY']},{k:'community',ls:['COMMUNITY']}];
+  const ch=[];
+  keys.forEach(({k,ls})=>ls.forEach(l=>{const m=text.match(new RegExp(l+':\\s*([+-]?\\d+)','i'));if(m&&parseInt(m[1])!==0){const d=parseInt(m[1]);G.M[k]=Math.max(0,Math.min(100,G.M[k]+d));if(Math.abs(d)>=3)ch.push({l:k.toUpperCase(),d});}}));
+  const cm=text.match(/CLEAN_CAP:\s*([+-]?\d+)/i);const dm=text.match(/DIRTY_CAP:\s*([+-]?\d+)/i);
+  if(cm&&parseInt(cm[1])!==0){G.clean=Math.max(0,G.clean+parseInt(cm[1]));}
+  if(dm&&parseInt(dm[1])!==0)G.dirty=Math.max(0,G.dirty+parseInt(dm[1]));
+  if(ch.length){const tags=ch.map(c=>`<span class="mctag ${c.d>0?'mcp':'mcn'}">${c.l} ${c.d>0?'+':''}${c.d}</span>`).join('');G.narrativeHTML+=`<div style="margin:3px 0;">${tags}</div>`;}
+}
+
+function move(text){
+  G.narrativeHTML+=`<div class="pact"><div class="palbl">KUTOR</div><div class="patxt">${text.replace(/^\[.*?\]\s*/,'')}</div></div>`;
+  G.tab='narrative';render();scrollN();callAPI(text);
+}
+function sendFree(){const inp=document.getElementById('finput');if(!inp)return;const v=inp.value.trim();if(!v)return;inp.value='';move(v);}
+function defChoices(){return [{type:'CLEAN',text:'Proceed carefully — gather more information.'},{type:'GRAY',text:'Move now with what you have.'},{type:'DARK',text:'Take the aggressive path.'}];}
+
+function renderOpening(){
+  const o=OPENINGS[G.origin];if(!o)return;
+  G.loc=o.loc;
+  const ch=G.contacts[o.char]||CTACTS[o.char]||{name:'Unknown',emoji:'👤',bg:'#111'};
+  const pts=ch.name.split(' ');const ss=(o.speech||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');const sn=ch.name.replace(/'/g,"\\'");
+  let html=`<div class="scene"><div class="shdr"><div class="sloc">${o.loc}</div><div class="sdiv"></div><div class="ssess">SESSION 01 — AGE ${G.age}</div></div><div style="font-size:clamp(15px,2.8vw,20px);font-weight:300;color:var(--t0);margin-bottom:8px;">${o.title}</div><div class="sbody">${o.body}</div></div>`;
+  html+=`<div class="chblk"><div class="ch-left"><div class="chavat" style="background:${ch.bg};">${ch.emoji}</div><div class="chpn">${pts[0]}<br>${pts.slice(1).join(' ')}</div></div><div class="ch-right"><div class="chhdr"><div class="chname">${ch.name}</div><div class="chstat">SPEAKING</div></div><div class="chspeech">"${o.speech}"</div>${o.sub?`<div class="chsub">${o.sub}</div>`:''}<button class="hear-btn" onclick="A.speak('${ss}','${sn}');event.stopPropagation();">🔊 HEAR</button></div></div>`;
+  html+=`<div class="ibox" onclick="G.modal={pre:'Context',title:'World Intel',body:'<p>${o.intel.replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()"><div class="ilbl">◉ WORLD CONTEXT</div><div class="itxt">${o.intel.substring(0,90)}...</div></div>`;
+  G.narrativeHTML=html;G.choices=o.choices;G.error=null;render();
+}
+
+function viewCtc(id){
+  const c=G.contacts[id];if(!c)return;
+  G.modal={pre:'Contact Profile',title:c.name,body:`<div style="display:flex;align-items:center;gap:11px;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--b1);">
+    <div style="width:44px;height:44px;border-radius:50%;background:${c.bg};display:flex;align-items:center;justify-content:center;font-size:21px;border:2px solid var(--b2);flex-shrink:0;">${c.emoji}</div>
+    <div><div style="font-size:15px;color:var(--t0);margin-bottom:1px;">${c.name}</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--gold3);">${c.basis} / ${c.disposition}${c.age>0?' | AGE '+c.age:''}</div></div></div>
+    <div class="loybar"><div class="lylbl">LOYALTY — ${c.loyalty}/100</div><div class="lytrk"><div class="lyfil" style="width:${c.loyalty}%"></div></div></div>
+    <div class="rtags">${c.tags.map(t=>`<div class="rtag">${t}</div>`).join('')}</div>
+    <p><strong>Profile:</strong> ${c.role}</p><p><strong>Notes:</strong> <em>${c.notes}</em></p>`};render();
+}
+
+function rModal(m){return `<div class="modal-bg" onclick="if(event.target===this){G.modal=null;render();}"><div class="modal"><button class="modal-x" onclick="G.modal=null;render()">✕</button><div class="modal-pre">${m.pre||''}</div><div class="modal-title">${m.title||''}</div><div class="modal-body">${m.body||''}</div></div></div>`;}
+
+function showSave(){
+  const st=JSON.stringify({...G,loading:false,modal:null,notif:null,apiKey:'[HIDDEN]',el_key:'[HIDDEN]'},null,2);
+  window._ss=JSON.stringify({...G,msgs:G.msgs.slice(-8),loading:false,modal:null,notif:null});
+  G.modal={pre:'Save Session',title:'Copy Your Progress',body:`<div class="savedisp">${st}</div><button class="btn-g" onclick="navigator.clipboard.writeText(window._ss).then(()=>{G.notif={t:'Saved',b:'Copied to clipboard.'};G.modal=null;render();setTimeout(()=>{G.notif=null;render();},3500)})">COPY STATE</button>`};render();
+}
+function showLoad(){G.modal={pre:'Load Session',title:'Resume Your Story',body:`<textarea id="lta" style="width:100%;height:120px;background:#060606;border:1px solid var(--b2);color:var(--t1);font-family:monospace;font-size:8px;padding:9px;resize:vertical;" placeholder="Paste JSON..."></textarea><button class="btn-g" style="margin-top:9px;" onclick="doLoad()">LOAD</button>`};render();}
+function doLoad(){const ta=document.getElementById('lta');if(!ta)return;try{const ld=JSON.parse(ta.value);Object.assign(G,ld,{loading:false,modal:null,notif:null});if(!G.apiKey)G.screen='setup';render();scrollN();notif('Loaded','Session '+G.session+' restored.');}catch(e){alert('Invalid session state.');}}
+function resumeAuto(){const sv=loadSaved();if(!sv)return;Object.assign(G,sv,{loading:false,modal:null,notif:null});G.screen='setup';render();}
+function doRestart(){
+  if(confirm('Restart? All progress lost.')){
+    const key=G.apiKey,el=G.el_key,lm=G.lightMode,rt=G.rate;
+    G={screen:'company',apiKey:key,el_key:el,coName:'',origin:null,session:1,phase:'FOUNDATION',loc:'DMV',age:29,clean:12000,dirty:0,M:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70,community:0},contacts:{},zones:{},bizOwned:[],bizMerged:[],brothFund:47000,team:[],txns:[],govOwned:[],commInvested:[],commData:{},family:{partner:null,children:[],heirId:null,landOwned:false,trust:false},thUnlocked:['salone','dmv','trinidade'],msgs:[],narrativeHTML:'',choices:[],error:null,tab:'narrative',lightMode:lm,rate:rt,past:null,loading:false,modal:null,notif:null,selOrigin:null,revH:[0,0,0,0,0,0,0,0],infH:[10,10,10,10,10,10,10,10]};
+    localStorage.removeItem('bishop_v12');render();
+  }
+}
+function scrollN(){setTimeout(()=>{const n=document.getElementById('narrative');if(n)n.scrollTop=n.scrollHeight;},80);}
+function notif(t,b){G.notif={t,b};render();setTimeout(()=>{G.notif=null;render();},3500);}
+function attach(){const fi=document.getElementById('finput');if(fi)fi.onkeypress=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFree();}};}
+
+function startGame(){
+  const o=ORIGINS.find(x=>x.id===G.selOrigin);if(!o)return;
+  G.origin=o.id;G.clean=o.clean;G.dirty=o.dirty||0;G.M={...o.M};G.past=o.past||null;
+  G.contacts={};G.zones={};G.bizOwned=[];G.bizMerged=[];G.txns=[];G.govOwned=[];G.commInvested=[];G.commData={};G.team=[];
+  G.family={partner:null,children:[],heirId:null,landOwned:false,trust:false};
+  G.thUnlocked=['salone','dmv','trinidade'];
+  o.contacts.forEach(cid=>{if(CTACTS[cid])G.contacts[cid]={...CTACTS[cid],memory:[]};});
+  G.msgs=[];G.session=1;G.narrativeHTML='';G.choices=[];
+  if(!G.coName)G.coName='Kutor Holdings LLC';
+  G.screen='game';G.tab='narrative';render();renderOpening();
+}
+
+render();
+</script>
+</body>
+</html>
