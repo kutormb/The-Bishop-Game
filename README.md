@@ -1,44 +1,27 @@
-# Game Documentation
-
-## Overview
-The Bishop is an engaging tactical game where you strategize to outmaneuver opponents on a dynamic chessboard. Inspired by classic board games, it brings fresh features and modern mechanics.
-
-## Features
-- **Unique Character Abilities**: Each character possesses special skills that alter gameplay. 
-- **Dynamic Board**: The game board changes shape and size, providing unique challenges in every match.
-- **Multiplayer Mode**: Play against friends or AI-controlled enemies.
-
-## Gameplay Mechanics
-- **Turn-Based Strategy**: Players take turns to move their characters and utilize abilities. 
-- **Resource Management**: Players must manage resources effectively to enhance their characters' abilities.
-
-## How to Play
-1. Choose a character.
-2. Understand character abilities and board dynamics.
-3. Take turns with your opponent, strategizing your moves.
-4. Aim to capture the opponent's main piece to win.
-
-## Character System
-- Characters are divided into categories (e.g., melee, ranged, support).
-- Leveling up allows characters to unlock advanced abilities.
+# THE BISHOP Game Documentation
 
 ## Origins
-The concept originates from traditional chess, blending classic gameplay with new features.
+1. **Origin 1** - Description of Origin 1.
+2. **Origin 2** - Description of Origin 2.
+3. **Origin 3** - Description of Origin 3.
+4. **Origin 4** - Description of Origin 4.
+5. **Origin 5** - Description of Origin 5.
+6. **Origin 6** - Description of Origin 6.
 
-## Meter System
-A unique meter tracks character abilities, allowing for strategic plays.
+## Narrative Engine
+Description of the narrative engine that drives the game, focusing on the unique storytelling mechanics.
+
+## Character System
+Detail the character creation process, attributes, and customization options available to players.
+
+## Meters
+Explain the various meters that track character states, actions, and consequences within the game.
 
 ## Contacts
-For feedback or inquiries, contact us at support@email.com.
+Discuss the role of contacts in the game, including how they interact with the player's character and influence gameplay.
 
-## Save/Load Functionality
-- Players can save their progress and continue later. 
-- Auto-save activates at the end of each turn.
+## World-Building
+Provide information on the world of THE BISHOP, its lore, geography, and cultures.
 
-## World Building
-The game is set in a vibrant world where characters evolve through conflicts and alliances.
-
-## Technical Details
-- Developed using Unity and C#.
-- Supports cross-platform gameplay.
-- Requires minimal system specifications for accessibility.
+## How to Play
+Guide on the basic gameplay mechanics, objectives, and any special rules players should be aware of.
