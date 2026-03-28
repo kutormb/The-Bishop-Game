@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>THE BISHOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg:#080808;--s1:#101010;--s2:#161616;--s3:#1c1c1c;
+  --b1:#1e1e1e;--b2:#2a2a2a;--b3:#333;
+  --t0:#eeeeee;--t1:#cccccc;--t2:#888;--t3:#444;
+  --gold:#c8922a;--gold2:#e8b84b;--gold3:#8a6420;--gold4:#2a1a06;
+  --red:#c44;--red2:#6b1515;--green:#4a9a6a;--green2:#1a3a2a;
+  --blue:#3a7aaa;--blue2:#1a3a5a;--orange:#e88a3a;--purple:#7a4a9a;
+}
+.light{--bg:#f2ede4;--s1:#e8e0d0;--s2:#ddd6c4;--s3:#d0c8b4;--b1:#c8bca4;--b2:#b8a888;--b3:#a89870;--t0:#120e06;--t1:#2a1e0e;--t2:#5a4a2e;--t3:#9a8a6a;--gold:#7a4e0e;--gold2:#aa7820;--gold3:#5a3a08;--gold4:#f0e8d8;--red:#8b2020;--red2:#c44;--green:#1a5a2a;--green2:#d0ead8;--blue:#1a3a6a;--blue2:#d0dff0;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--t1);font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;line-height:1.75;min-height:100vh;transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:3px;height:3px;}::-webkit-scrollbar-thumb{background:var(--b2);}
+.scr{display:none;}.scr.on{display:block;}
+
+/* TITLE */
+.title-bg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;background:radial-gradient(ellipse at 45% 25%,#1c1005 0%,var(--bg) 65%);position:relative;}
+.light .title-bg{background:radial-gradient(ellipse at 45% 25%,#d8c8a0 0%,var(--bg) 65%);}
+.title-bg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.t-eye{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.5em;color:var(--gold3);margin-bottom:28px;}
+.t-main{font-size:clamp(60px,13vw,130px);font-weight:300;color:var(--t0);line-height:.82;letter-spacing:-.02em;margin-bottom:10px;}
+.t-sub{font-style:italic;font-size:clamp(11px,1.6vw,15px);color:var(--gold);letter-spacing:.1em;margin-bottom:40px;}
+.t-quote{font-style:italic;font-size:13px;color:var(--t3);max-width:340px;margin:0 auto 40px;line-height:1.7;}
+.t-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.theme-btn{position:absolute;top:16px;right:16px;background:transparent;border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.14em;padding:6px 11px;cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:var(--gold3);color:var(--gold);}
+
+/* SETUP */
+.setup-bg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:radial-gradient(ellipse at 45% 25%,#1c1005 0%,var(--bg) 65%);}
+.setup-card{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--gold);padding:22px;max-width:460px;width:100%;margin-bottom:14px;}
+.setup-label{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.3em;color:var(--gold3);margin-bottom:8px;}
+.setup-txt{font-size:13px;color:var(--t3);line-height:1.65;margin-bottom:6px;}
+.api-inp{width:100%;background:#060606;border:1px solid var(--b2);color:var(--t1);font-family:'Space Mono',monospace;font-size:11px;padding:10px;outline:none;border-radius:0;-webkit-appearance:none;letter-spacing:.04em;margin:7px 0;}
+.api-inp:focus{border-color:var(--gold3);}
+.api-inp::placeholder{color:var(--t3);}
+.key-err{display:none;color:var(--red);font-family:'Space Mono',monospace;font-size:9px;padding:6px;border:1px solid var(--red2);margin-bottom:7px;line-height:1.5;}
+
+/* ORIGIN */
+.origin-wrap{max-width:1080px;margin:0 auto;padding:36px 18px 60px;}
+.origin-hdr{margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--b1);}
+.origin-title{font-size:clamp(22px,4.5vw,34px);font-weight:300;color:var(--t0);margin-bottom:5px;}
+.origin-sub{font-style:italic;color:var(--t3);font-size:13px;}
+.og{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:2px;margin-bottom:20px;}
+.oc{background:var(--s1);border:1px solid var(--b1);padding:17px 15px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.oc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.3s;}
+.oc:hover::before,.oc.sel::before{transform:scaleX(1);}
+.oc:hover,.oc.sel{border-color:var(--gold3);background:var(--gold4);}
+.oc-num{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.26em;color:var(--gold3);margin-bottom:8px;}
+.oc-icon{font-size:24px;margin-bottom:6px;}
+.oc-name{font-size:17px;color:var(--t0);margin-bottom:3px;}
+.oc-tag{font-style:italic;font-size:11px;color:var(--gold);margin-bottom:7px;}
+.oc-desc{font-size:12px;color:var(--t3);line-height:1.6;}
+.oc-pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid var(--b1);}
+.pill{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.1em;color:var(--t3);padding:2px 5px;border:1px solid var(--b2);}
+.diff-tag{position:absolute;top:9px;right:9px;font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.1em;padding:2px 5px;border:1px solid;}
+.dh{color:var(--red);border-color:var(--red2);}.dm{color:var(--gold);border-color:var(--gold3);}
+
+/* GAME */
+.game-wrap{display:flex;flex-direction:column;min-height:100vh;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:7px;}
+.brand{font-size:13px;font-weight:300;color:var(--gold);letter-spacing:.12em;}
+.topstats{display:flex;gap:14px;flex-wrap:wrap;}
+.ts-lbl{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.22em;color:var(--t3);display:block;}
+.ts-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold2);font-weight:700;}
+.topacts{display:flex;gap:5px;flex-wrap:wrap;}
+
+.game-tabs{display:flex;background:var(--s2);border-bottom:1px solid var(--b1);overflow-x:auto;}
+.gtab{flex-shrink:0;padding:9px 10px;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.1em;color:var(--t3);background:transparent;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;}
+.gtab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.gtab:hover{color:var(--t1);}
+.tab-pane{display:none;}.tab-pane.on{display:block;}
+
+/* STATUS */
+.game-layout{display:flex;min-height:0;}
+.status-col{width:192px;min-width:192px;background:var(--s1);border-right:1px solid var(--b1);overflow-y:auto;flex-shrink:0;max-height:calc(100vh - 120px);}
+@media(max-width:660px){.status-col{display:none;}}
+.ps{padding:10px;border-bottom:1px solid var(--b1);}
+.pl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.3em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;}
+.pav-wrap{display:flex;align-items:center;gap:8px;}
+.pav{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold3);display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#1a1208,#261a0c);flex-shrink:0;}
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.cap-box{background:var(--s2);border:1px solid var(--b1);padding:5px 7px;}
+.cap-lbl{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.1em;color:var(--t3);margin-bottom:1px;}
+.cap-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold2);font-weight:700;}
+.cap-val.dirty{color:var(--red);}
+.mr{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.mn{font-family:'Space Mono',monospace;font-size:6px;color:var(--t2);width:54px;flex-shrink:0;}
+.mt{flex:1;height:3px;background:var(--b2);border-radius:2px;overflow:hidden;}
+.mf{height:100%;border-radius:2px;transition:width .8s ease;}
+.mgr{background:var(--green);}.mb{background:var(--blue);}.mo{background:var(--orange);}.mrd{background:var(--red);}.mg{background:var(--gold);}
+.mv{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);width:18px;text-align:right;flex-shrink:0;}
+.ci{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--s3);cursor:pointer;transition:padding .15s;}
+.ci:hover{padding-left:3px;}
+.ci:last-child{border-bottom:none;}
+.ca{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.cn{font-size:11px;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cr{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:1px;}
+.cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-left:auto;}
+.dg{background:var(--green);}.dy{background:var(--gold);}.dr{background:var(--red);}
+
+/* NARRATIVE */
+.narr-col{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.narrative{flex:1;overflow-y:auto;padding:18px 20px;-webkit-overflow-scrolling:touch;max-height:calc(100vh - 200px);}
+@media(max-width:480px){.narrative{padding:10px;}}
+.scene{margin-bottom:20px;}
+.shdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);}
+.sloc{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:var(--gold3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
+.sdiv{flex:1;height:1px;background:var(--b1);}
+.ssess{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);white-space:nowrap;}
+.sbody{font-size:14px;color:var(--t1);line-height:1.85;}
+.sbody p{margin-bottom:8px;}
+
+/* CHARACTER BLOCK */
+.chblk{display:flex;gap:0;margin:10px 0;background:var(--s1);border:1px solid var(--b1);overflow:hidden;position:relative;}
+.chblk::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold3);}
+.ch-left{display:flex;flex-direction:column;align-items:center;padding:12px 9px;background:var(--s2);border-right:1px solid var(--b1);min-width:62px;flex-shrink:0;}
+.chavat{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid var(--b2);margin-bottom:5px;}
+.chpn{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);text-align:center;line-height:1.3;}
+.ch-right{flex:1;padding:11px 13px;min-width:0;}
+.chhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:4px;flex-wrap:wrap;}
+.chname{font-size:13px;color:var(--t0);}
+.chstat{font-family:'Space Mono',monospace;font-size:6px;color:var(--gold3);letter-spacing:.1em;padding:1px 4px;border:1px solid var(--gold4);}
+.chspeech{font-style:italic;font-size:14px;color:var(--t0);line-height:1.75;padding-left:10px;border-left:2px solid var(--gold3);margin-bottom:5px;}
+.chsub{font-size:11px;color:var(--t3);font-style:italic;line-height:1.5;margin-bottom:5px;}
+.hear-btn{display:inline-flex;align-items:center;gap:5px;background:var(--s3);border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.1em;padding:3px 7px;cursor:pointer;transition:all .2s;}
+.hear-btn:hover{border-color:var(--gold3);color:var(--gold);}
+
+.pact{display:flex;gap:8px;padding:7px 10px;background:var(--s3);border:1px solid var(--b1);border-left:3px solid var(--gold);margin:7px 0;}
+.palbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.14em;color:var(--gold);flex-shrink:0;margin-top:1px;white-space:nowrap;}
+.patxt{font-style:italic;color:var(--t1);font-size:12px;line-height:1.6;}
+.sflag{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--green2);background:var(--s3);padding:3px 8px;margin:3px 2px;cursor:pointer;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.1em;color:var(--green);text-transform:uppercase;}
+.ibox{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--blue2);padding:7px 10px;margin:7px 0;cursor:pointer;}
+.ilbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.18em;color:var(--blue);margin-bottom:2px;}
+.itxt{font-size:11px;color:var(--t3);line-height:1.6;}
+.mctag{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:7px;padding:2px 5px;border-radius:2px;margin:2px;}
+.mcp{color:var(--green);background:var(--green2);border:1px solid #1a3a1a;}
+.mcn{color:var(--red);background:#150808;border:1px solid #3a1515;}
+
+/* TRANSACTION LOG */
+.txn{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--s3);font-size:11px;}
+.txn:last-child{border-bottom:none;}
+.txn-desc{color:var(--t2);flex:1;}
+.txn-amt{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;white-space:nowrap;}
+.txn-amt.pos{color:var(--green);}
+.txn-amt.neg{color:var(--red);}
+
+/* INPUT */
+.input-area{border-top:1px solid var(--b1);background:var(--s1);padding:9px 12px;flex-shrink:0;}
+.choice-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+.cbtn{background:var(--s2);border:1px solid var(--b2);padding:7px 10px;cursor:pointer;text-align:left;transition:all .2s;font-family:'Cormorant Garamond',serif;display:flex;align-items:flex-start;gap:6px;flex:1;min-width:132px;min-height:44px;}
+.cbtn:hover,.cbtn:active{border-color:var(--gold3);background:var(--gold4);}
+.cnum{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold3);letter-spacing:.1em;flex-shrink:0;margin-top:2px;}
+.ctxt{font-size:12px;color:var(--t2);line-height:1.5;flex:1;}
+.ctag{font-family:'Space Mono',monospace;font-size:6px;padding:2px 4px;border:1px solid;flex-shrink:0;margin-top:2px;}
+.tc{color:var(--green);border-color:var(--green2);}.tg{color:var(--gold);border-color:var(--gold3);}.td{color:var(--red);border-color:var(--red2);}
+.free-row{display:flex;gap:5px;}
+.finput{flex:1;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:'Cormorant Garamond',serif;font-size:14px;padding:9px 10px;outline:none;transition:border-color .2s;min-height:44px;border-radius:0;-webkit-appearance:none;}
+.finput:focus{border-color:var(--gold3);}
+.finput::placeholder{color:var(--t3);font-style:italic;}
+.movebtn{background:var(--gold);border:none;color:#000;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;padding:9px 13px;cursor:pointer;transition:background .2s;text-transform:uppercase;white-space:nowrap;min-height:44px;}
+.movebtn:hover{background:var(--gold2);}
+.movebtn:disabled{opacity:.4;cursor:not-allowed;}
+.errmsg{color:var(--red);font-family:'Space Mono',monospace;font-size:9px;padding:6px;border:1px solid var(--red2);margin-top:5px;display:none;line-height:1.5;word-break:break-all;}
+
+/* AUDIO */
+.audio-bar{display:flex;align-items:center;gap:7px;padding:6px 12px;background:var(--s2);border-bottom:1px solid var(--b1);flex-wrap:wrap;}
+.audio-lbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.16em;color:var(--t3);}
+.atoggle{background:transparent;border:1px solid var(--b2);color:var(--t3);font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.08em;padding:3px 8px;cursor:pointer;transition:all .2s;}
+.atoggle.on{border-color:var(--green);color:var(--green);}
+.atoggle:hover{border-color:var(--gold3);color:var(--gold);}
+.speaking{display:none;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:7px;color:var(--green);}
+.speaking.on{display:flex;}
+.sdot{width:4px;height:4px;border-radius:50%;background:var(--green);}
+
+/* MAP */
+.map-wrap{padding:13px;}
+.map-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.map-title{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.26em;color:var(--gold3);}
+.map-legend{display:flex;gap:9px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:6px;color:var(--t2);}
+.leg-dot{width:7px;height:7px;border-radius:50%;}
+.theaters-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:12px;}
+.theater-card{background:var(--s1);border:1px solid var(--b1);}
+.theater-hdr{padding:9px 11px;border-bottom:1px solid var(--b1);}
+.theater-name{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.24em;color:var(--gold3);}
+.theater-sub{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:2px;}
+.theater-map-area{position:relative;height:190px;background:var(--s2);overflow:hidden;}
+.theater-map-area svg{width:100%;height:100%;}
+.zone-list{padding:4px 0;}
+.zone-row{display:flex;align-items:center;justify-content:space-between;padding:4px 11px;border-bottom:1px solid var(--s3);cursor:pointer;transition:all .18s;}
+.zone-row:hover{background:var(--s2);padding-left:15px;}
+.zone-row:last-child{border-bottom:none;}
+.zone-name{font-size:11px;color:var(--t1);}
+.zone-ctrl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.06em;}
+.zone-ctrl.player{color:var(--gold);}
+.zone-ctrl.khalil{color:#c44;}
+.zone-ctrl.chen{color:var(--blue);}
+.zone-ctrl.cardinal{color:#cc4444;}
+.zone-ctrl.koroma{color:var(--purple);}
+.zone-ctrl.peninsula{color:var(--green);}
+.zone-ctrl.syndicate{color:var(--orange);}
+.zone-ctrl.zanele{color:#aa6633;}
+.zone-ctrl.offshore{color:#3399aa;}
+.zone-ctrl.frontier{color:#aa3399;}
+.zone-ctrl.neutral{color:var(--t3);}
+.zone-val{font-family:'Space Mono',monospace;font-size:7px;color:var(--green);}
+
+/* EMPIRE TAB */
+.empire-wrap{padding:14px;}
+.empire-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:14px;}
+.empire-card{background:var(--s1);border:1px solid var(--b1);padding:14px;cursor:pointer;transition:border-color .2s;}
+.empire-card:hover{border-color:var(--gold3);}
+.ec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.ec-icon{font-size:20px;margin-right:8px;}
+.ec-name{font-size:14px;color:var(--t0);}
+.ec-type{font-family:'Space Mono',monospace;font-size:7px;color:var(--gold3);letter-spacing:.1em;}
+.ec-status{font-family:'Space Mono',monospace;font-size:7px;padding:2px 6px;border:1px solid;}
+.ec-status.owned{color:var(--green);border-color:var(--green2);}
+.ec-status.available{color:var(--gold);border-color:var(--gold3);}
+.ec-status.locked{color:var(--t3);border-color:var(--b2);}
+.ec-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.ec-stat{background:var(--s2);padding:5px 7px;}
+.ec-stat-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-bottom:1px;}
+.ec-stat-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold2);}
+.ec-desc{font-size:11px;color:var(--t3);line-height:1.55;margin-top:6px;}
+
+/* PORTFOLIO TAB */
+.portfolio-wrap{padding:14px;}
+.port-section{margin-bottom:18px;}
+.port-title{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.26em;color:var(--gold3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);}
+.asset-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--s1);border:1px solid var(--b1);margin-bottom:4px;cursor:pointer;transition:border-color .2s;}
+.asset-row:hover{border-color:var(--gold3);}
+.asset-icon{font-size:16px;margin-right:8px;flex-shrink:0;}
+.asset-info{flex:1;min-width:0;}
+.asset-name{font-size:12px;color:var(--t0);}
+.asset-detail{font-family:'Space Mono',monospace;font-size:7px;color:var(--t3);margin-top:1px;}
+.asset-value{text-align:right;flex-shrink:0;}
+.asset-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold2);font-weight:700;}
+.asset-yield{font-family:'Space Mono',monospace;font-size:7px;color:var(--green);}
+.port-empty{font-style:italic;color:var(--t3);font-size:13px;padding:10px 0;}
+
+/* BROTHERHOOD TAB */
+.bro-wrap{padding:14px;}
+.bro-header{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--blue);padding:14px;margin-bottom:14px;}
+.bro-secret{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:var(--blue);margin-bottom:6px;}
+.bro-title{font-size:18px;color:var(--t0);margin-bottom:4px;}
+.bro-sub{font-size:12px;color:var(--t3);line-height:1.6;}
+.bro-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:12px 0;}
+.bro-stat{background:var(--s2);border:1px solid var(--b1);padding:8px 10px;}
+.bro-stat-lbl{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.14em;color:var(--t3);margin-bottom:3px;}
+.bro-stat-val{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold2);font-weight:700;}
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin-bottom:12px;}
+.member-card{background:var(--s1);border:1px solid var(--b1);padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.member-av{width:30px;height:30px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;border:1px solid var(--b2);}
+.member-name{font-size:11px;color:var(--t1);}
+.member-role{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);margin-top:1px;}
+.bro-action{background:var(--s1);border:1px solid var(--b1);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s;}
+.bro-action:hover{border-color:var(--gold3);background:var(--gold4);}
+.bro-action-title{font-size:13px;color:var(--t0);margin-bottom:3px;}
+.bro-action-desc{font-size:11px;color:var(--t3);line-height:1.5;}
+.bro-action-cost{font-family:'Space Mono',monospace;font-size:8px;color:var(--gold);margin-top:5px;}
+
+/* CHARTS */
+.charts-wrap{padding:13px;}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px;margin-bottom:12px;}
+.chart-card{background:var(--s1);border:1px solid var(--b1);padding:13px;}
+.chart-title{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.24em;color:var(--gold3);margin-bottom:9px;}
+.bars{display:flex;align-items:flex-end;gap:3px;height:90px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.bar-fill{width:100%;border-radius:2px 2px 0 0;transition:height .8s ease;min-height:3px;}
+.bar-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t3);}
+.bar-num{font-family:'Space Mono',monospace;font-size:6px;color:var(--gold2);}
+.mc-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.mc-lbl{font-family:'Space Mono',monospace;font-size:6px;color:var(--t2);width:72px;flex-shrink:0;}
+.mc-bar{flex:1;height:10px;background:var(--b2);border-radius:2px;overflow:hidden;}
+.mc-fill{height:100%;border-radius:2px;transition:width .8s;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;}
+.mc-num{font-family:'Space Mono',monospace;font-size:7px;color:rgba(0,0,0,.7);font-weight:700;}
+.ftable{width:100%;border-collapse:collapse;font-size:11px;}
+.ftable th{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.16em;color:var(--t3);padding:5px 6px;text-align:left;border-bottom:1px solid var(--b1);}
+.ftable td{padding:5px 6px;border-bottom:1px solid var(--s3);color:var(--t1);}
+.ftable tr:hover td{background:var(--s2);}
+.fdot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle;}
+.thr{font-family:'Space Mono',monospace;font-size:7px;}
+.t-lo{color:var(--green);}.t-me{color:var(--gold);}.t-hi{color:var(--red);}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+.modal{background:var(--s1);border:1px solid var(--b2);width:100%;max-width:500px;padding:22px 20px;position:relative;margin:auto;}
+.modal-x{position:absolute;top:9px;right:9px;background:none;border:none;color:var(--t3);font-size:17px;cursor:pointer;min-width:30px;min-height:30px;display:flex;align-items:center;justify-content:center;}
+.modal-x:hover{color:var(--t1);}
+.modal-pre{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.28em;color:var(--gold3);margin-bottom:5px;}
+.modal-title{font-size:clamp(17px,3.5vw,22px);font-weight:300;color:var(--t0);margin-bottom:11px;line-height:1.2;}
+.modal-body{font-size:13px;color:var(--t3);line-height:1.85;}
+.modal-body p{margin-bottom:8px;}
+.modal-body strong{color:var(--t1);}
+.savedisp{background:#050505;border:1px solid var(--b1);padding:9px;font-family:monospace;font-size:8px;color:var(--t3);line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:150px;overflow-y:auto;margin-bottom:9px;}
+.loybar{margin:8px 0;}
+.lylbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:var(--t3);margin-bottom:3px;}
+.lytrk{height:3px;background:var(--b2);}
+.lyfil{height:100%;background:var(--gold);transition:width .8s;}
+.rtags{display:flex;flex-wrap:wrap;gap:3px;margin:7px 0;}
+.rtag{font-family:'Space Mono',monospace;font-size:6px;letter-spacing:.07em;padding:2px 5px;border:1px solid var(--b2);color:var(--t3);}
+
+.notif{position:fixed;bottom:14px;right:14px;background:var(--s1);border:1px solid var(--b2);border-left:3px solid var(--gold);padding:8px 12px;max-width:230px;z-index:300;pointer-events:none;}
+.nt{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.12em;color:var(--gold);margin-bottom:2px;}
+.nb{font-size:11px;color:var(--t3);line-height:1.5;}
+.loading{position:fixed;inset:0;background:rgba(7,7,7,.93);z-index:400;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:11px;}
+.ld-txt{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.26em;color:var(--t3);}
+.ldd{width:5px;height:5px;background:var(--gold);border-radius:50%;}
+
+.btn-g{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#000;background:var(--gold);border:none;padding:11px 24px;cursor:pointer;transition:all .2s;min-height:44px;}
+.btn-g:hover{background:var(--gold2);}
+.btn-g:disabled{opacity:.4;cursor:not-allowed;}
+.btn-o{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.11em;text-transform:uppercase;color:var(--t3);background:transparent;border:1px solid var(--b2);padding:8px 14px;cursor:pointer;transition:all .2s;min-height:36px;}
+.btn-o:hover{border-color:var(--gold3);color:var(--gold);}
+
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1);}}
+.ldd:nth-child(1){animation:pulse 1.2s ease 0s infinite;}
+.ldd:nth-child(2){animation:pulse 1.2s ease .2s infinite;}
+.ldd:nth-child(3){animation:pulse 1.2s ease .4s infinite;}
+@keyframes sdot{0%,100%{opacity:.4;}50%{opacity:1;}}
+.sdot{animation:sdot .8s ease infinite;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+
+// ══════════════════════════════════════
+// INDUSTRIES — What you can own or invest in
+// ══════════════════════════════════════
+const INDUSTRIES = [
+  // LOGISTICS & TRADE
+  {id:'freight_forwarding',  cat:'LOGISTICS',    icon:'🚢', name:'Freight Forwarding Co.',     cost:280000,  roi:.22, monthlyRev:52000,   desc:'Coordinates cargo shipments between Salone, Caribbean, and Europe. Silent ownership viable. Requires one strong operator.',             minInfluence:15, req:'Any'},
+  {id:'warehouse_ops',       cat:'LOGISTICS',    icon:'🏭', name:'Warehouse Operations',        cost:450000,  roi:.18, monthlyRev:68000,   desc:'Storage and distribution facility near port approach. Competes with Khalil indirectly. High strategic value.',                       minInfluence:20, req:'Any'},
+  {id:'cold_storage',        cat:'LOGISTICS',    icon:'🧊', name:'Cold Storage Network',        cost:620000,  roi:.24, monthlyRev:98000,   desc:'Fishing and agricultural cold chain. Nobody has built this in Salone. Massive first-mover advantage.',                             minInfluence:25, req:'Salone contact'},
+  {id:'last_mile',           cat:'LOGISTICS',    icon:'🛵', name:'Last-Mile Delivery',          cost:85000,   roi:.31, monthlyRev:22000,   desc:'Urban delivery network. Syndicate territory but they\'re inefficient. Could be built from scratch or via acquisition.',           minInfluence:10, req:'Any'},
+  // REAL ESTATE
+  {id:'commercial_property', cat:'REAL ESTATE',  icon:'🏢', name:'Commercial Property',         cost:850000,  roi:.14, monthlyRev:99000,   desc:'Office and retail space in Freetown or Charlesville. Stable cash flow. Silent ownership easy.',                                   minInfluence:20, req:'Any'},
+  {id:'residential_dev',     cat:'REAL ESTATE',  icon:'🏘', name:'Residential Development',     cost:1200000, roi:.19, monthlyRev:185000,  desc:'Build-and-hold residential blocks. 18-month build cycle. Recurring rent income.',                                                minInfluence:30, req:'Land first'},
+  {id:'land_bank',           cat:'REAL ESTATE',  icon:'🌍', name:'Land Acquisition',            cost:180000,  roi:.08, monthlyRev:0,       desc:'Buy undeveloped land in strategic corridors before infrastructure arrives. Long-term play. High upside.',                         minInfluence:10, req:'Any'},
+  {id:'luxury_residential',  cat:'REAL ESTATE',  icon:'🏡', name:'Luxury Residence',            cost:2200000, roi:.06, monthlyRev:0,       desc:'Personal or investment property. Status signal. Useful for hosting key relationships.',                                           minInfluence:40, req:'$2M+ clean'},
+  // ENERGY
+  {id:'solar_micro',         cat:'ENERGY',       icon:'☀️', name:'Solar Micro-Grid',            cost:340000,  roi:.26, monthlyRev:72000,   desc:'Off-grid power for industrial and residential zones. Salone energy crisis makes this immediately viable.',                        minInfluence:20, req:'Salone presence'},
+  {id:'fuel_import',         cat:'ENERGY',       icon:'⛽', name:'Fuel Import & Distribution',  cost:780000,  roi:.21, monthlyRev:138000,  desc:'Import and distribute diesel and petrol. Essential infrastructure. Currently monopolized — disruption opportunity.',             minInfluence:35, req:'Port access'},
+  {id:'power_plant',         cat:'ENERGY',       icon:'⚡', name:'Power Generation Plant',      cost:4500000, roi:.28, monthlyRev:1050000, desc:'Medium-scale generation. Government contract potential. Requires political relationship and significant capital.',                minInfluence:55, req:'Ministry contact'},
+  // FINANCE
+  {id:'trade_finance',       cat:'FINANCE',      icon:'💰', name:'Trade Finance Desk',          cost:500000,  roi:.34, monthlyRev:142000,  desc:'Finance import/export operations. Underserved market in Salone and Trinidade. Requires legal structure.',                        minInfluence:30, req:'Attorney'},
+  {id:'microfinance',        cat:'FINANCE',      icon:'🏦', name:'Microfinance Institution',    cost:1200000, roi:.19, monthlyRev:190000,  desc:'Small business lending in underserved markets. Community relationships. Regulatory approval needed.',                           minInfluence:25, req:'Ministry contact'},
+  {id:'forex_bureau',        cat:'FINANCE',      icon:'💱', name:'Forex Bureau',                cost:95000,   roi:.28, monthlyRev:22000,   desc:'Currency exchange. Low overhead. High volume in diaspora and trade corridors.',                                                  minInfluence:15, req:'Any'},
+  {id:'private_equity',      cat:'FINANCE',      icon:'📊', name:'PE Fund (LP Position)',       cost:2000000, roi:.24, monthlyRev:0,       desc:'Silent LP stake in Zanele Capital or similar. Passive. Prestigious. Opens serious doors.',                                       minInfluence:45, req:'Zanele contact'},
+  // TECHNOLOGY
+  {id:'mobile_money',        cat:'TECHNOLOGY',   icon:'📱', name:'Mobile Money Platform',       cost:880000,  roi:.38, monthlyRev:278000,  desc:'Digital payment rails for the unbanked. Fastest growing sector in West Africa. First-mover wins.',                            minInfluence:30, req:'Tech partner'},
+  {id:'logistics_software',  cat:'TECHNOLOGY',   icon:'💻', name:'Logistics SaaS Platform',     cost:220000,  roi:.45, monthlyRev:88000,   desc:'Port management and freight tracking software. Sell to operators. Recurring revenue.',                                         minInfluence:20, req:'Any'},
+  {id:'data_center',         cat:'TECHNOLOGY',   icon:'🖥', name:'Data Center',                 cost:3200000, roi:.31, monthlyRev:830000,  desc:'Colocation and cloud services. Salone has zero local infrastructure. Strategic and lucrative.',                               minInfluence:50, req:'Energy + Land'},
+  // MEDIA & INFLUENCE
+  {id:'media_outlet',        cat:'MEDIA',        icon:'📰', name:'News & Media Outlet',         cost:320000,  roi:.12, monthlyRev:32000,   desc:'Local news in Trinidade or Salone. Below-cost financially. Incalculable influence value during election season.',              minInfluence:25, req:'Any'},
+  {id:'pr_firm',             cat:'MEDIA',        icon:'🎙', name:'PR & Communications Firm',    cost:180000,  roi:.28, monthlyRev:42000,   desc:'Reputation management and narrative control. Yours and others\'. Silent asset.',                                              minInfluence:20, req:'Any'},
+  // HOSPITALITY
+  {id:'boutique_hotel',      cat:'HOSPITALITY',  icon:'🏨', name:'Boutique Hotel',              cost:1800000, roi:.16, monthlyRev:240000,  desc:'High-end hospitality in Freetown or Charlesville. Cover for relationship-building. Real cash flow.',                          minInfluence:30, req:'Land or property'},
+  {id:'restaurant_group',    cat:'HOSPITALITY',  icon:'🍽', name:'Restaurant Group',            cost:380000,  roi:.22, monthlyRev:70000,   desc:'Two to three locations. Community asset. Where deals get made informally.',                                                   minInfluence:15, req:'Any'},
+  // SECURITY & INTELLIGENCE
+  {id:'security_firm',       cat:'SECURITY',     icon:'🛡', name:'Private Security Firm',       cost:650000,  roi:.29, monthlyRev:158000,  desc:'Protection contracts for infrastructure and personnel. Irongate relationship opens doors. Dual-use intelligence asset.',       minInfluence:40, req:'Irongate contact'},
+  // AGRICULTURE
+  {id:'agri_export',         cat:'AGRICULTURE',  icon:'🌾', name:'Agricultural Export Operation',cost:420000, roi:.20, monthlyRev:70000,   desc:'Cassava, rice, palm oil. Massive untapped export potential from Salone interior. Cold storage link.',                         minInfluence:20, req:'Salone presence'},
+  // MINING
+  {id:'mineral_license',     cat:'MINING',       icon:'💎', name:'Mineral Extraction License',  cost:750000,  roi:.0,  monthlyRev:0,       desc:'License to extract rutile, bauxite, or industrial minerals. No direct ops — license and JV with operator. Upside: enormous.', minInfluence:50, req:'Ministry + Cardinal disruption'},
+];
+
+// ══════════════════════════════════════
+// FACTIONS
+// ══════════════════════════════════════
+const FACTIONS = {
+  player:    {name:'Kutor Operation',      color:'#c8922a', short:'KUTOR',    threat:'—',    type:'Independent'},
+  khalil:    {name:'Khalil Group',          color:'#c44444', short:'KHALIL',   threat:'HIGH', type:'Trade Conglomerate',    desc:'Lebanese port dynasty. $2.4B/yr Salone throughput. 7yr exclusive warehousing. Multi-generational. Politically embedded.'},
+  chen:      {name:'Chen Logistics',        color:'#3a7aaa', short:'CHEN',     threat:'HIGH', type:'State-Adjacent Corp',   desc:'Chinese state-backed infrastructure. $800M in Salone contracts. Road, energy, digital. Patient and deep-pocketed.'},
+  cardinal:  {name:'Cardinal Holdings',     color:'#cc4444', short:'CARDINAL', threat:'HIGH', type:'European Legacy Capital',desc:'Old European colonial trading house. $4B regional assets. Mining, land, finance. Slow but deeply entrenched.'},
+  koroma:    {name:'Koroma Network',         color:'#7a4a9a', short:'KOROMA',   threat:'MED',  type:'Political Network',     desc:'Salone political family. Controls ministry approvals. Cannot be fought. Every deal requires navigation.'},
+  peninsula: {name:'Peninsula Group',        color:'#4a9a6a', short:'PENIN.',   threat:'MED',  type:'Trade Collective',      desc:'Caribbean trade collective. $340M/yr. Controls Trinidade port and shipping lanes. Expansion-minded.'},
+  zanele:    {name:'Zanele Capital',          color:'#aa6633', short:'ZANELE',   threat:'LOW',  type:'Private Equity',        desc:'South African PE firm. $1.2B AUM. Investing in West African logistics and fintech. Potential partner.'},
+  offshore:  {name:'Offshore Consortium',    color:'#3399aa', short:'OFFSHR',   threat:'MED',  type:'Anonymous Capital',     desc:'Unknown ownership. Shell structures across 3 jurisdictions. Moving into energy and free trade zones.'},
+  frontier:  {name:'Frontier Dynamics',      color:'#aa3399', short:'FRNTR',    threat:'MED',  type:'Tech Infrastructure',   desc:'Silicon Valley-funded. $500M raised. Targeting African digital infra. Subsea cable, data centers, mobile money.'},
+  syndicate: {name:'Street Syndicate',       color:'#e88a3a', short:'SYNDCT',   threat:'LOW',  type:'Informal Network',      desc:'Informal economy operators. Last-mile distribution. Small player. Controls something no formal operator can replicate.'},
+  irongate:  {name:'Irongate Security',      color:'#888888', short:'IRNGAT',   threat:'LOW',  type:'Private Intel/Security',desc:'Private security and intelligence. Neutral. Available to highest bidder. Information is their real product.'},
+  dmv_circle:{name:'The DMV Circle',         color:'#9a7a4a', short:'DMV.CRC',  threat:'LOW',  type:'Diaspora Network',      desc:'Sierra Leonean and Caribbean diaspora professionals in DC. Government contractors, attorneys, financiers. Your base.'}
+};
+
+// ══════════════════════════════════════
+// THEATERS — 30 zones
+// ══════════════════════════════════════
+const THEATERS = {
+  salone:{name:'SALONE',sub:'West African Coast — Primary Theater',zones:[
+    {id:'port_terminal',      name:'Port Terminal',          ctrl:'khalil',   rev:8500000,  desc:'Main port. Khalil 7yr exclusive. $8.5M/mo throughput. Single most strategic asset.'},
+    {id:'eastern_industrial', name:'Eastern Industrial',     ctrl:'khalil',   rev:3200000,  desc:'Manufacturing and processing. Khalil supply chain. $3.2M/mo.'},
+    {id:'northern_corridor',  name:'Northern Corridor',      ctrl:'chen',     rev:2800000,  desc:'Road and rail to interior. Chen building quietly. $2.8M/mo strategic value.'},
+    {id:'government_dist',    name:'Government District',    ctrl:'koroma',   rev:0,        desc:'Ministries and permits. Koroma network owns this space.'},
+    {id:'southern_markets',   name:'Southern Markets',       ctrl:'syndicate',rev:1200000,  desc:'Informal economy. Last-mile. Syndicate territory. $1.2M/mo informal flow.'},
+    {id:'western_residential',name:'Western Residential',    ctrl:'neutral',  rev:800000,   desc:'Growing middle class. Untouched. $800K/mo potential.'},
+    {id:'harbor_approach',    name:'Harbor Approach',        ctrl:'neutral',  rev:1500000,  desc:'Logistics staging outside port control. Strategic chokepoint. $1.5M/mo.'},
+    {id:'free_trade_zone',    name:'Free Trade Zone',        ctrl:'frontier', rev:2100000,  desc:'Government investment zone. Frontier Dynamics moved in. $2.1M/mo.'},
+    {id:'diamond_corridor',   name:'Diamond Corridor',       ctrl:'cardinal', rev:6400000,  desc:'Mineral extraction. Cardinal legacy operation. $6.4M/mo.'},
+    {id:'energy_grid',        name:'Energy Infrastructure',  ctrl:'chen',     rev:4100000,  desc:'Power generation. Chen financing grid rebuild. $4.1M/mo.'},
+    {id:'offshore_blocks',    name:'Offshore Blocks',        ctrl:'offshore', rev:9200000,  desc:'Oil and gas. Offshore Consortium 3 blocks. $9.2M/mo. Unknown who is behind this.'},
+    {id:'fintech_district',   name:'Fintech District',       ctrl:'neutral',  rev:1800000,  desc:'Mobile money and digital banking. Fastest growing sector. Nobody owns it yet.'}
+  ]},
+  dmv:{name:'DMV',sub:'Washington D.C. Metro — Home Base',zones:[
+    {id:'federal_corridor',   name:'Federal Corridor',       ctrl:'neutral',  rev:0,        desc:'Government contracts. Your clearance opens doors here.'},
+    {id:'tysons_corridor',    name:'Tysons Corridor',        ctrl:'neutral',  rev:0,        desc:'Federal contractor hub. EY, Booz Allen, Leidos territory.'},
+    {id:'silver_spring',      name:'Silver Spring',          ctrl:'player',   rev:0,        desc:'Home base. Brotherhood operations center.'},
+    {id:'bethesda_district',  name:'Bethesda District',      ctrl:'dmv_circle',rev:0,       desc:'Financial and legal services corridor. DMV Circle operates here.'},
+    {id:'capitol_influence',  name:'Capitol Influence',      ctrl:'neutral',  rev:0,        desc:'Political access. Lobbyists, staffers, funding mechanisms.'},
+    {id:'embassy_row',        name:'Embassy Row',            ctrl:'neutral',  rev:0,        desc:'Diplomatic relationships. Direct line to African governments.'},
+    {id:'innovation_corridor',name:'Innovation Corridor',    ctrl:'frontier', rev:0,        desc:'Tech ecosystem. Frontier Dynamics present. VCs and builders.'},
+    {id:'financial_district', name:'Financial District',     ctrl:'neutral',  rev:0,        desc:'Private equity, hedge funds, institutional capital.'}
+  ]},
+  trinidade:{name:'TRINIDADE',sub:'Caribbean — Secondary Theater',zones:[
+    {id:'port_charlesville',  name:'Port Charlesville',      ctrl:'peninsula',rev:4200000,  desc:'Main port. Peninsula controls access. $4.2M/mo. Election instability creating openings.'},
+    {id:'energy_offshore',    name:'Energy Offshore',        ctrl:'offshore', rev:7800000,  desc:'Oil and gas offshore. $7.8M/mo. Unknown ultimate ownership.'},
+    {id:'financial_center',   name:'Financial Center',       ctrl:'neutral',  rev:0,        desc:'Offshore financial services. Discreet capital movement.'},
+    {id:'northern_townships', name:'Northern Townships',     ctrl:'neutral',  rev:1100000,  desc:'Working class communities. Political base for election winner.'},
+    {id:'resort_corridor',    name:'Resort Corridor',        ctrl:'peninsula',rev:2300000,  desc:'Tourism and hospitality. Peninsula controls access. $2.3M/mo.'},
+    {id:'logistics_hub',      name:'Logistics Hub',          ctrl:'neutral',  rev:3400000,  desc:'Regional distribution center. Controls Caribbean trade flow. $3.4M/mo.'},
+    {id:'media_broadcast',    name:'Media & Broadcast',      ctrl:'neutral',  rev:800000,   desc:'TV, radio, digital. Whoever owns the narrative owns the election.'},
+    {id:'southern_coast',     name:'Southern Coast',         ctrl:'neutral',  rev:1600000,  desc:'Fishing and coastal trade. Underdeveloped. $1.6M/mo potential.'},
+    {id:'tech_corridor_tri',  name:'Tech Corridor',          ctrl:'frontier', rev:0,        desc:'Digital infrastructure. Frontier Dynamics Caribbean expansion.'},
+    {id:'political_capital',  name:'Political Capital',      ctrl:'neutral',  rev:0,        desc:'The seat of power. Election winner controls this. Real prize.'}
+  ]}
+};
+
+// ══════════════════════════════════════
+// CONTACTS
+// ══════════════════════════════════════
+const CONTACTS = {
+  raymond:{name:'Raymond Kofi',emoji:'🧔🏿',bg:'#1a1208',role:'Business mentor. Diaspora, DMV. Built quietly 30 years.',loyalty:85,basis:'GENUINE',disposition:'CAUTIOUSLY WARM',tags:['MENTOR','DIASPORA','TRUSTED'],notes:'Will not be rushed. Knows something is coming.',memory:[]},
+  brotherhood:{name:'The Brotherhood',emoji:'🤝',bg:'#0a1218',role:'12-person investment collective. $47K pooled.',loyalty:90,basis:'BUILT',disposition:'ALIGNED',tags:['ALLIANCE','$47K','GOVERNANCE','CONFIDENTIAL'],notes:'First deployment decision approaching. Keep this tight.',memory:[]},
+  lawyer:{name:'Elaine Osei',emoji:'👩🏾‍⚖️',bg:'#0a0a1a',role:'Estate attorney. Handles the complicated structures.',loyalty:50,basis:'PROFESSIONAL',disposition:'NEUTRAL',tags:['ATTORNEY','STRUCTURES'],notes:'Professional loyalty only. Knows how to build holding companies.',memory:[]},
+  aminata:{name:'Aminata Jalloh',emoji:'👩🏿',bg:'#1a1008',role:'Port logistics, Freetown. Inside knowledge of Khalil operation.',loyalty:60,basis:'RECENT',disposition:'CAUTIOUS BUT OPEN',tags:['SALONE','PORT INSIDER'],notes:'Has information Khalil Group would not want you to have.',memory:[]},
+  father:{name:'The Patriarch',emoji:'👴🏿',bg:'#1a1510',role:'Built a quiet operation 35 years. Stepping back. Watching.',loyalty:95,basis:'BLOOD',disposition:'TESTING',tags:['FATHER','BUILT SOMETHING REAL'],notes:'His blessing opens every door. His disapproval closes them all.',memory:[]},
+  D:{name:'D',emoji:'🎴',bg:'#120808',role:'Oldest connection from the old world. Has never asked for anything.',loyalty:88,basis:'OLD BOND',disposition:'PATIENT',tags:['OLD WORLD','KNOWS EVERYTHING'],notes:'The one person from your past whose word meant something.',memory:[]},
+  bangura:{name:'Minister Bangura',emoji:'👔',bg:'#0a0a1a',role:'Ministry of Trade, Salone. Seeks discreet diaspora partner.',loyalty:20,basis:'TRANSACTIONAL',disposition:'CALCULATING',tags:['MINISTRY','SALONE','POTENTIAL ALLY'],notes:'Understands development serves his interests. Will not be cheap.',memory:[]},
+  khalil_rep:{name:'Hassan Khalil',emoji:'🧔',bg:'#1a0808',role:'Khalil Group operations director. Knows you exist.',loyalty:0,basis:'ADVERSARIAL',disposition:'WATCHFUL',tags:['KHALIL','PORT CONTROL','RIVAL'],notes:'Not hostile yet. The question is whether you become a threat or a partner.',memory:[]}
+};
+
+// ══════════════════════════════════════
+// ORIGINS
+// ══════════════════════════════════════
+const ORIGINS = [
+  {id:'genuine',num:'01',icon:'♟',name:'The Genuine Start',tag:'Built from nothing. Real.',desc:'Early career. Tight capital. TS clearance. Brotherhood fund forming. Everything still ahead.',pills:['CAPITAL: LOW','NETWORK: FORMING'],diff:'HIGH',clean:12000,dirty:0,meters:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70},contacts:['raymond','brotherhood']},
+  {id:'inheritance',num:'02',icon:'⚖️',name:'The Inheritance',tag:'Given a table. Now build the room.',desc:'$340K trust. Properties in Salone. Logistics stake. Seven names. Two debts.',pills:['CAPITAL: MEDIUM','NETWORK: INHERITED'],diff:'MEDIUM',clean:340000,dirty:0,meters:{integrity:75,street:15,inst:50,influence:25,exposure:15,loyalty:65},contacts:['raymond','brotherhood','lawyer']},
+  {id:'employee',num:'03',icon:'🕴️',name:'Inside the House',tag:'Learn the game from inside someone else\'s.',desc:'EY Federal auditor. Watching people who have what you want. Building toward the exit.',pills:['CAPITAL: SALARY','NETWORK: ACCESS'],diff:'MEDIUM',clean:8000,dirty:0,meters:{integrity:85,street:10,inst:45,influence:15,exposure:8,loyalty:75},contacts:['raymond','brotherhood']},
+  {id:'return',num:'04',icon:'✈️',name:'The Return',tag:'You went back. Now you can\'t unsee it.',desc:'Just back from Salone. Gaps mapped. Aminata\'s number in your phone. Raymond called.',pills:['CAPITAL: LOW-MED','NETWORK: GROUND'],diff:'MEDIUM',clean:18000,dirty:0,meters:{integrity:82,street:45,inst:28,influence:18,exposure:10,loyalty:72},contacts:['raymond','brotherhood','aminata']},
+  {id:'operators_son',num:'05',icon:'👑',name:"The Operator's Son",tag:'Visible before you\'ve earned it.',desc:'Father built something real. Stepping back. Making introductions. Being evaluated.',pills:['CAPITAL: MED-HIGH','NETWORK: INHERITED+'],diff:'MEDIUM',clean:85000,dirty:0,meters:{integrity:70,street:30,inst:55,influence:35,exposure:28,loyalty:60},contacts:['raymond','brotherhood','father']},
+  {id:'from_bottom',num:'06',icon:'🃏',name:'From The Bottom',tag:'The past does not disappear.',desc:'Three years in the transition. $34K legitimate. $22K dirty. Clearance earned the hard way.',pills:['CAPITAL: STREET','NETWORK: DUAL WORLD'],diff:'HIGH',clean:34000,dirty:22000,meters:{integrity:45,street:75,inst:10,influence:20,exposure:55,loyalty:80},contacts:['raymond','brotherhood','D'],past:'A decision made three years ago. One person knows.'}
+];
+
+const OPENINGS = {
+  genuine:{loc:'SILVER SPRING, MD',title:'Tuesday. 6:47 AM.',body:`<p>Alarm didn't go off. Already awake.</p><p>$12,000 in the account. $47K in the Brotherhood that isn't his to move unilaterally. TS clearance that opens rooms his résumé alone never would. Phone lights up. Raymond Kofi.</p>`,char:'raymond',speech:`You still sleeping? I have something. Not for the phone. Ethiopian spot on Georgia Ave. Seven-thirty. Come alone.`,sub:`He's already there. Restaurant sounds behind his voice.`,choices:[{type:'CLEAN',text:"Go. Raymond doesn't call early unless it's real."},{type:'GRAY',text:"Go — but pull Freetown port data first."},{type:'DARK',text:"Have someone watch Raymond before Kutor shows his face."}],intel:`Lebanese merchants have dominated West African port logistics since the 1800s. The Khalil Group represents this at its most sophisticated — $2-4B annual throughput, politically embedded, generational.`},
+  inheritance:{loc:"ATTORNEY'S OFFICE — DMV",title:'The Reading of the Will.',body:`<p>$340,000 in a trust Kutor didn't know existed. Three Salone properties. A 15% stake in a Freetown logistics operation. Seven names with phone numbers — one in the Ministry of Trade.</p><p>Two debts. One financial. One something else.</p>`,char:'raymond',speech:`The properties are his. The relationships are not. He earns those himself.`,sub:`Raymond was named voluntary advisor. Twenty years with the uncle.`,choices:[{type:'CLEAN',text:"Meet Raymond. Understand everything first."},{type:'GRAY',text:"Contact the Ministry name directly."},{type:'DARK',text:"Find the second debt before anyone knows he knows."}],intel:`Inherited assets in frontier markets carry undisclosed liabilities — land disputes, political obligations, and informal debts that only surface when you try to move.`},
+  employee:{loc:'TYSONS CORNER, VA',title:'Thursday. The Walkthrough.',body:`<p>Taking notes means invisible. Client CIO mentions a West Africa logistics play off-books — needs someone who understands both the cleared environment and the ground reality.</p><p>Kutor writes nothing down.</p>`,char:'raymond',speech:`Heard about an auditor at EY. Sierra Leonean name. Active clearance. That combination doesn't come around. Breakfast?`,sub:`Unknown how Raymond heard. That's the first thing to find out.`,choices:[{type:'CLEAN',text:"Go. Find out how he knows before saying anything."},{type:'GRAY',text:"Research Raymond first. Know his position before he knows yours."},{type:'DARK',text:"Look into the CIO's logistics mention before meeting anyone."}],intel:`TS clearance plus GRC certifications commands $90K-$130K+ in the DMV federal market at Booz Allen, Leidos, Deloitte Federal.`},
+  return:{loc:'DULLES INTERNATIONAL',title:'Back On American Ground.',body:`<p>Three weeks in Salone. Funeral, then a land dispute. Came back with the Khalil operation mapped, the Ministry official who met the Chinese delegation twice without announcement, and Aminata Jalloh's number.</p><p>Raymond's missed call is waiting.</p>`,char:'raymond',speech:`You just landed. I know. Come see me before you unpack. Something moved while you were gone.`,sub:`Knew his flight. Been tracking something.`,choices:[{type:'CLEAN',text:"Straight to Raymond. Find out what moved."},{type:'GRAY',text:"Call Aminata first. Lock that connection."},{type:'DARK',text:"Find out who told Raymond his flight details."}],intel:`AfCFTA is the world's largest free trade area by country count. Internal African trade projected to increase 50%+ in the next decade. Source: au-afcfta.org`},
+  operators_son:{loc:'PRIVATE DINING — WASHINGTON D.C.',title:'The Introduction.',body:`<p>Nine words: "This is my son. He's ready to listen." Father says nothing else for forty minutes.</p><p>Four men. A logistics deal. A Ministry connection in Salone that needs a new contact. Kutor is being evaluated in real time.</p>`,char:'father',speech:`Don't speak unless you have something worth saying. Don't ask questions that show you haven't been listening.`,sub:`Almost kind. The men at the table are listening for whether he understands.`,choices:[{type:'CLEAN',text:"Stay silent. Map every person, interest, and subtext."},{type:'GRAY',text:"Ask one precise question that shows he understood."},{type:'DARK',text:"After dinner, have one of the three men looked into."}],intel:`In West African business culture, the introduction — who brings you in and how they describe you — carries disproportionate weight. Borrowed credibility must convert quickly.`},
+  from_bottom:{loc:'SOUTHEAST D.C.',title:'The Space Between.',body:`<p>Three years out. $34K legitimate. $22K unexplainable. IT certificate that led — through a contact of a contact — to a job with a clearance Kutor sat through with a very specific kind of patience.</p><p>D called last week. Said he heard he was doing well. Kutor knows what that means.</p>`,char:'D',speech:`I'm not calling to pull you back. Somebody's asking about you. In the right places.`,sub:`D has never lied to him. Never called without a reason that revealed itself later.`,choices:[{type:'CLEAN',text:"Go meet Raymond through the legitimate channel."},{type:'GRAY',text:"Find out who's asking through D's network first."},{type:'DARK',text:"Contact D directly. Old world knowing his movements is a threat."}],intel:`The transition from informal to formal economic participation is navigated by far more people than official statistics reflect. Informal capital cannot be deployed without laundering risk.`}
+};
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let G = {
+  screen:'title', apiKey:'', el_key:'',
+  origin:null, session:1, phase:'FOUNDATION', location:'DMV',
+  cleanCap:12000, dirtyCap:0,
+  meters:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70},
+  contacts:{}, zones:{},
+  // Portfolio
+  assets:[],          // owned assets {id, name, icon, purchasePrice, monthlyRev, purchasedSession, type}
+  brotherhoodFund:47000,  // total pooled
+  brotherhoodKutorShare:47000/12, // Kutor's personal contribution
+  brotherhoodDeployed:0,
+  brotherhoodReturns:0,
+  employees:[],       // hired staff
+  transactions:[],    // financial history
+  // Tracking
+  history:[], msgs:[],
+  past:null, loading:false, modal:null, notif:null,
+  selectedOrigin:null, narrativeHTML:'', choices:[], error:null,
+  activeTab:'narrative', lightMode:false, speechRate:1.0,
+  revHistory:[0,0,0,0,0,0,0,0],
+  infHistory:[10,10,10,10,10,10,10,10]
+};
+
+// ══════════════════════════════════════
+// AUTO-SAVE
+// ══════════════════════════════════════
+function autoSave(){try{localStorage.setItem('bishop_v10',JSON.stringify({...G,loading:false,modal:null,notif:null,apiKey:'',el_key:''}));}catch(e){}}
+function autoLoad(){try{const s=localStorage.getItem('bishop_v10');return s?JSON.parse(s):null;}catch(e){return null;}}
+
+// ══════════════════════════════════════
+// AUDIO
+// ══════════════════════════════════════
+const A={
+  enabled:false, elKey:'', speaking:false, synth:window.speechSynthesis,
+  async speak(text,charName){
+    if(!this.enabled)return;
+    this.stop(); this.speaking=true; this.updateUI();
+    if(this.elKey){try{await this.speakEL(text);return;}catch(e){}}
+    if(!this.synth){this.speaking=false;this.updateUI();return;}
+    const utt=new SpeechSynthesisUtterance(text);
+    const voices=this.synth.getVoices();
+    const pref=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Karen')||(v.lang.includes('en-GB')&&v.name.toLowerCase().includes('female')))||voices.find(v=>v.lang.includes('en-GB'))||voices.find(v=>v.lang.includes('en'))||voices[0];
+    utt.voice=pref; utt.rate=G.speechRate||1.0;
+    utt.pitch=charName==='The Patriarch'?0.75:charName==='D'?0.85:1.0;
+    utt.volume=0.92;
+    utt.onend=()=>{this.speaking=false;this.updateUI();};
+    utt.onerror=()=>{this.speaking=false;this.updateUI();};
+    this.synth.speak(utt);
+  },
+  async speakEL(text){
+    const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',{method:'POST',headers:{'xi-api-key':this.elKey,'Content-Type':'application/json'},body:JSON.stringify({text,model_id:'eleven_monolingual_v1',voice_settings:{stability:.5,similarity_boost:.8}})});
+    if(!r.ok)throw new Error('EL failed');
+    const blob=await r.blob();
+    const url=URL.createObjectURL(blob);
+    const audio=new Audio(url);
+    audio.onended=()=>{this.speaking=false;this.updateUI();URL.revokeObjectURL(url);};
+    audio.onerror=()=>{this.speaking=false;this.updateUI();};
+    await audio.play();
+  },
+  stop(){this.synth&&this.synth.cancel();this.speaking=false;this.updateUI();},
+  toggle(){this.enabled=!this.enabled;if(!this.enabled)this.stop();render();},
+  updateUI(){document.querySelectorAll('.speaking').forEach(el=>el.classList.toggle('on',this.speaking));}
+};
+if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+function render(){
+  document.body.classList.toggle('light',G.lightMode);
+  const root=document.getElementById('root');
+  if(G.screen==='title')root.innerHTML=renderTitle();
+  else if(G.screen==='setup')root.innerHTML=renderSetup();
+  else if(G.screen==='origin')root.innerHTML=renderOrigin();
+  else if(G.screen==='game')root.innerHTML=renderGame();
+  if(G.loading)root.innerHTML+=`<div class="loading"><div class="ld-txt">The board is moving</div><div style="display:flex;gap:6px;"><div class="ldd"></div><div class="ldd"></div><div class="ldd"></div></div></div>`;
+  if(G.modal)root.innerHTML+=renderModal(G.modal);
+  if(G.notif)root.innerHTML+=`<div class="notif"><div class="nt">${G.notif.t}</div><div class="nb">${G.notif.b}</div></div>`;
+  attachEvents();
+  if(G.screen==='game')scrollNarr();
+}
+
+function renderTitle(){
+  const saved=autoLoad();
+  return `<div class="scr on"><div class="title-bg">
+    <button class="theme-btn" onclick="G.lightMode=!G.lightMode;render()">${G.lightMode?'DARK':'LIGHT'}</button>
+    <div class="t-eye">A Life Strategy Simulation</div>
+    <div class="t-main">THE<br>BISHOP</div>
+    <div class="t-sub">Move diagonally. See everything. Own the board.</div>
+    <div class="t-quote">"The quiet ones are the dangerous ones — not because they hide what they are, but because they already know what you are."</div>
+    <div class="t-btns">
+      <button class="btn-g" onclick="G.screen='setup';render()">BEGIN</button>
+      ${saved&&saved.session>1?`<button class="btn-o" onclick="resumeAuto()">RESUME — SESSION ${String(saved.session).padStart(2,'0')}</button>`:''}
+      <button class="btn-o" onclick="showLoad()">LOAD SESSION</button>
+    </div>
+  </div></div>`;
+}
+
+function renderSetup(){
+  return `<div class="scr on"><div class="setup-bg">
+    <div style="text-align:center;margin-bottom:22px;">
+      <div class="t-eye" style="margin-bottom:9px;">Before You Begin</div>
+      <div style="font-size:clamp(26px,7vw,52px);font-weight:300;color:var(--t0);line-height:.9;margin-bottom:8px;">API KEY<br>REQUIRED</div>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">ANTHROPIC KEY — REQUIRED</div>
+      <div class="setup-txt">Powers the AI. Get one free at <span style="color:var(--gold);">console.anthropic.com</span> — ~$0.003/move.</div>
+      <input id="ak-inp" type="password" class="api-inp" placeholder="sk-ant-api03-..." onkeypress="if(event.key==='Enter')submitKey()">
+      <div id="ak-err" class="key-err"></div>
+    </div>
+    <div class="setup-card" style="border-left-color:var(--b1);">
+      <div class="setup-label">ELEVENLABS KEY — OPTIONAL (Human Voice)</div>
+      <div class="setup-txt">High-quality narrator voice. Free tier at <span style="color:var(--gold);">elevenlabs.io</span>. Skip to use device voice.</div>
+      <input id="el-inp" type="password" class="api-inp" placeholder="Leave blank to skip...">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn-g" onclick="submitKey()">ENTER THE BOARD</button>
+      <button class="btn-o" onclick="G.screen='title';render()">← BACK</button>
+    </div>
+  </div></div>`;
+}
+
+function submitKey(){
+  const ak=document.getElementById('ak-inp'),el=document.getElementById('el-inp'),err=document.getElementById('ak-err');
+  if(!ak)return;
+  const val=ak.value.trim();
+  if(!val){err.textContent='Please paste your Anthropic API key.';err.style.display='block';return;}
+  if(!val.startsWith('sk-ant-')){err.textContent='Invalid key format. Should start with sk-ant-';err.style.display='block';return;}
+  G.apiKey=val;
+  if(el&&el.value.trim()){G.el_key=el.value.trim();A.elKey=G.el_key;}
+  G.screen='origin';render();
+}
+
+function renderOrigin(){
+  const cards=ORIGINS.map(o=>`
+    <div class="oc ${G.selectedOrigin===o.id?'sel':''}" onclick="G.selectedOrigin='${o.id}';render()">
+      <div class="diff-tag ${o.diff==='HIGH'?'dh':'dm'}">${o.diff}</div>
+      <div class="oc-num">ORIGIN / ${o.num}</div>
+      <div class="oc-icon">${o.icon}</div>
+      <div class="oc-name">${o.name}</div>
+      <div class="oc-tag">${o.tag}</div>
+      <div class="oc-desc">${o.desc}</div>
+      <div class="oc-pills">${o.pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>
+    </div>`).join('');
+  return `<div class="scr on"><div class="origin-wrap">
+    <div class="origin-hdr"><div class="origin-title">Who are you when<br>no one is watching?</div><div class="origin-sub">Your origin sets your starting position. Not your ceiling.</div></div>
+    <div class="og">${cards}</div>
+    <div style="display:flex;gap:10px;align-items:center;padding:8px 0 40px;">
+      <button class="btn-g" onclick="startGame()" ${!G.selectedOrigin?'disabled style="opacity:.4;"':''}>ENTER THE BOARD</button>
+      <button class="btn-o" onclick="G.screen='title';render()">← BACK</button>
+    </div>
+  </div></div>`;
+}
+
+function renderGame(){
+  const originData=ORIGINS.find(o=>o.id===G.origin);
+  const contacts=Object.entries(G.contacts).map(([id,c])=>{
+    const dot=c.loyalty>=75?'dg':c.loyalty>=50?'dy':'dr';
+    return `<div class="ci" onclick="viewContact('${id}')"><div class="ca" style="background:${c.bg};">${c.emoji}</div><div style="flex:1;min-width:0;"><div class="cn">${c.name}</div><div class="cr">${c.basis}</div></div><div class="cdot ${dot}"></div></div>`;
+  }).join('');
+  const choices=G.choices.map((c,i)=>{
+    const tc=c.type==='CLEAN'?'tc':c.type==='GRAY'?'tg':'td';
+    const st=c.text.replace(/'/g,"\\'");
+    return `<button class="cbtn" onclick="makeMove('[${c.type}] ${st}')"><div class="cnum">0${i+1}</div><div class="ctxt">${c.text}</div><div class="ctag ${tc}">${c.type}</div></button>`;
+  }).join('');
+
+  const totalMonthlyRev = G.assets.reduce((s,a)=>s+a.monthlyRev,0);
+
+  return `<div class="scr on"><div class="game-wrap">
+    <div class="topbar">
+      <div class="brand">THE BISHOP — MR. KUTOR</div>
+      <div class="topstats">
+        <div><span class="ts-lbl">LIQUID</span><span class="ts-val">$${(G.cleanCap+G.dirtyCap).toLocaleString()}</span></div>
+        <div><span class="ts-lbl">MONTHLY REV</span><span class="ts-val">$${totalMonthlyRev.toLocaleString()}</span></div>
+        <div><span class="ts-lbl">SESSION</span><span class="ts-val">${String(G.session).padStart(2,'0')}</span></div>
+        <div><span class="ts-lbl">PHASE</span><span class="ts-val">${G.phase}</span></div>
+      </div>
+      <div class="topacts">
+        <button class="btn-o" onclick="showSave()">SAVE</button>
+        <button class="btn-o" onclick="G.lightMode=!G.lightMode;render()">${G.lightMode?'🌙':'☀️'}</button>
+        <button class="btn-o" onclick="confirmRestart()">RESTART</button>
+        <button class="btn-o" onclick="G.screen='title';render()">EXIT</button>
+      </div>
+    </div>
+    <div class="audio-bar">
+      <div class="audio-lbl">AUDIO</div>
+      <button class="atoggle ${A.enabled?'on':''}" onclick="A.toggle()">${A.enabled?'🔊 ON':'🔇 OFF'}</button>
+      ${A.enabled?`<div class="speaking"><div class="sdot"></div><span style="font-family:Space Mono,monospace;font-size:7px;letter-spacing:.1em;margin-left:4px;">SPEAKING</span></div>
+        <button class="atoggle" onclick="A.stop()" style="margin-left:5px;">STOP</button>
+        <div style="display:flex;align-items:center;gap:4px;margin-left:8px;">
+          <span style="font-family:Space Mono,monospace;font-size:7px;color:var(--t3);">SPEED</span>
+          <button class="atoggle ${G.speechRate<=0.7?'on':''}" onclick="G.speechRate=0.65;render()" style="padding:2px 6px;">0.6x</button>
+          <button class="atoggle ${G.speechRate>0.7&&G.speechRate<=0.95?'on':''}" onclick="G.speechRate=0.85;render()" style="padding:2px 6px;">0.85x</button>
+          <button class="atoggle ${G.speechRate>0.95&&G.speechRate<=1.15?'on':''}" onclick="G.speechRate=1.0;render()" style="padding:2px 6px;">1x</button>
+          <button class="atoggle ${G.speechRate>1.15?'on':''}" onclick="G.speechRate=1.35;render()" style="padding:2px 6px;">1.35x</button>
+        </div>`:''}
+    </div>
+    <div class="game-tabs">
+      <button class="gtab ${G.activeTab==='narrative'?'on':''}" onclick="G.activeTab='narrative';render()">NARRATIVE</button>
+      <button class="gtab ${G.activeTab==='map'?'on':''}" onclick="G.activeTab='map';render()">MAP</button>
+      <button class="gtab ${G.activeTab==='empire'?'on':''}" onclick="G.activeTab='empire';render()">EMPIRE</button>
+      <button class="gtab ${G.activeTab==='portfolio'?'on':''}" onclick="G.activeTab='portfolio';render()">PORTFOLIO</button>
+      <button class="gtab ${G.activeTab==='brotherhood'?'on':''}" onclick="G.activeTab='brotherhood';render()">BROTHERHOOD</button>
+      <button class="gtab ${G.activeTab==='intel'?'on':''}" onclick="G.activeTab='intel';render()">INTEL</button>
+    </div>
+
+    <div class="tab-pane ${G.activeTab==='narrative'?'on':''}">
+      <div class="game-layout">
+        <div class="status-col">
+          <div class="ps"><div class="pl">Mr. Kutor</div>
+            <div class="pav-wrap"><div class="pav">${originData?originData.icon:'♟'}</div>
+              <div><div style="font-size:12px;color:var(--t0);">Mr. Kutor</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--gold3);margin-top:1px;">${G.phase}</div></div>
+            </div>
+          </div>
+          <div class="ps"><div class="pl">Capital</div>
+            <div class="cap-grid">
+              <div class="cap-box"><div class="cap-lbl">CLEAN</div><div class="cap-val">$${G.cleanCap.toLocaleString()}</div></div>
+              <div class="cap-box"><div class="cap-lbl">DIRTY</div><div class="cap-val dirty">$${G.dirtyCap.toLocaleString()}</div></div>
+            </div>
+            <div style="margin-top:5px;padding:5px 7px;background:var(--s2);border:1px solid var(--b1);">
+              <div class="cap-lbl">MONTHLY REVENUE</div>
+              <div style="font-family:Space Mono,monospace;font-size:10px;color:var(--green);font-weight:700;">$${totalMonthlyRev.toLocaleString()}</div>
+            </div>
+          </div>
+          <div class="ps"><div class="pl">Status</div>
+            ${mR('integrity','INTEGRITY','mgr')}${mR('street','STREET','mo')}${mR('inst','INST. REP','mb')}${mR('influence','INFLUENCE','mg')}${mR('exposure','EXPOSURE','mrd')}${mR('loyalty','LOYALTY','mgr')}
+          </div>
+          <div class="ps"><div class="pl">Contacts (${Object.keys(G.contacts).length})</div>${contacts}</div>
+          ${G.assets.length?`<div class="ps"><div class="pl">Holdings (${G.assets.length})</div>${G.assets.slice(0,4).map(a=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--s3);font-size:11px;"><span>${a.icon}</span><div style="flex:1;min-width:0;"><div style="color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${a.name}</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--green);">+$${a.monthlyRev.toLocaleString()}/mo</div></div></div>`).join('')}</div>`:''}
+        </div>
+        <div class="narr-col">
+          <div class="narrative" id="narrative">${G.narrativeHTML}</div>
+          <div class="input-area">
+            <div class="choice-row">${choices}</div>
+            <div class="free-row">
+              <input class="finput" id="finput" placeholder="Mr. Kutor's next move...">
+              <button class="movebtn" id="movebtn" onclick="sendFree()" ${G.loading?'disabled':''}>MOVE</button>
+            </div>
+            <div class="errmsg" id="errmsg" style="${G.error?'display:block':'display:none'}">${G.error||''}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane ${G.activeTab==='map'?'on':''}">${renderMap()}</div>
+    <div class="tab-pane ${G.activeTab==='empire'?'on':''}">${renderEmpire()}</div>
+    <div class="tab-pane ${G.activeTab==='portfolio'?'on':''}">${renderPortfolio()}</div>
+    <div class="tab-pane ${G.activeTab==='brotherhood'?'on':''}">${renderBrotherhood()}</div>
+    <div class="tab-pane ${G.activeTab==='intel'?'on':''}">${renderIntel()}</div>
+  </div></div>`;
+}
+
+function mR(key,label,cls){const val=G.meters[key]||0;return `<div class="mr"><div class="mn">${label}</div><div class="mt"><div class="mf ${cls}" style="width:${val}%"></div></div><div class="mv">${val}</div></div>`;}
+
+// ══════════════════════════════════════
+// EMPIRE TAB — industries to buy into
+// ══════════════════════════════════════
+function renderEmpire(){
+  const cats = [...new Set(INDUSTRIES.map(i=>i.cat))];
+  const sections = cats.map(cat=>{
+    const items = INDUSTRIES.filter(i=>i.cat===cat);
+    const cards = items.map(ind=>{
+      const owned = G.assets.find(a=>a.id===ind.id);
+      const canAfford = (G.cleanCap+G.dirtyCap) >= ind.cost;
+      const status = owned?'owned':canAfford?'available':'locked';
+      const statusLabel = owned?'OWNED':canAfford?`$${(ind.cost/1000).toFixed(0)}K`:'NEED CAPITAL';
+      return `<div class="empire-card" onclick="openIndustry('${ind.id}')">
+        <div class="ec-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="ec-icon">${ind.icon}</div>
+            <div><div class="ec-name">${ind.name}</div><div class="ec-type">${cat}</div></div>
+          </div>
+          <div class="ec-status ${status}">${statusLabel}</div>
+        </div>
+        <div class="ec-stats">
+          <div class="ec-stat"><div class="ec-stat-lbl">ENTRY COST</div><div class="ec-stat-val">$${(ind.cost/1000).toFixed(0)}K</div></div>
+          <div class="ec-stat"><div class="ec-stat-lbl">MONTHLY REV</div><div class="ec-stat-val">${ind.monthlyRev>0?'$'+(ind.monthlyRev/1000).toFixed(0)+'K':'—'}</div></div>
+          <div class="ec-stat"><div class="ec-stat-lbl">ROI</div><div class="ec-stat-val">${(ind.roi*100).toFixed(0)}%/yr</div></div>
+          <div class="ec-stat"><div class="ec-stat-lbl">MIN INFLUENCE</div><div class="ec-stat-val">${ind.minInfluence}</div></div>
+        </div>
+        <div class="ec-desc">${ind.desc}</div>
+      </div>`;
+    }).join('');
+    return `<div style="margin-bottom:18px;"><div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.28em;color:var(--gold3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${cat}</div><div class="empire-grid" style="margin-bottom:0;">${cards}</div></div>`;
+  }).join('');
+  return `<div class="empire-wrap"><div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.3em;color:var(--gold3);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--b1);">AVAILABLE INDUSTRIES — CLICK TO INVEST OR ACQUIRE</div>${sections}</div>`;
+}
+
+function openIndustry(id){
+  const ind=INDUSTRIES.find(i=>i.id===id);
+  if(!ind) return;
+  const owned=G.assets.find(a=>a.id===id);
+  const canAfford=(G.cleanCap+G.dirtyCap)>=ind.cost;
+  const hasInfluence=G.meters.influence>=ind.minInfluence;
+
+  let actions='';
+  if(owned){
+    actions=`<p style="color:var(--green);margin-top:10px;">✓ You own this. Monthly revenue: <strong>$${owned.monthlyRev.toLocaleString()}</strong></p>
+    <button class="btn-o" style="margin-top:8px;font-size:8px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('I want to expand my ${ind.name.replace(/'/g,"\\'")} operation — hire more staff, increase capacity, or acquire competitors.')">EXPAND OPERATION</button>`;
+  } else if(!canAfford){
+    actions=`<p style="color:var(--red);margin-top:10px;">Insufficient capital. Need $${(ind.cost-(G.cleanCap+G.dirtyCap)).toLocaleString()} more.</p>`;
+  } else if(!hasInfluence){
+    actions=`<p style="color:var(--orange);margin-top:10px;">Need ${ind.minInfluence} influence (currently ${G.meters.influence}). Build more relationships first.</p>`;
+  } else {
+    actions=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button class="btn-g" style="font-size:8px;padding:9px 16px;" onclick="acquireAsset('${id}','clean')">ACQUIRE WITH CLEAN ($${(ind.cost/1000).toFixed(0)}K)</button>
+      ${G.dirtyCap>=ind.cost?`<button class="btn-o" style="font-size:8px;" onclick="acquireAsset('${id}','dirty')">ACQUIRE WITH DIRTY CAPITAL</button>`:''}
+      <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('I want to pursue a silent partner arrangement in ${ind.name.replace(/'/g,"\\'")} — minimal capital, equity stake, let operators run it.')">SILENT PARTNER ONLY</button>
+    </div>`;
+  }
+
+  G.modal={
+    pre:'EMPIRE — ' + ind.cat,
+    title: ind.icon + ' ' + ind.name,
+    body:`<p><strong>Entry Cost:</strong> $${ind.cost.toLocaleString()}</p>
+      <p><strong>Monthly Revenue:</strong> ${ind.monthlyRev>0?'$'+ind.monthlyRev.toLocaleString():' No direct revenue — strategic asset'}</p>
+      <p><strong>Annual ROI:</strong> ${(ind.roi*100).toFixed(0)}%</p>
+      <p><strong>Minimum Influence Required:</strong> ${ind.minInfluence}</p>
+      <p><strong>Requirements:</strong> ${ind.req}</p>
+      <p style="margin-top:8px;">${ind.desc}</p>
+      ${actions}`
+  };
+  render();
+}
+
+function acquireAsset(id, capitalType){
+  const ind=INDUSTRIES.find(i=>i.id===id);
+  if(!ind) return;
+  const cost=ind.cost;
+  if(capitalType==='clean'){
+    if(G.cleanCap<cost){showNotif('Insufficient','Not enough clean capital.');return;}
+    G.cleanCap-=cost;
+  } else {
+    if(G.dirtyCap<cost){showNotif('Insufficient','Not enough dirty capital.');return;}
+    G.dirtyCap-=cost;
+  }
+  G.assets.push({id:ind.id,name:ind.name,icon:ind.icon,purchasePrice:cost,monthlyRev:ind.monthlyRev,purchasedSession:G.session,type:ind.cat,capitalType});
+  G.transactions.push({desc:`Acquired: ${ind.name}`,amt:-cost,session:G.session,type:'acquisition'});
+  G.modal=null;
+  showNotif('Acquired',`${ind.icon} ${ind.name} — $${ind.monthlyRev.toLocaleString()}/mo`);
+  autoSave();
+  render();
+  // Trigger narrative
+  setTimeout(()=>{
+    G.activeTab='narrative';
+    makeMove(`[CLEAN] I just acquired ${ind.name} for $${cost.toLocaleString()}. Walk me through what this means for my operation and what the next moves should be.`);
+  },500);
+}
+
+// ══════════════════════════════════════
+// PORTFOLIO TAB
+// ══════════════════════════════════════
+function renderPortfolio(){
+  const totalValue=G.assets.reduce((s,a)=>s+a.purchasePrice,0);
+  const totalMonthly=G.assets.reduce((s,a)=>s+a.monthlyRev,0);
+
+  if(!G.assets.length){
+    return `<div class="portfolio-wrap">
+      <div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.28em;color:var(--gold3);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--b1);">PORTFOLIO — MR. KUTOR</div>
+      <div class="port-empty">No assets yet. Visit the Empire tab to start building.</div>
+    </div>`;
+  }
+
+  const byCat={};
+  G.assets.forEach(a=>{if(!byCat[a.type])byCat[a.type]=[];byCat[a.type].push(a);});
+
+  const sections=Object.entries(byCat).map(([cat,assets])=>{
+    const rows=assets.map(a=>`<div class="asset-row" onclick="openOwnedAsset('${a.id}')">
+      <div class="asset-icon">${a.icon}</div>
+      <div class="asset-info"><div class="asset-name">${a.name}</div><div class="asset-detail">${a.capitalType==='dirty'?'DIRTY CAPITAL':'CLEAN CAPITAL'} — Session ${a.purchasedSession}</div></div>
+      <div class="asset-value"><div class="asset-val">$${a.purchasePrice.toLocaleString()}</div><div class="asset-yield">+$${a.monthlyRev.toLocaleString()}/mo</div></div>
+    </div>`).join('');
+    return `<div class="port-section"><div class="port-title">${cat}</div>${rows}</div>`;
+  }).join('');
+
+  const txns=G.transactions.slice(-8).reverse().map(t=>`<div class="txn"><div class="txn-desc">${t.desc}</div><div class="txn-amt ${t.amt<0?'neg':'pos'}">${t.amt<0?'-':'+'}$${Math.abs(t.amt).toLocaleString()}</div></div>`).join('');
+
+  return `<div class="portfolio-wrap">
+    <div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.28em;color:var(--gold3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--b1);">PORTFOLIO — MR. KUTOR</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:16px;">
+      <div class="cap-box"><div class="cap-lbl">TOTAL DEPLOYED</div><div class="cap-val">$${totalValue.toLocaleString()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">MONTHLY REVENUE</div><div class="cap-val" style="color:var(--green);">$${totalMonthly.toLocaleString()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">ANNUAL REVENUE</div><div class="cap-val" style="color:var(--green);">$${(totalMonthly*12).toLocaleString()}</div></div>
+      <div class="cap-box"><div class="cap-lbl">ASSETS OWNED</div><div class="cap-val">${G.assets.length}</div></div>
+    </div>
+    ${sections}
+    ${txns?`<div class="port-section"><div class="port-title">RECENT TRANSACTIONS</div>${txns}</div>`:''}
+  </div>`;
+}
+
+function openOwnedAsset(id){
+  const a=G.assets.find(a=>a.id===id);
+  const ind=INDUSTRIES.find(i=>i.id===id);
+  if(!a||!ind) return;
+  G.modal={
+    pre:'PORTFOLIO ASSET',
+    title: a.icon+' '+a.name,
+    body:`<p><strong>Acquired:</strong> Session ${a.purchasedSession} — $${a.purchasePrice.toLocaleString()} (${a.capitalType} capital)</p>
+      <p><strong>Monthly Revenue:</strong> $${a.monthlyRev.toLocaleString()}</p>
+      <p><strong>Annual Revenue:</strong> $${(a.monthlyRev*12).toLocaleString()}</p>
+      <p style="margin-top:8px;">${ind.desc}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+        <button class="btn-g" style="font-size:8px;padding:9px 14px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('I want to expand my ${a.name.replace(/'/g,"\\'")} — more staff, increased capacity, or adjacent acquisition.')">EXPAND</button>
+        <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('I want to hire a strong operator to run my ${a.name.replace(/'/g,"\\'")} so I can step back completely.')">HIRE OPERATOR</button>
+        <button class="btn-o" style="font-size:8px;color:var(--red);border-color:var(--red2);" onclick="sellAsset('${id}')">SELL / EXIT</button>
+      </div>`
+  };
+  render();
+}
+
+function sellAsset(id){
+  const idx=G.assets.findIndex(a=>a.id===id);
+  if(idx===-1) return;
+  const a=G.assets[idx];
+  const salePrice=Math.round(a.purchasePrice*1.15);
+  G.assets.splice(idx,1);
+  G.cleanCap+=salePrice;
+  G.transactions.push({desc:`Sold: ${a.name}`,amt:salePrice,session:G.session,type:'sale'});
+  G.modal=null;
+  showNotif('Sold',`${a.icon} ${a.name} — received $${salePrice.toLocaleString()}`);
+  autoSave();
+  render();
+}
+
+// ══════════════════════════════════════
+// BROTHERHOOD TAB
+// ══════════════════════════════════════
+function renderBrotherhood(){
+  const members=[
+    {name:'Mr. Kutor',role:'FOUNDER',emoji:'♟'},{name:'Marcus J.',role:'CAPITAL',emoji:'💼'},
+    {name:'Darius T.',role:'LEGAL',emoji:'⚖️'},{name:'Kwame O.',role:'OPERATIONS',emoji:'🔧'},
+    {name:'Isaiah B.',role:'TECH',emoji:'💻'},{name:'Tariq M.',role:'FINANCE',emoji:'📊'},
+    {name:'Devon S.',role:'REAL ESTATE',emoji:'🏠'},{name:'Andre W.',role:'LOGISTICS',emoji:'🚚'},
+    {name:'Kofi A.',role:'CONNECTIONS',emoji:'🤝'},{name:'Jordan C.',role:'SKEPTIC',emoji:'🔍'},
+    {name:'Miles R.',role:'MEDIA',emoji:'📱'},{name:'Elijah P.',role:'IMPULSIVE',emoji:'⚡'}
+  ];
+
+  const totalPool=G.brotherhoodFund;
+  const available=totalPool-G.brotherhoodDeployed;
+  const returns=G.brotherhoodReturns;
+
+  const actions=[
+    {title:'Deploy Capital to Brotherhood Investment',desc:'Contribute personal clean capital to the Brotherhood fund. Requires majority vote. Increases collective purchasing power.',cost:'$5,000 minimum contribution'},
+    {title:'Propose Infrastructure Investment',desc:'Bring a deal to the Brotherhood for collective investment. Salone logistics, Caribbean energy, or DMV real estate. Must present ROI case.',cost:'Requires 7/12 vote approval'},
+    {title:'Call Emergency Session',desc:'Convene all 12 brothers. High stakes decision — Khalil Group pressure, government interference, or major opportunity.',cost:'Uses political capital. Use sparingly.'},
+    {title:'Request Brotherhood Intelligence',desc:'12 men in 12 different positions. Someone knows something. Pull the network for information on a specific target or opportunity.',cost:'Goodwill only. No cash cost.'},
+    {title:'Establish Brotherhood Entity',desc:'Create a formal holding company for the collective. Requires attorney, $15K filing, and unanimous governance agreement.',cost:'$15,000 + attorney fees'},
+  ];
+
+  return `<div class="bro-wrap">
+    <div class="bro-header">
+      <div class="bro-secret">🔒 CONFIDENTIAL — 12 MEMBERS ONLY</div>
+      <div class="bro-title">The Brotherhood Fund</div>
+      <div class="bro-sub">What happens in the room stays in the room. Kutor is the architect. 11 brothers are the capital and the network. The world sees nothing.</div>
+    </div>
+    <div class="bro-stats">
+      <div class="bro-stat"><div class="bro-stat-lbl">TOTAL POOL</div><div class="bro-stat-val">$${totalPool.toLocaleString()}</div></div>
+      <div class="bro-stat"><div class="bro-stat-lbl">AVAILABLE</div><div class="bro-stat-val">$${available.toLocaleString()}</div></div>
+      <div class="bro-stat"><div class="bro-stat-lbl">DEPLOYED</div><div class="bro-stat-val">$${G.brotherhoodDeployed.toLocaleString()}</div></div>
+      <div class="bro-stat"><div class="bro-stat-lbl">RETURNS</div><div class="bro-stat-val" style="color:var(--green);">$${returns.toLocaleString()}</div></div>
+      <div class="bro-stat"><div class="bro-stat-lbl">KUTOR SHARE</div><div class="bro-stat-val">$${Math.round(G.brotherhoodKutorShare).toLocaleString()}</div></div>
+      <div class="bro-stat"><div class="bro-stat-lbl">MEMBERS</div><div class="bro-stat-val">12</div></div>
+    </div>
+    <div style="font-family:Space Mono,monospace;font-size:7px;letter-spacing:.24em;color:var(--gold3);margin-bottom:9px;">THE ROOM</div>
+    <div class="member-grid">${members.map(m=>`<div class="member-card"><div class="member-av">${m.emoji}</div><div><div class="member-name">${m.name}</div><div class="member-role">${m.role}</div></div></div>`).join('')}</div>
+    <div style="font-family:Space Mono,monospace;font-size:7px;letter-spacing:.24em;color:var(--gold3);margin-bottom:9px;margin-top:4px;">BROTHERHOOD ACTIONS</div>
+    ${actions.map(a=>`<div class="bro-action" onclick="G.activeTab='narrative';G.modal=null;makeMove('BROTHERHOOD: ${a.title.replace(/'/g,"\\'")}')">
+      <div class="bro-action-title">${a.title}</div>
+      <div class="bro-action-desc">${a.desc}</div>
+      <div class="bro-action-cost">${a.cost}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// MAP
+// ══════════════════════════════════════
+function renderMap(){
+  const theaters=Object.entries(THEATERS).map(([tid,th])=>{
+    const svg=buildSVG(th,tid);
+    const zones=th.zones.map(z=>{
+      const ctrl=G.zones[z.id]||z.ctrl;
+      const isPlayer=ctrl==='player';
+      const fac=FACTIONS[ctrl]||FACTIONS.player;
+      return `<div class="zone-row" onclick="openZone('${z.id}','${tid}')">
+        <div class="zone-name">${z.name}</div>
+        <div class="zone-ctrl ${ctrl}">${isPlayer?'KUTOR':fac.short}</div>
+        <div style="font-family:Space Mono,monospace;font-size:7px;color:var(--t3);">$${(z.rev/1000000).toFixed(1)}M</div>
+      </div>`;
+    }).join('');
+    return `<div class="theater-card">
+      <div class="theater-hdr"><div class="theater-name">${th.name}</div><div class="theater-sub">${th.sub}</div></div>
+      <div class="theater-map-area">${svg}</div>
+      <div class="zone-list">${zones}</div>
+    </div>`;
+  }).join('');
+
+  const legendItems=[{c:'#c8922a',l:'KUTOR'},{c:'#c44444',l:'KHALIL'},{c:'#3a7aaa',l:'CHEN'},{c:'#cc4444',l:'CARDINAL'},{c:'#7a4a9a',l:'KOROMA'},{c:'#4a9a6a',l:'PENINSULA'},{c:'#e88a3a',l:'SYNDICATE'},{c:'#333',l:'NEUTRAL'}];
+
+  return `<div class="map-wrap">
+    <div class="map-hdr"><div class="map-title">WORLD MAP — THEATER CONTROL</div><div class="map-legend">${legendItems.map(l=>`<div class="leg-item"><div class="leg-dot" style="background:${l.c};"></div>${l.l}</div>`).join('')}</div></div>
+    <div class="theaters-grid">${theaters}</div>
+  </div>`;
+}
+
+function buildSVG(theater,tid){
+  const zones=theater.zones,total=zones.length;
+  const cols=Math.ceil(Math.sqrt(total*1.4)),rows=Math.ceil(total/cols);
+  const cw=100/cols,rh=100/rows;
+  const colorMap={player:'#3a2210',khalil:'#2a1010',chen:'#101828',cardinal:'#1a0808',peninsula:'#102010',koroma:'#14101a',syndicate:'#1a1208',zanele:'#1a1008',offshore:'#0a1a1a',frontier:'#1a0a1a',irongate:'#141414',dmv_circle:'#141008',neutral:'#1a1a1a'};
+  const strokeMap={player:'#c8922a',khalil:'#c44444',chen:'#3a7aaa',cardinal:'#cc4444',peninsula:'#4a9a6a',koroma:'#7a4a9a',syndicate:'#e88a3a',zanele:'#aa6633',offshore:'#3399aa',frontier:'#aa3399',irongate:'#888888',dmv_circle:'#9a7a4a',neutral:'#2a2a2a'};
+  const rects=zones.map((z,i)=>{
+    const col=i%cols,row=Math.floor(i/cols);
+    const x=col*cw,y=row*rh;
+    const ctrl=G.zones[z.id]||z.ctrl;
+    const fill=colorMap[ctrl]||'#1a1a1a',stroke=strokeMap[ctrl]||'#2a2a2a';
+    const letters=z.name.split(' ').map(w=>w[0]).join('').substring(0,3);
+    return `<g onclick="openZone('${z.id}','${tid}')" style="cursor:pointer;">
+      <rect x="${x+.8}%" y="${y+.8}%" width="${cw-1.6}%" height="${rh-1.6}%" fill="${fill}" stroke="${stroke}" stroke-width="1.2" rx="3"><title>${z.name}</title></rect>
+      <text x="${x+cw/2}%" y="${y+rh/2-1}%" font-family="monospace" font-size="7" fill="${stroke}" text-anchor="middle" dominant-baseline="middle">${letters}</text>
+      <text x="${x+cw/2}%" y="${y+rh/2+6}%" font-family="monospace" font-size="5" fill="${stroke}" opacity=".7" text-anchor="middle">$${(z.rev/1000000).toFixed(1)}M</text>
+    </g>`;
+  }).join('');
+  return `<svg viewBox="0 0 100 100" preserveAspectRatio="none">${rects}</svg>`;
+}
+
+function openZone(zoneId,theaterId){
+  const th=THEATERS[theaterId];if(!th)return;
+  const z=th.zones.find(z=>z.id===zoneId);if(!z)return;
+  const ctrl=G.zones[zoneId]||z.ctrl;
+  const fac=FACTIONS[ctrl]||{name:'Unknown',color:'#666'};
+  const isPlayer=ctrl==='player';
+  const actions=isPlayer
+    ?`<p style="color:var(--green);margin-top:10px;">✓ Kutor controls this. Monthly: <strong>$${z.rev.toLocaleString()}</strong> / Year: <strong>$${(z.rev*12).toLocaleString()}</strong></p>`
+    :`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+        <button class="btn-g" style="font-size:8px;padding:8px 14px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('[CLEAN] I want to establish legitimate presence in ${z.name.replace(/'/g,"\\'")}.')">MOVE ON ZONE</button>
+        <button class="btn-o" style="font-size:8px;" onclick="G.modal=null;G.activeTab='narrative';makeMove('[DARK] I want to disrupt ${fac.name.replace(/'/g,"\\'")} control of ${z.name.replace(/'/g,"\\'")}.')">DISRUPT</button>
+      </div>`;
+  G.modal={pre:theaterId.toUpperCase()+' — ZONE',title:z.name,body:`<p><strong>Controller:</strong> <span style="color:${fac.color};">${fac.name}</span></p><p><strong>Monthly Value:</strong> $${z.rev.toLocaleString()}</p><p><strong>Annual Value:</strong> $${(z.rev*12).toLocaleString()}</p><p style="margin-top:8px;">${z.desc}</p>${!isPlayer&&fac.desc?`<p style="margin-top:8px;font-style:italic;color:var(--t3);">${fac.desc}</p>`:''}${actions}`};
+  render();
+}
+
+// ══════════════════════════════════════
+// INTEL / CHARTS
+// ══════════════════════════════════════
+function renderIntel(){
+  const allZones=Object.values(THEATERS).flatMap(t=>t.zones);
+  const playerZones=allZones.filter(z=>(G.zones[z.id]||z.ctrl)==='player');
+  const totalRev=playerZones.reduce((s,z)=>s+z.rev,0);
+  const maxRev=Math.max(...G.revHistory,1),maxInf=Math.max(...G.infHistory,1);
+  const revBars=G.revHistory.map((v,i)=>{const h=Math.max(3,(v/maxRev)*85);return `<div class="bar-col"><div class="bar-num">${v>0?'$'+Math.round(v/1000)+'K':'-'}</div><div class="bar-fill" style="height:${h}px;background:var(--gold3);"></div><div class="bar-lbl">S${i+1}</div></div>`;}).join('');
+  const infBars=G.infHistory.map((v,i)=>{const h=Math.max(3,(v/maxInf)*85);return `<div class="bar-col"><div class="bar-num">${v}</div><div class="bar-fill" style="height:${h}px;background:var(--blue2);border:1px solid var(--blue);"></div><div class="bar-lbl">S${i+1}</div></div>`;}).join('');
+  const meters=[{k:'integrity',l:'INTEGRITY',c:'#4a9a6a'},{k:'street',l:'STREET REP',c:'#e88a3a'},{k:'inst',l:'INST. REP',c:'#3a7aaa'},{k:'influence',l:'INFLUENCE',c:'#c8922a'},{k:'exposure',l:'EXPOSURE',c:'#c44444'},{k:'loyalty',l:'LOYALTY',c:'#4a9a6a'}];
+  const meterBars=meters.map(m=>{const v=G.meters[m.k]||0;return `<div class="mc-row"><div class="mc-lbl">${m.l}</div><div class="mc-bar"><div class="mc-fill" style="width:${v}%;background:${m.c};"><span class="mc-num">${v}</span></div></div></div>`;}).join('');
+  const facRows=Object.entries(FACTIONS).filter(([k])=>k!=='player').map(([id,f])=>{
+    const controlled=allZones.filter(z=>(G.zones[z.id]||z.ctrl)===id).length;
+    const rev=allZones.filter(z=>(G.zones[z.id]||z.ctrl)===id).reduce((s,z)=>s+z.rev,0);
+    const tc=f.threat==='HIGH'?'t-hi':f.threat==='MED'?'t-me':'t-lo';
+    return `<tr><td><div class="fdot" style="background:${f.color};"></div>${f.name}</td><td style="font-family:Space Mono,monospace;font-size:7px;">${controlled}</td><td style="font-family:Space Mono,monospace;font-size:7px;">$${(rev/1000000).toFixed(1)}M/mo</td><td class="thr ${tc}">${f.threat}</td></tr>`;
+  }).join('');
+  const assetsMonthly=G.assets.reduce((s,a)=>s+a.monthlyRev,0);
+  return `<div class="charts-wrap">
+    <div class="charts-grid">
+      <div class="chart-card"><div class="chart-title">CAPITAL TREND</div><div class="bars">${revBars}</div></div>
+      <div class="chart-card"><div class="chart-title">INFLUENCE GROWTH</div><div class="bars">${infBars}</div></div>
+      <div class="chart-card"><div class="chart-title">STATUS OVERVIEW</div>${meterBars}</div>
+      <div class="chart-card"><div class="chart-title">REVENUE SUMMARY</div>
+        <div style="margin-bottom:10px;">
+          <div style="font-family:Space Mono,monospace;font-size:20px;color:var(--green);">$${(totalRev+assetsMonthly).toLocaleString()}<span style="font-size:9px;color:var(--t3);">/mo total</span></div>
+          <div style="font-family:Space Mono,monospace;font-size:8px;color:var(--t3);margin-top:3px;">Territory: $${totalRev.toLocaleString()} + Assets: $${assetsMonthly.toLocaleString()}</div>
+        </div>
+        <div class="cap-grid"><div class="cap-box"><div class="cap-lbl">CLEAN LIQUID</div><div class="cap-val">$${G.cleanCap.toLocaleString()}</div></div><div class="cap-box"><div class="cap-lbl">DIRTY LIQUID</div><div class="cap-val dirty">$${G.dirtyCap.toLocaleString()}</div></div></div>
+      </div>
+    </div>
+    <div class="chart-card"><div class="chart-title">FACTION LANDSCAPE</div>
+      <table class="ftable"><thead><tr><th>FACTION</th><th>ZONES</th><th>MONTHLY</th><th>THREAT</th></tr></thead><tbody>${facRows}</tbody></table>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// API
+// ══════════════════════════════════════
+async function callAPI(playerAction){
+  G.loading=true;G.error=null;render();
+  const context=buildContext();
+  const msgs=G.msgs.length===0
+    ?[{role:"user",content:context+"\n\nFirst move: "+playerAction}]
+    :[{role:"user",content:context+"\n\nSession "+G.session+". Mr. Kutor: "+playerAction},...G.msgs.slice(-8)];
+  try{
+    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":G.apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:msgs})
+    });
+    const data=await resp.json();
+    let text='';
+    if(data.content&&Array.isArray(data.content)){for(const b of data.content){if(b.type==='text'&&b.text){text=b.text;break;}}}
+    if(!text)throw new Error(data.error?data.error.message:'Empty response: '+JSON.stringify(data).substring(0,120));
+    G.msgs.push({role:'user',content:playerAction});
+    G.msgs.push({role:'assistant',content:text});
+    G.session++;
+    G.revHistory=[...G.revHistory.slice(1),G.cleanCap+G.dirtyCap];
+    G.infHistory=[...G.infHistory.slice(1),G.meters.influence];
+    autoSave();
+    processResponse(text);
+  }catch(err){
+    G.loading=false;G.error=err.message||'Connection error. Try again.';render();
+  }
+}
+
+function buildContext(){
+  const m=G.meters;
+  const allZones=Object.values(THEATERS).flatMap(t=>t.zones);
+  const playerZones=allZones.filter(z=>(G.zones[z.id]||z.ctrl)==='player').map(z=>z.name).join(', ')||'None yet';
+  const assetsMonthly=G.assets.reduce((s,a)=>s+a.monthlyRev,0);
+  const assetList=G.assets.length?G.assets.map(a=>`${a.name} (+$${a.monthlyRev.toLocaleString()}/mo)`).join(', '):'None yet';
+  return [
+    "=== THE BISHOP — NARRATIVE ENGINE ===",
+    "You are the narrative engine of THE BISHOP, a hyper-realistic life strategy simulation.",
+    "",
+    "STYLE: Film. Not a novel. MAXIMUM 3 sentences of narration per scene. Dialogue is SHORT and REAL — 1-2 lines, not speeches. Put Kutor IN the scene. Sensory detail. Stakes must be clear. End on tension.",
+    "",
+    "PLAYER: Mr. Kutor. Male. 29. Sierra Leonean-American. IT Auditor at EY Federal (Tysons VA). $68K salary. TS clearance. Building toward silent ownership of logistics and infrastructure. Origin: "+G.origin+".",
+    G.past?"DARK SECRET: "+G.past+" — surfaces dramatically at the right moment.":"",
+    "",
+    "BROTHERHOOD (STRICTLY CONFIDENTIAL): 12-man investment collective. $47K pooled. Only the 12 know it exists. Never reference it in ways that could expose it. It's the quiet engine behind his capital deployment.",
+    "",
+    "BUSINESSES OWNED: "+assetList,
+    "TERRITORY MONTHLY REV: $"+playerZones+" zones",
+    "ASSET MONTHLY REV: $"+assetsMonthly.toLocaleString()+"/mo",
+    "TOTAL MONTHLY PASSIVE: $"+(assetsMonthly).toLocaleString()+"/mo",
+    "",
+    "WORLD: Salone (West Africa, port, minerals), DMV (home, cleared market), Trinidade (Caribbean, election in 6 weeks).",
+    "FACTIONS: Khalil Group (HIGH threat, port monopoly), Chen Logistics (HIGH, state-backed), Cardinal Holdings (HIGH, colonial capital), Koroma Network (MED, political family), Peninsula Group (MED, Caribbean trade), Zanele Capital (LOW/partner potential), Street Syndicate (LOW, informal), Offshore Consortium (MED, anonymous).",
+    "",
+    "SESSION "+G.session+" STATE:",
+    "Integrity:"+m.integrity+" Street:"+m.street+" Inst:"+m.inst+" Influence:"+m.influence+" Exposure:"+m.exposure+" Loyalty:"+m.loyalty,
+    "Clean: $"+G.cleanCap.toLocaleString()+" | Dirty: $"+G.dirtyCap.toLocaleString(),
+    "Contacts: "+Object.values(G.contacts).map(c=>c.name).join(', '),
+    "",
+    "WHEN INVESTMENTS ARE MADE: State exact dollar amounts, projected returns, and what it means for Kutor's position. Example: 'The cold storage deal closes at $620K. $72K/month hitting the account starting month 3.'",
+    "ZONE CONTROL: ZONE_CONTROL: zone_id -> controller",
+    "",
+    "CHARACTER SPEECH:",
+    "[CHARACTER:Full Name|emoji|#hexcolor]",
+    "One or two sentences max. Real. Subtext matters.",
+    "[/CHARACTER]",
+    "",
+    "END WITH:",
+    "---METERS---",
+    "INTEGRITY:+0, STREET:+0, INST:+0, INFLUENCE:+0, EXPOSURE:+0, LOYALTY:+0, CLEAN_CAP:+0, DIRTY_CAP:+0",
+    "---CHOICES---",
+    "[CLEAN] Specific concrete choice",
+    "[GRAY] Specific concrete choice",
+    "[DARK] Specific concrete choice",
+    "---STRATEGY---",
+    "PRINCIPLE: Name | BOOK: Source | NOTE: One line",
+    "---INTEL---",
+    "FACT: One sentence real-world business context | SOURCE: Name",
+    "=== END ==="
+  ].filter(Boolean).join('\n');
+}
+
+// ══════════════════════════════════════
+// PROCESS RESPONSE
+// ══════════════════════════════════════
+function processResponse(text){
+  const metersM=text.match(/---METERS---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const choicesM=text.match(/---CHOICES---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const stratM=text.match(/---STRATEGY---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  const intelM=text.match(/---INTEL---[\r\n]+([\s\S]*?)(?=---[A-Z]|$)/);
+  for(const m of text.matchAll(/ZONE_CONTROL:\s*(\w+)\s*->\s*(\w+)/g)){
+    G.zones[m[1]]=m[2];
+    const zn=Object.values(THEATERS).flatMap(t=>t.zones).find(z=>z.id===m[1])?.name||m[1];
+    showNotif('Territory',`${zn} → ${m[2]==='player'?'KUTOR':m[2]}`);
+  }
+  let narrative=text.replace(/---METERS---[\s\S]*?(?=---[A-Z]|$)/g,'').replace(/---CHOICES---[\s\S]*?(?=---[A-Z]|$)/g,'').replace(/---STRATEGY---[\s\S]*?(?=---[A-Z]|$)/g,'').replace(/---INTEL---[\s\S]*/g,'').replace(/ZONE_CONTROL:.*\n?/g,'').replace(/---[A-Z]+---/g,'').trim();
+  let html=`<div class="scene"><div class="shdr"><div class="sloc">${G.location.split(' ')[0].toUpperCase()}</div><div class="sdiv"></div><div class="ssess">SESSION ${String(G.session).padStart(2,'0')}</div></div><div class="sbody">${parseCharBlocks(narrative)}</div></div>`;
+  if(stratM){const pm=stratM[1].match(/PRINCIPLE:(.*?)(?:\||$)/);if(pm){const bm=stratM[1].match(/BOOK:(.*?)(?:\||$)/);const nm=stratM[1].match(/NOTE:(.*?)(?:\||$)/);const note=(nm?nm[1].trim():'')+(bm?' — '+bm[1].trim():'');html+=`<span class="sflag" onclick="G.modal={pre:'Strategy',title:'${pm[1].trim().replace(/'/g,"\\'").replace(/"/g,"&quot;")}',body:'<p>${note.replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()">♟ ${pm[1].trim()}</span>`;}}
+  if(intelM){const fm=intelM[1].match(/FACT:(.*?)(?:\||$)/);if(fm){html+=`<div class="ibox" onclick="G.modal={pre:'Intel',title:'Context',body:'<p>${fm[1].trim().replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()"><div class="ilbl">◉ INTEL</div><div class="itxt">${fm[1].trim().substring(0,85)}...</div></div>`;}}
+  G.narrativeHTML+=html;
+  if(metersM)applyMeters(metersM[1]);
+  if(choicesM){const lines=choicesM[1].trim().split(/\r?\n/).filter(l=>l.trim());const choices=lines.map(l=>{const m=l.match(/\[(CLEAN|GRAY|DARK)\]\s*(.*)/);return m?{type:m[1],text:m[2].trim()}:null;}).filter(Boolean);G.choices=choices.length?choices:defaultChoices();}else{G.choices=defaultChoices();}
+  G.loading=false;G.error=null;render();scrollNarr();
+}
+
+function parseCharBlocks(text){
+  let r=text.replace(/\[CHARACTER:(.*?)\]([\s\S]*?)\[\/CHARACTER\]/g,(m,hdr,body)=>{
+    const p=hdr.split('|');const name=p[0]||'Unknown',emoji=p[1]||'👤',bg=p[2]||'#111';
+    const speech=body.replace(/^[\s"]+|[\s"]+$/g,'');
+    return buildChar(name,emoji,bg,speech);
+  });
+  return r.split(/\n\n+/).filter(p=>p.trim()).map(p=>p.includes('chblk')?p:`<p>${p.trim()}</p>`).join('');
+}
+
+function buildChar(name,emoji,bg,speech,sub){
+  const pts=name.split(' ');
+  const safeSpeech=speech.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const safeName=name.replace(/'/g,"\\'");
+  return `<div class="chblk"><div class="ch-left"><div class="chavat" style="background:${bg};">${emoji}</div><div class="chpn">${pts[0]}<br>${pts.slice(1).join(' ')}</div></div><div class="ch-right"><div class="chhdr"><div class="chname">${name}</div><div class="chstat">SPEAKING</div></div><div class="chspeech">"${speech}"</div>${sub?`<div class="chsub">${sub}</div>`:''}<button class="hear-btn" onclick="A.speak('${safeSpeech}','${safeName}');event.stopPropagation();">🔊 HEAR</button></div></div>`;
+}
+
+function applyMeters(text){
+  const keys=[{k:'integrity',ls:['INTEGRITY']},{k:'street',ls:['STREET','STREET_REP']},{k:'inst',ls:['INST','INST_REP']},{k:'influence',ls:['INFLUENCE']},{k:'exposure',ls:['EXPOSURE']},{k:'loyalty',ls:['LOYALTY']}];
+  const changes=[];
+  keys.forEach(({k,ls})=>ls.forEach(l=>{const m=text.match(new RegExp(l+':\\s*([+-]?\\d+)','i'));if(m&&parseInt(m[1])!==0){const d=parseInt(m[1]);G.meters[k]=Math.max(0,Math.min(100,G.meters[k]+d));if(Math.abs(d)>=3)changes.push({label:k.toUpperCase(),delta:d});}}));
+  const cm=text.match(/CLEAN_CAP:\s*([+-]?\d+)/i);
+  const dm=text.match(/DIRTY_CAP:\s*([+-]?\d+)/i);
+  if(cm&&parseInt(cm[1])!==0){G.cleanCap=Math.max(0,G.cleanCap+parseInt(cm[1]));G.transactions.push({desc:'Capital change from narrative',amt:parseInt(cm[1]),session:G.session,type:'narrative'});}
+  if(dm&&parseInt(dm[1])!==0)G.dirtyCap=Math.max(0,G.dirtyCap+parseInt(dm[1]));
+  if(changes.length){const tags=changes.map(c=>`<span class="mctag ${c.delta>0?'mcp':'mcn'}">${c.label} ${c.delta>0?'+':''}${c.delta}</span>`).join('');G.narrativeHTML+=`<div style="margin:3px 0;">${tags}</div>`;}
+}
+
+function makeMove(text){
+  G.narrativeHTML+=`<div class="pact"><div class="palbl">KUTOR</div><div class="patxt">${text.replace(/^\[.*?\]\s*/,'')}</div></div>`;
+  G.activeTab='narrative';render();scrollNarr();callAPI(text);
+}
+
+function sendFree(){const inp=document.getElementById('finput');if(!inp)return;const val=inp.value.trim();if(!val)return;inp.value='';makeMove(val);}
+
+function defaultChoices(){return [{type:'CLEAN',text:'Proceed carefully — gather more information.'},{type:'GRAY',text:'Move now with what you have.'},{type:'DARK',text:'Take the aggressive path.'}];}
+
+function renderOpening(){
+  const o=OPENINGS[G.origin];if(!o)return;
+  G.location=o.loc;
+  const ch=G.contacts[o.char]||CONTACTS[o.char]||{name:'Unknown',emoji:'👤',bg:'#111'};
+  let html=`<div class="scene"><div class="shdr"><div class="sloc">${o.loc}</div><div class="sdiv"></div><div class="ssess">SESSION 01 — ORIGIN</div></div><div style="font-size:clamp(15px,2.8vw,20px);font-weight:300;color:var(--t0);margin-bottom:8px;">${o.title}</div><div class="sbody">${o.body}</div></div>`;
+  html+=buildChar(ch.name,ch.emoji,ch.bg,o.speech,o.sub);
+  html+=`<div class="ibox" onclick="G.modal={pre:'Context',title:'World Intel',body:'<p>${o.intel.replace(/'/g,"\\'").replace(/"/g,"&quot;")}</p>'};render()"><div class="ilbl">◉ WORLD CONTEXT</div><div class="itxt">${o.intel.substring(0,88)}...</div></div>`;
+  G.narrativeHTML=html;G.choices=o.choices;G.error=null;render();
+}
+
+function viewContact(id){
+  const c=G.contacts[id];if(!c)return;
+  G.modal={pre:'Contact Profile',title:c.name,body:`<div style="display:flex;align-items:center;gap:11px;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--b1);"><div style="width:46px;height:46px;border-radius:50%;background:${c.bg};display:flex;align-items:center;justify-content:center;font-size:21px;border:2px solid var(--b2);flex-shrink:0;">${c.emoji}</div><div><div style="font-size:16px;color:var(--t0);margin-bottom:1px;">${c.name}</div><div style="font-family:Space Mono,monospace;font-size:6px;color:var(--gold3);letter-spacing:.1em;">${c.basis} / ${c.disposition}</div></div></div><div class="loybar"><div class="lylbl">LOYALTY — ${c.loyalty}/100</div><div class="lytrk"><div class="lyfil" style="width:${c.loyalty}%"></div></div></div><div class="rtags">${c.tags.map(t=>`<div class="rtag">${t}</div>`).join('')}</div><p><strong>Profile:</strong> ${c.role}</p><p><strong>Notes:</strong> <em>${c.notes}</em></p>${c.memory&&c.memory.length?`<p><strong>History:</strong> ${c.memory.join('. ')}</p>`:'<p style="color:var(--t3);font-style:italic;">No significant interactions yet.</p>'}`};
+  render();
+}
+
+function renderModal(m){return `<div class="modal-bg" onclick="if(event.target===this){G.modal=null;render();}"><div class="modal"><button class="modal-x" onclick="G.modal=null;render()">✕</button><div class="modal-pre">${m.pre||''}</div><div class="modal-title">${m.title||''}</div><div class="modal-body">${m.body||''}</div></div></div>`;}
+
+function showSave(){
+  const state=JSON.stringify({...G,loading:false,modal:null,notif:null,apiKey:'[HIDDEN]',el_key:'[HIDDEN]'},null,2);
+  window._ss=JSON.stringify({...G,msgs:G.msgs.slice(-8),loading:false,modal:null,notif:null});
+  G.modal={pre:'Save Session',title:'Copy Your Progress',body:`<p style="color:var(--t3);font-size:12px;margin-bottom:9px;">Session auto-saves to browser. Copy this for cross-device use.</p><div class="savedisp">${state}</div><button class="btn-g" onclick="navigator.clipboard.writeText(window._ss).then(()=>{G.notif={t:'Saved',b:'Copied.'};G.modal=null;render();setTimeout(()=>{G.notif=null;render();},3500)})">COPY STATE</button>`};
+  render();
+}
+
+function showLoad(){G.modal={pre:'Load Session',title:'Resume Your Story',body:`<p style="color:var(--t3);font-size:12px;margin-bottom:9px;">Paste your saved session state below.</p><textarea id="load-ta" style="width:100%;height:130px;background:#060606;border:1px solid var(--b2);color:var(--t1);font-family:monospace;font-size:8px;padding:9px;resize:vertical;" placeholder="Paste JSON here..."></textarea><button class="btn-g" style="margin-top:9px;" onclick="loadSession()">LOAD</button>`};render();}
+
+function loadSession(){const ta=document.getElementById('load-ta');if(!ta)return;try{const loaded=JSON.parse(ta.value);Object.assign(G,loaded,{loading:false,modal:null,notif:null});if(!G.apiKey)G.screen='setup';render();scrollNarr();showNotif('Loaded','Session '+G.session+' restored.');}catch(e){alert('Invalid session state.');}}
+
+function resumeAuto(){const saved=autoLoad();if(!saved)return;Object.assign(G,saved,{loading:false,modal:null,notif:null});G.screen='setup';render();}
+
+function confirmRestart(){
+  if(confirm('Restart? All progress will be lost.')){
+    const key=G.apiKey,el=G.el_key,light=G.lightMode,rate=G.speechRate;
+    G={screen:'origin',apiKey:key,el_key:el,origin:null,session:1,phase:'FOUNDATION',location:'DMV',cleanCap:12000,dirtyCap:0,meters:{integrity:80,street:20,inst:35,influence:10,exposure:5,loyalty:70},contacts:{},zones:{},assets:[],brotherhoodFund:47000,brotherhoodKutorShare:47000/12,brotherhoodDeployed:0,brotherhoodReturns:0,employees:[],transactions:[],history:[],msgs:[],past:null,loading:false,modal:null,notif:null,selectedOrigin:null,narrativeHTML:'',choices:[],error:null,activeTab:'narrative',lightMode:light,speechRate:rate,revHistory:[0,0,0,0,0,0,0,0],infHistory:[10,10,10,10,10,10,10,10]};
+    localStorage.removeItem('bishop_v10');render();
+  }
+}
+
+function scrollNarr(){setTimeout(()=>{const n=document.getElementById('narrative');if(n)n.scrollTop=n.scrollHeight;},80);}
+function showNotif(t,b){G.notif={t,b};render();setTimeout(()=>{G.notif=null;render();},3500);}
+function attachEvents(){const fi=document.getElementById('finput');if(fi)fi.onkeypress=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFree();}};}
+
+function startGame(){
+  const o=ORIGINS.find(x=>x.id===G.selectedOrigin);if(!o)return;
+  G.origin=o.id;G.cleanCap=o.clean;G.dirtyCap=o.dirty||0;
+  G.meters={...o.meters};G.past=o.past||null;
+  G.contacts={};G.zones={};G.assets=[];G.transactions=[];
+  o.contacts.forEach(cid=>{if(CONTACTS[cid])G.contacts[cid]={...CONTACTS[cid],memory:[]};});
+  G.msgs=[];G.session=1;G.narrativeHTML='';G.choices=[];
+  G.screen='game';G.activeTab='narrative';
+  render();renderOpening();
+}
+
+render();
+</script>
+</body>
+</html>
